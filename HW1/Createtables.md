@@ -4,7 +4,7 @@
 CREATE TABLE Items (
     ID INTEGER NOT NULL AUTO_INCREMENT,
     Name CHAR(100) NOT NULL,
-    Type ItemTypes,
+    Type ItemTypes DEFAULT "Other",
     YearManufactured INTEGER,
     CopiesSold INTEGER DEFAULT 0,
     AmountInStock INTEGER DEFAULT 0,
