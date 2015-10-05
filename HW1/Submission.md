@@ -264,5 +264,7 @@ CREATE TABLE Searches (
 <div class="page-break"></div>
 
 ### Collaboration plan
+Philippe Kimura-Thollander will handle item and auction data. He will make sure the data is properly handled and working for the process of bid selling and buying.
+Halaa Menasy will focus on proxy bidding. This means she will focus on how the auctions will be taking place as well as restrictions and regulations on how bids are processed.
+Aditya Balwani will be dedicated to the customer and employee data. He will be handling how customers and employees are saved in the database as well as how those two groups can interact with each other, including managers and customer representatives.
 
-TBD
