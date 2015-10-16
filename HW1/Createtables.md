@@ -4,7 +4,7 @@
 CREATE TABLE Items (
     ID INTEGER NOT NULL AUTO_INCREMENT,
     Name CHAR(100) NOT NULL,
-    Type ItemTypes DEFAULT "Other",
+    Type ItemTypes DEFAULT 'Other',
     YearManufactured INTEGER,
     CopiesSold INTEGER DEFAULT 0,
     AmountInStock INTEGER DEFAULT 0,
@@ -134,4 +134,57 @@ CREATE TABLE Searches (
     FOREIGN KEY (ItemID) REFERENCES Items(ID)
       ON DELETE CASCADE
   )
+```
+
+
+### POSTGRES SCHEMA
+
+```
+CREATE DOMAIN ItemTypes CHAR(15)
+    CHECK ( VALUE IN ('Jewelry', 'DVD', 'Silverware', 'Books', 'Sports', 'Memes', 'Games', 'Electronics', 'People', 'Other'));
+
+CREATE TABLE Items (
+    ID SERIAL NOT NULL,
+    Name CHAR(100) NOT NULL,
+    Type ItemTypes DEFAULT 'Other',
+    YearManufactured INTEGER,
+    CopiesSold INTEGER DEFAULT 0,
+    AmountInStock INTEGER DEFAULT 0,
+    PRIMARY KEY (ID)
+  );
+
+CREATE TABLE Customers (
+    ID serial NOT NULL,
+    LastName CHAR(30) NOT NULL,
+    FirstName CHAR(30) NOT NULL,
+    Address  CHAR(100) NOT NULL,
+    City CHAR(30) NOT NULL,
+    State CHAR(30) NOT NULL,
+    ZipCode INTEGER NOT NULL,
+    Telephone CHAR(20) NOT NULL,
+    Email CHAR(60) NOT NULL,
+    CreditCardNumber CHAR(20) NOT NULL,
+    ItemsSold INTEGER DEFAULT 0,
+    ItemsPurchased INTEGER DEFAULT 0,
+    Rating INTEGER DEFAULT 3,
+    PRIMARY KEY (ID)
+  );
+
+CREATE DOMAIN EmpTypes CHAR(10)
+    CHECK ( VALUE IN ('Manager','CustRep','Other'));
+
+CREATE TABLE Employees (
+    SSN CHAR(10) NOT NULL,
+    LastName CHAR(30) NOT NULL,
+    FirstName CHAR(30) NOT NULL,
+    Address  CHAR(100) NOT NULL,
+    City CHAR(30) NOT NULL,
+    State CHAR(30) NOT NULL,
+    ZipCode INTEGER NOT NULL,
+    Telephone CHAR(20) NOT NULL,
+    StartDate TIMESTAMP DEFAULT NOW(),
+    HourlyRate FLOAT NOT NULL,
+    Type EmpTypes,
+    PRIMARY KEY (SSN)
+  );
 ```
