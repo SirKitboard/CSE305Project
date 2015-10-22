@@ -49,7 +49,7 @@ CREATE TABLE Employees (
     ZipCode INTEGER NOT NULL,
     Telephone CHAR(20) NOT NULL,
     StartDate DATETIME DEFAULT NOW(),
-    HourlyRate CURRENCY NOT NULL,
+    HourlyRate DECIMAL(10,2) NOT NULL,
     Type Types
     PRIMARY KEY (SSN)
   )
@@ -67,10 +67,10 @@ CREATE TABLE Auctions(
     SellerID  INTEGER,
     OpeningTime DATETIME,
     ClosingTime DATETIME,
-    OpeningBid CURRENCY DEFAULT 0,
-    CurrentBid CURRENCY DEFAULT 0,
-    Reserve CURRENCY DEFAULT 0,
-    Increment CURRENCY DEFAULT 0,
+    OpeningBid DECIMAL(10,2) DEFAULT 0,
+    CurrentBid DECIMAL(10,2) DEFAULT 0,
+    Reserve DECIMAL(10,2) DEFAULT 0,
+    Increment DECIMAL(10,2) DEFAULT 0,
     EmployeeID INTEGER,
     PRIMARY KEY (AuctionID),
     FOREIGN KEY (ItemID) REFERENCES Items (ID)
@@ -89,10 +89,10 @@ CREATE TABLE Auctions(
 CREATE TABLE Bids (
     ID INTEGER NOT NULL AUTO_INCREMENT,
     Time DATETIME DEFAULT NOW(),
-    Amount CURRENCY DEFAULT 1,
+    Amount DECIMAL(10,2) DEFAULT 1,
     CustomerID INTEGER,
     AuctionID INTEGER,
-    MaxBid Currency,
+    MaxBid DECIMAL(10,2),
     PRIMARY KEY (ID),
     FOREIGN KEY (CustomerID) REFERENCES Customers(ID)
       ON DELETE CASCADE,
@@ -181,7 +181,7 @@ CREATE TABLE Employees (
     ZipCode INTEGER NOT NULL,
     Telephone CHAR(20) NOT NULL,
     StartDate DATETIME DEFAULT NOW(),
-    HourlyRate CURRENCY NOT NULL,
+    HourlyRate DECIMAL(10,2) NOT NULL,
     Type EmpTypes,
     PRIMARY KEY (SSN)
   );
