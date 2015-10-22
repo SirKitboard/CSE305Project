@@ -48,8 +48,8 @@ CREATE TABLE Employees (
     State CHAR(30) NOT NULL,
     ZipCode INTEGER NOT NULL,
     Telephone CHAR(20) NOT NULL,
-    StartDate TIMESTAMP DEFAULT NOW(),
-    HourlyRate FLOAT NOT NULL,
+    StartDate DATETIME DEFAULT NOW(),
+    HourlyRate CURRENCY NOT NULL,
     Type Types
     PRIMARY KEY (SSN)
   )
@@ -65,15 +65,12 @@ CREATE TABLE Auctions(
     AuctionID INTEGER NOT NULL AUTO_INCREMENT,
     ItemID INTEGER ,
     SellerID  INTEGER,
-    BuyerID INTEGER,
-    OpeningTime TIMESTAMP,
-    ClosingTime TIMESTAMP,
-    OpeningBid FLOAT DEFAULT 0,
-    ClosingBid FLOAT DEFAULT 0,
-    CurrentBid FLOAT DEFAULT 0,
-    CurrentHighBid FLOAT DEFAULT 0,
-    Reserve FLOAT DEFAULT 0,
-    Increment FLOAT DEFAULT 0,
+    OpeningTime DATETIME,
+    ClosingTime DATETIME,
+    OpeningBid CURRENCY DEFAULT 0,
+    CurrentBid CURRENCY DEFAULT 0,
+    Reserve CURRENCY DEFAULT 0,
+    Increment CURRENCY DEFAULT 0,
     EmployeeID INTEGER,
     PRIMARY KEY (AuctionID),
     FOREIGN KEY (ItemID) REFERENCES Items (ID)
@@ -91,10 +88,11 @@ CREATE TABLE Auctions(
 ```
 CREATE TABLE Bids (
     ID INTEGER NOT NULL AUTO_INCREMENT,
-    Time TIMESTAMP DEFAULT NOW(),
-    Amount FLOAT DEFAULT 1,
+    Time DATETIME DEFAULT NOW(),
+    Amount CURRENCY DEFAULT 1,
     CustomerID INTEGER,
     AuctionID INTEGER,
+    MaxBid Currency,
     PRIMARY KEY (ID),
     FOREIGN KEY (CustomerID) REFERENCES Customers(ID)
       ON DELETE CASCADE,
@@ -108,7 +106,7 @@ CREATE TABLE Bids (
 ```
 CREATE TABLE Wins (
     BidID INTEGER,
-    Time TIMESTAMP DEFAULT NOW(),
+    Time DATETIME DEFAULT NOW(),
     CustomerID INTEGER,
     AuctionID INTEGER,
     PRIMARY KEY (BidID, CustomerID, AuctionID)
@@ -182,8 +180,8 @@ CREATE TABLE Employees (
     State CHAR(30) NOT NULL,
     ZipCode INTEGER NOT NULL,
     Telephone CHAR(20) NOT NULL,
-    StartDate TIMESTAMP DEFAULT NOW(),
-    HourlyRate FLOAT NOT NULL,
+    StartDate DATETIME DEFAULT NOW(),
+    HourlyRate CURRENCY NOT NULL,
     Type EmpTypes,
     PRIMARY KEY (SSN)
   );
