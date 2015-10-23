@@ -66,3 +66,10 @@ Items.Name NOT IN (
     )
   )
 )
+
+**A view for customer representatives to read employee information, except for the hourly rate and SSN.**
+
+CREATE VIEW view_employees AS (
+	SELECT LastName, FirstName, Address, City, State, ZipCode, Telephone, StartDate, Type
+	FROM Employees
+)
