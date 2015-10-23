@@ -1,16 +1,21 @@
-Find bid history for an auction
+**Find bid history for an auction**
+
 SELECT * FROM Bids WHERE AuctionID = 1
 
-Find current and past auctions a customer has taken part in
+**Find current and past auctions a customer has taken part in**
+
 SELECT * from Auctions WHERE ID IN (SELECT AuctionID from Bids WHERE CustomerID = 3)
 
-Items sold by a given seller and corresponding auction info
+**Items sold by a given seller and corresponding auction info**
+
 SELECT * FROM Auctions WHERE SellerID = 2
 
-Items available of a particular type and corresponding auction info
+**Items available of a particular type and corresponding auction info**
+
 SELECT * FROM Auctions WHERE ID IN (SELECT ID FROM Items WHERE ID = 1)
 
-Items available with a particular keyword or set of keywords in the item name, and corresponding auction info
+**Items available with a particular keyword or set of keywords in the item name, and corresponding auction info**
+
 SELECT * 
 FROM Auctions 
 WHERE ID IN (
@@ -20,7 +25,8 @@ WHERE ID IN (
   LIKE '%Tita%'
 )
 
-Best-Seller list
+**Best-Seller list**
+
 SELECT Name 
 FROM Items 
 WHERE ID IN (
@@ -32,6 +38,8 @@ WHERE ID IN (
   )
 )
 
+**Personalized item suggestion list**
+
 SELECT Name 
 FROM Items 
 WHERE Type IN (
@@ -42,7 +50,10 @@ WHERE Type IN (
     FROM Searches 
     WHERE CustomerID = 1
   )
-) AND 
+) 
+
+AND 
+
 Items.Name NOT IN (
   SELECT Name 
   FROM Items 
