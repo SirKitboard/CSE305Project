@@ -77,7 +77,7 @@ CREATE TABLE Auctions(
       ON DELETE CASCADE,
       ON UPDATE CASCADE,
     FOREIGN KEY (SellerID) REFERENCES Customers(ID)
-      ON DELETE CASCADE,
+      ON DELETE CASCADE
   )
 ```
 
