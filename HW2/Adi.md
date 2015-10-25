@@ -12,14 +12,14 @@ VALUES ('345-45-123', 'Tarbell', 'Billy', '4232 Summit Park Avenue', 'Brewton','
 ```SQL
 UPDATE Employees
 SET FirstName = 'Tarry'
-WHERE SSN = '345-45-123'
+WHERE ID = 1
 ```
 
 #### Delete
 
 ```SQL
 DELETE FROM Employees
-WHERE FirstName = 'Tarry'
+WHERE ID = 1
 ```
 
 ### Obtain a sales report for a particular month
