@@ -84,3 +84,9 @@ SELECT BoughtBy as CustomerName, CustomerID, SUM(Amount) AS Revenue, COUNT(Amoun
 ```SQL
 SELECT BoughtBy as CustomerName, CustomerID, SUM(Amount) AS Revenue, COUNT(Amount) AS ItemsPurchased FROM Sales_Report GROUP BY MonitorSSN ORDER BY Revenue DESC LIMIT 1
 ```
+
+### Best Sellers
+
+```SQL
+SELECT ItemName, SUM(Amount) AS Revenue, COUNT(Amount) AS CopiesSold FROM Sales_Report GROUP BY ItemID ORDER BY Revenue DESC
+```
