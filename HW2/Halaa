@@ -10,7 +10,7 @@ WHERE ID=1
 
 //Add, Edit and Delete information for a customer
 
-INSERT INTO Customers (ID, LastName, FirstName, Address, City, State, ZipCode, Telephone, Email, CreditCardNumber,ItemsSold,ItemsPurchased,Rating)
+INSERT INTO Customers (ID, LastName, FirstName, Address, City, State, ZipCode, Telephone, Email, CreditCardNumber,ItemsSold,ItemsPurchased,Rating)	q	q	w
 Values ('5', 'Finch', 'Atticus', ' Happy 987', 'Stony Brook', 'NY', '11790', '516 111 11111', 'finch@gmail.com', '1111-1111-1111-1111','0','0','3')
 
 
