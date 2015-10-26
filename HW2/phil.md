@@ -51,7 +51,7 @@
 
 ?itemType = the type of the Item you want to see auctions for (e.g. 'DVD', 'Car')
 
-![Type Auctionss](./images/item_type.png)
+![Type Auctions](./images/item_type.png)
 
 **Items available with a particular keyword or set of keywords in the item name, and corresponding auction info**
 
@@ -68,6 +68,8 @@
 	
 ?keyword = the keywords you want to match
 
+![Keywords](./images/keywords.png)
+
 **Best-Seller list**
 
 	START TRANSACTION;
@@ -82,6 +84,8 @@
 		  )
 		);
 	COMMIT;
+
+![Best seller](./images/best_seller.png)
 
 **Personalized item suggestion list**
 
@@ -114,6 +118,8 @@
 
 ?custID = the ID of the customer who we're creating a suggestion list for
 
+![Suggestions](./images/suggest.png)
+
 **A view for customer representatives to read employee information, except for the hourly rate and SSN.**
 
 	START TRANSACTION;
@@ -122,11 +128,17 @@
 			FROM Employees
 		);
 	COMMIT;
-	
+
+![View Employees](./images/employee_view.png)
+
 **A view of a receipt of an order from a customer.**
 
+	START TRANSACTION;
 	CREATE VIEW receipt AS (
 		SELECT C.Id, C.LastName, C.FirstName, C.Address, C.City, C.State, C.ZipCode, C.Telephone, C.Email, C.CreditCardNumber, 		I.Name, W.Time, W.AuctionID, A.CurrentBid
 		FROM Customers C, Items I, Wins W, Auctions A
 		WHERE W.CustomerID = C.ID AND W.AuctionID = A.ID AND A.ItemID = I.ID
-	)
+	);
+	COMMIT;
+
+![Recepit](./images/receipt.png)
