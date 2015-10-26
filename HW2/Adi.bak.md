@@ -5,25 +5,10 @@
 #### Add
 
 ##### Format
-
-Parameters
-
-1. ?ssn : Social security of employee. String, 12 characters
-2. ?lastName : Last name of employee. String, upto 30 characters
-3. ?firstName : First name of employee. String, upto 30 characters
-4. ?address : Address of employee. String, upto 100 characters
-5. ?city : City where employee lives. String, upto 30 characters
-6. ?state : State where employee lives. String, upto 30 characters
-7. ?zipCode : Zip code of employee. Integer.
-8. ?startDate : Date when employee started. Format yyyy-mm-dd
-9. ?hourlyRate : Employee's hourly salary. Decimal Format 10.2f
-10. ?type : Type of employee. "Manager", "Employee", or "Customer Representative"
-
-
 ```SQL
 START TRANSACTION;
   INSERT INTO Employees(SSN, LastName, FirstName, Address, City, State, ZipCode, Telephone, StartDate, HourlyRate, Type)
-  VALUES (?ssn, ?lastName, ?firstName, ?address, ?city, ?state, ?zipcode,?phone,?startDate,?hourlyRate,?type);
+  VALUES ('345-45-123', 'Tarbell', 'Billy', '4232 Summit Park Avenue', 'Brewton','AL', 36426,'251-212-0863','1994-02-02 00:00:00',60.00,'CustRep');
 COMMIT;
 ```
 
