@@ -7,7 +7,7 @@
 
 ?aID = the ID of the Auction you want to see the bid history of
 
-![Bid History](/images/bid_history.png)
+![Bid History](./images/bid_history.png)
 
 **Find current and past auctions a customer has taken part in**
 
@@ -23,7 +23,7 @@
 
 ?custID = the ID of the Customer you want see the current/past auctions of 
 
-![Auction History](/images/current_past_auctions.png)
+![Auction History](./images/current_past_auctions.png)
 
 **Items sold by a given seller and corresponding auction info**
 
@@ -35,7 +35,7 @@
 	
 ?sellerID = the ID of the customer who's sold 
 
-![Seller History](/images/seller_history.png)
+![Seller History](./images/seller_history.png)
 
 **Items available of a particular type and corresponding auction info**
 
@@ -51,7 +51,7 @@
 
 ?itemType = the type of the Item you want to see auctions for (e.g. 'DVD', 'Car')
 
-![Type Auctionss](/images/item_type.png)
+![Type Auctionss](./images/item_type.png)
 
 **Items available with a particular keyword or set of keywords in the item name, and corresponding auction info**
 
