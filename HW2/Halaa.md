@@ -40,6 +40,8 @@ WHERE ID IN
 
 ```
 
+
+
 # Add, Edit, Delete information for a customer
 
 ## Add
@@ -67,6 +69,11 @@ START TRANSACTION;
     Values ('5', 'Allen', 'Barry', ' Flash 52', 'Central City', 'NY', '11790', '516 121 1212', 'flash@gmail.com', '1212-1212-1212-1212','0','0','3')
 COMMIT;
 ```
+
+
+![](pictures/addCustomerBefore.png)    ---->
+![](pictures/addCustomerAfter.png)
+
 
 ##Edit
 
@@ -98,6 +105,9 @@ START TRANSACTION;
     WHERE ID=1
 COMMIT;
 ```
+![](pictures/updateCustomerBefore.png)    ---->
+![](pictures/updateCustomerAfter.png)
+
 
 ##Delete
 
@@ -118,6 +128,9 @@ START TRANSACTION;
     WHERE ID=5;
 COMMIT;
 ```
+![](pictures/deleteCustomerBefore.png)    ---->
+![](pictures/deleteCustomerAfter.png)
+
 
 ##Produce customer mailing lists
 ```SQL
@@ -139,3 +152,5 @@ SELECT Email, concat(Customers.LastName, ' ', Customers.FirstName) AS Name
 FROM Customers
 COMMIT;
 ```
+
+![](pictures/produceEmailingList.png)    
