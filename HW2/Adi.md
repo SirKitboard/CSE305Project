@@ -1,4 +1,34 @@
-# SQL Transactions
+# Group Assignment 2
+
+## Data Dumps
+
+### Items table
+
+![](img/ItemsTable.png)
+
+### Customers table
+
+![](img/CustomersTable.png)
+
+### Employees table
+
+![](img/EmployeesTable.png)
+
+### Auctions table
+
+![](img/AuctionsTable.png)
+
+### Bids table
+
+![](img/BidsTable.png)
+
+### Wins table
+
+![](img/WinsTable.png)
+
+### Searches table
+
+![](img/SearchesTable.png)
 
 ### Add, Modify and Delete employees
 

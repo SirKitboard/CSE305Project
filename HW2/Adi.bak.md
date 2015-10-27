@@ -39,13 +39,13 @@ WHERE ID = 1
 
 ```SQL
 CREATE VIEW Sales_Report AS
-  SELECT Items.ID AS ItemID, Bids.ID AS BidID, Customers.ID AS CustomerID, Employees.SSN AS MonitorSSN, Wins.Time AS Time, concat(Customers.LastName, ' ', Customers.FirstName) AS BoughtBy, Bids.Amount AS Amount, Customers.Email As Email, Items.Name AS ItemName, Items.Type AS ItemType, concat(Employees.FirstName, ' ', Employees.LastName) AS MonitorName
+  SELECT Items.ID AS ItemID, Bids.ID AS BidID, Customers.ID AS CustomerID, Employees.ID AS MonitorID, Wins.Time AS Time, concat(Customers.LastName, ' ', Customers.FirstName) AS BoughtBy, Bids.Amount AS Amount, Customers.Email As Email, Items.Name AS ItemName, Items.Type AS ItemType, concat(Employees.FirstName, ' ', Employees.LastName) AS MonitorName
   FROM Wins, Bids, Customers, Items, Employees, Auctions
   WHERE Wins.BidID = Bids.ID
       AND Bids.CustomerID = Customers.ID
       AND Bids.ItemID = Items.ID
       AND Bids.AuctionID = Auctions.ID
-      AND Auctions.EmployeeID = Employees.SSN;
+      AND Auctions.EmployeeID = Employees.ID;
 
 SELECT * FROM Sales_Report;
 ```
