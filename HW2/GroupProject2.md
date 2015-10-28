@@ -32,6 +32,8 @@
 
 ![](img/BidsTable.png)
 
+<div class="page-break"></div>
+
 ### Wins table
 
 ![](img/WinsTable.png)
@@ -61,6 +63,7 @@ Parameters :
 9. ?hourlyRate : Employee's hourly salary. Decimal **Format** 10.2f
 10. ?type : Type of employee. "Manager", "Employee", or "Customer Representative"
 
+<div class="page-break"></div>
 
 ```SQL
 START TRANSACTION;
@@ -97,6 +100,8 @@ COMMIT
 
 ![](img/EmployeesTablePostUpdate.png)
 
+<div class="page-break"></div>
+
 #### Delete
 
 ##### **Format**
@@ -110,7 +115,7 @@ BEGIN TRANSACTION;
   WHERE ID = ?id
 COMMIT;
 ```
-
+page-break
 ##### **Sample Call**
 
 ![](img/DeleteEmployeeSampleCall.png)
@@ -133,6 +138,8 @@ CREATE VIEW Sales_Report AS
 
 SELECT * FROM Sales_Report;
 ```
+
+<div class="page-break"></div>
 
 ##### **Sample Call**
 
@@ -162,6 +169,8 @@ SELECT * FROM Items
 
 Parameters :
 1. ?itemName : Name of item. String upto 30 characters
+
+<div class="page-break"></div>
 
 ```SQL
 SELECT * FROM Sales_Report WHERE ItemName = ?itemName
@@ -208,6 +217,8 @@ SELECT SUM(Amount) AS Revenue, COUNT(Amount) AS CopiesSold from Sales_Report whe
 ![](img/RevenueByItemNameCall.png)
 
 ![](img/RevenueByItemNameView.png)
+
+<div class="page-break"></div>
 
 #### By ItemType
 
@@ -291,6 +302,8 @@ ORDER BY Revenue DESC
 LIMIT 10
 ```
 
+<div class="page-break"></div>
+
 ##### **Sample Call**
 
 ![](img/BestSellersCall.png)
@@ -301,43 +314,85 @@ LIMIT 10
 
 ### Record a sale
 
-Parameters :
-1. ?BidID: ID of the bid. Integer
-2. ?Time: Time the sale was made. Date value
-3. ?CustomerID: ID of the customer partaking in the bid. Integer
-4. ?AuctionID: ID of the auction where the bid is happening. Integer
-5. ?CopiesSold: number of copies sold of that item. Integer
-6. ?STOCK: how much of that item is in inventory. Integer
-7. ?ID: ID of the item being updated. Integer
+##### **Format**
 
+Parameters :
+?BidID: ID of the bid. Integer
+?Time: Time the sale was made. Date value
+?WinnerID: ID of the customer who won the auction. Integer
+?AuctionID: ID of the auction. Integer
+?ItemID: ID of the item being updated. Integer
+
+```SQL
+START TRANSACTION;
+INSERT INTO Wins (BidID, Time, CustomerID, AuctionID)
+VALUES (?BidID,?Time,?WinnerID, ?AuctionID);
+
+UPDATE Items
+SET CopiesSold = CopiesSold + 1, Stock=Stock-1
+WHERE ID=?ItemID
+
+UPDATE Customers
+SET ItemsSold=ItemsSold+1
+WHERE ID = (SELECT SellerID
+     FROM Auctions
+     WHERE ID = ?AuctionID);
+
+UPDATE Customers
+SET ItemsPurchased=ItemsPurchased+1
+WHERE ID = ?WinnerID
+COMMIT;
+```
+
+<div class="page-break"></div>
 
 ##### **Sample Call** :
 
 ```SQL
 START TRANSACTION;
-INSERT INTO Wins (BidID, Time, CustomerID, AuctionID)
-VALUES ('3','2015-08-08 09:00:00','1', '3');
+  INSERT INTO Wins (BidID, Time, CustomerID, AuctionID)
+  VALUES (6,"2008-12-08 13:00:00",2, 1);
 
-UPDATE Items
-SET CopiesSold = CopiesSold + 1, Stock=Stock-1
-WHERE ID=1
+  UPDATE Items
+  SET CopiesSold = CopiesSold + 1, Stock=Stock-1
+  WHERE ID=1
 
-UPDATE Customers
-SET ItemsPurchased=ItemsPurchased+1
-WHERE ID IN
-    (SELECT SellerID from Auctions
-        WHERE ID IN (SELECT AuctionsID from Wins Where CustomerID = 1));
+  UPDATE Customers
+  SET ItemsSold=ItemsSold+1
+  WHERE ID = (SELECT SellerID
+       FROM Auctions
+       WHERE ID = 1);
 
-
-UPDATE Customers
-SET ItemsSold=ItemsSold=+1
-WHERE ID IN
-
+  UPDATE Customers
+  SET ItemsPurchased=ItemsPurchased+1
+  WHERE ID = 2
+COMMIT;
 ```
 
+Wins Table
+
+![](pictures/WinsTableBefore.png)    ---->
+
+![](pictures/WinsTableAfter.png)
+
+<div class="page-break"></div>
+
+Items Table
+
+![](pictures/ItemsBefore.png)    ---->
+
+![](pictures/ItemsAfter.png)
+
+Customers Table
+
+![](pictures/CustomersBefore.png)    ---->
+
+![](pictures/CustomerItemPurchasedAfter.png)
 
 
-### Add, Edit, Delete in**Format**ion for a customer
+
+
+### Add, Edit, Delete inFormation for a customer
 
 #### Add
 
@@ -349,6 +404,8 @@ START TRANSACTION;
     Values ('?ID', '?LastName', '?FirstName', '?Address', '?City', '?NY', '?Zipcode', '?Telephone', '?email', '?CreditCardNumber', '?ItemsSold','?ItemsPurchased','?Rating')
 COMMIT;
 ```
+
+<div class="page-break"></div>
 
 Parameters :
 
@@ -388,6 +445,8 @@ START TRANSACTION;
 COMMIT;
 ```
 
+<div class="page-break"></div>
+
 Parameters :
 
 1. ?lastName : Last name of customer. String, upto 30 characters
@@ -426,6 +485,8 @@ COMMIT;
 
 Parameters :
 1. ?ID: ID of customer to be deleted: Integer
+
+<div class="page-break"></div>
 
 ##### **Sample Call** :
 
@@ -487,7 +548,9 @@ COMMIT;
 
 ##### **Sample Call**
 
-![Bid History](./images/bid_history.png)
+![](images/bid_history.png)
+
+<div class="page-break"></div>
 
 ### Find current and past auctions a customer has taken part in
 
@@ -527,6 +590,8 @@ START TRANSACTION;
 COMMIT;
 ```
 
+<div class="page-break"></div>
+
 ##### **Sample Call**
 
 ![Seller History](./images/seller_history.png)
@@ -553,6 +618,8 @@ COMMIT;
 ##### **Sample Call**
 
 ![Type Auctions](./images/item_type.png)
+
+<div class="page-break"></div>
 
 ### Items available with a particular keyword or set of keywords in the item name, and corresponding auction info
 
@@ -669,6 +736,8 @@ START TRANSACTION;
 	);
 COMMIT;
 ```
+
+<div class="page-break"></div>
 
 ##### **Sample Call**
 
