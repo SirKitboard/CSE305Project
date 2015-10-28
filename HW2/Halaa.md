@@ -14,7 +14,9 @@ __Parameters__
 ?ID: ID of the item being updated. Integer
 
 (Update Customers)
-?
+?ItemsSold: number of items sold by each customer. Integer
+?CustomerID: Id of the customer who you are keeping track of the items sold for. Integer
+?ItemsPurchased: number of items purchased by a customer. Integer
 
 _Sample Query_
 
@@ -28,18 +30,33 @@ SET CopiesSold = CopiesSold + 1, Stock=Stock-1
 WHERE ID=1 
 
 UPDATE Customers 
+SET ItemsSold=ItemsSold+1
+WHERE ID = (SELECT SellerID 
+     FROM Auctions 
+     WHERE ID IN 
+        (SELECT AuctionID
+         FROM Wins 
+         WHERE CustomerID = 2));
+           
+UPDATE Customers 
 SET ItemsPurchased=ItemsPurchased+1
-WHERE ID IN 
-    (SELECT SellerID from Auctions 
-        WHERE ID IN (SELECT AuctionsID from Wins Where CustomerID = 1));
-
-
-UPDATE Customers
-SET ItemsSold=ItemsSold=+1
-WHERE ID IN
-
+WHERE ID = 2
+COMMIT;            
 ```
 
+![](pictures/WinsTableBefore.png)    ---->
+![](pictures/WinsTableAfter.png)
+
+
+![](pictures/ItemsBefore.png)    ---->
+![](pictures/ItemsAfter.png)
+
+
+![](pictures/CustomersBefore.png)    ---->
+![](pictures/CustomerAfter.png)
+
+![](pictures/CustomerItemPurchasedBefore.png)    ---->
+![](pictures/CustomerItemPurchasedAfter.png)
 
 
 # Add, Edit, Delete information for a customer
