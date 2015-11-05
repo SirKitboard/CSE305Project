@@ -8,5 +8,7 @@ public class DemoServ extends HttpServlet {
         PrintWriter pw=res.getWriter();
         String name=req.getParameter("name");
         pw.println("Welcome "+name);
+        pw.println(req.getPathInfo());
+        pw.println(req.getQueryString());
     }
 }
