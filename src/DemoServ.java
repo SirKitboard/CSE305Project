@@ -7,6 +7,7 @@ public class DemoServ extends HttpServlet {
         res.setContentType("text/html");
         PrintWriter pw=res.getWriter();
         String name=req.getParameter("name");
+        pw.print("HIII");
         pw.println(req.getRequestURI()+"<br/>");
         pw.println(req.getRequestURL()+"<br/>");
     }
