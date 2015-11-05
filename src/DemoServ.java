@@ -10,5 +10,6 @@ public class DemoServ extends HttpServlet {
         pw.println("Welcome "+name);
         pw.println(req.getPathInfo());
         pw.println(req.getQueryString());
+        pw.println(req);
     }
 }
