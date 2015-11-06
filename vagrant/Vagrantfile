@@ -1,0 +1,22 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure(2) do |config|
+	config.vm.box = "ubuntu/trusty64"
+	config.vm.box_check_update = false
+	config.vm.provider "virtualbox" do |v|
+    	v.memory = 1024
+    	v.cpus = 2
+ 	end
+ 	config.vm.define "cse", primary: true  do |web|
+		web.vm.provision :shell, inline: 'echo web vm'
+		web.vm.network "private_network", ip: "10.176.65.154"
+		web.vm.network :forwarded_port, guest: 80, host: 8081
+		web.vm.network :forwarded_port, guest: 443, host: 4430
+
+		web.vm.synced_folder "E:/Dropbox/Notes/CSE305/GroupProject/", "/app", owner: "vagrant", group: "www-data", mount_options: ["dmode=775,fmode=664"]
+	end
+end
