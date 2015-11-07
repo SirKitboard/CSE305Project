@@ -1,7 +1,2 @@
 .idea
 bak
-env/bin
-env/include
-env/lib
-env/myapp/dist
-env/myapp/build
