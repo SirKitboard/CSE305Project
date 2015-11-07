@@ -5,3 +5,4 @@ tlau/env/include
 tlau/env/lib
 tlau/env/myapp/dist
 tlau/env/myapp/build
+tlau/env/myapp/myapp.egg-info
