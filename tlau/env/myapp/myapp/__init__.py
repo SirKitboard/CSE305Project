@@ -21,7 +21,7 @@ def allItems(request):
             'name' : Name,
             'type' : Type,
             'manufactureYear' : ManufactureYear,
-            'copiesSold' : CopiesSold
+            'copiesSold' : CopiesSold,
             'stock' : Stock
         })
 
