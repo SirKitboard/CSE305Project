@@ -6,7 +6,6 @@ import mysql.connector
 
 cnx = None;
 
-@view_config(renderer='json')
 def allItems(request):
     cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
     cursor = cnx.cursor()
@@ -45,6 +44,6 @@ def main(global_config, **settings):
 
     #Define Views
     config.add_view(hello_world, route_name='hello')
-    config.add_view(allItems, route_name='allItems')
+    config.add_view(allItems, route_name='allItems', renderer='json')
     config.scan()
     return config.make_wsgi_app()
