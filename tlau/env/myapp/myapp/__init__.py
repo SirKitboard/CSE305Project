@@ -45,6 +45,6 @@ def main(global_config, **settings):
 
     #Define Views
     config.add_view(hello_world, route_name='hello')
-    confif.add_view(allItems, route_name='items/all')
+    config.add_view(allItems, route_name='items/all')
     config.scan()
     return config.make_wsgi_app()
