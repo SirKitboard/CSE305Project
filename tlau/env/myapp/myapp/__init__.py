@@ -40,7 +40,7 @@ def main(global_config, **settings):
     
     #Define all views
     config.add_route('home', '/')
-    config.add_route('items/all')
+    config.add_route('allItems','items/all')
     config.add_route('hello','/hello')
 
     #Define Views
