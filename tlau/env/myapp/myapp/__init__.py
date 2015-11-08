@@ -8,6 +8,7 @@ cnx = None;
 
 @view_config(renderer='json')
 def allItems(request):
+    cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
     cursor = cnx.cursor()
 
     query = ("SELECT * FROM Items")
@@ -33,7 +34,6 @@ def hello_world(request):
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
-    cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
     config = Configurator(settings=settings)
     config.include('pyramid_chameleon')
     config.add_static_view('static', 'static', cache_max_age=3600)
