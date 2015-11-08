@@ -2,7 +2,7 @@ from pyramid.config import Configurator
 from pyramid.response import Response
 
 def hello_world(request):
-	return Response('Hello WOErld')
+	return Response('Hello WOEIOrld')
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
