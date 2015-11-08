@@ -26,7 +26,7 @@ def allItems(request):
             'stock' : Stock
         })
 
-    return {'data' : items}
+    return {'data' : 'something'}
 
 def hello_world(request):
 	return Response('Hello EOD')
