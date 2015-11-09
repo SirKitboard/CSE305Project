@@ -1,4 +1,5 @@
 from pyramid.view import view_config
+from pyramid.response import Response
 
 import mysql.connector
 
@@ -6,6 +7,10 @@ import mysql.connector
 @view_config(route_name='home', renderer='templates/mytemplate.pt')
 def my_view(request):
     return {'project': 'myapp'}
+
+
+def hello_world(request):
+    return Response('Hello EOD')
 
 
 def allItems(request):

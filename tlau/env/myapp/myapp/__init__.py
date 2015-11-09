@@ -1,6 +1,6 @@
 from pyramid.config import Configurator
 from pyramid.response import Response
-import views
+
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
