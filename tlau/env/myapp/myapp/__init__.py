@@ -1,9 +1,6 @@
 from pyramid.config import Configurator
 from pyramid.response import Response
-
-def hello_world(request):
-    return Response('Hello EOD')
-
+import views
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
@@ -19,8 +16,8 @@ def main(global_config, **settings):
     config.add_route('hello', '/hello')
 
     # Define Views
-    config.add_view(hello_world, route_name='hello')
-    config.add_view(allItems, route_name='allItems', renderer='json')
-    config.add_view(getItem, route_name='getItem', renderer='json')
+    config.add_view(views.hello_world, route_name='hello')
+    config.add_view(views.allItems, route_name='allItems', renderer='json')
+    config.add_view(views.getItem, route_name='getItem', renderer='json')
     config.scan()
     return config.make_wsgi_app()
