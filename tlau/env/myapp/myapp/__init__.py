@@ -4,8 +4,6 @@ from pyramid.view import view_config
 
 import mysql.connector
 
-cnx = None
-
 
 def allItems(request):
     cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
@@ -29,6 +27,30 @@ def allItems(request):
     return items
 
 
+def getItem(request):
+    itemID = request.matchdict['id']
+    cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+    cursor = cnx.cursor()
+
+    query = ("SELECT * FROM Items WHERE ID = " + str(itemID))
+
+    cursor.execute(query)
+
+    item = None
+
+    for (ID, Name, Type, ManufactureYear, CopiesSold, Stock) in cursor:
+        item = {
+            'id': ID,
+            'name': Name,
+            'type': Type,
+            'manufactureYear': ManufactureYear,
+            'copiesSold': CopiesSold,
+            'stock': Stock
+        }
+
+    return item
+
+
 def hello_world(request):
     return Response('Hello EOD')
 
@@ -43,10 +65,12 @@ def main(global_config, **settings):
     # Define all views
     config.add_route('home', '/')
     config.add_route('allItems', 'items/all')
+    config.add_route('getItem', 'items/{id}')
     config.add_route('hello', '/hello')
 
     # Define Views
     config.add_view(hello_world, route_name='hello')
     config.add_view(allItems, route_name='allItems', renderer='json')
+    config.add_view(getItem, route_name='getItem', renderer='json')
     config.scan()
     return config.make_wsgi_app()
