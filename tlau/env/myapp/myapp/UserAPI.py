@@ -9,38 +9,35 @@ import mysql.connector
 
 @view_config(route_name='login', renderer='json')
 def login(request):
-    return {
-        'hi' : 'hi'
-    }
-    # requiredKeys = ['username', 'password', 'type']
-    # postVars = request.POST
-    # acceptedKeys = []
-    #
-    # for key in requiredKeys:
-    #     if(key in postVars):
-    #         acceptedKeys.append(postVars[key])
-    #     else:
-    #         raise exc.HTTPBadRequest()
-    #
-    # salt = 'qwerty'
-    # salt = '${}${}$'.format(6, salt)
-    # cryptedPassword = crypt.crypt(acceptedKeys['password'], salt)
-    # try:
-    #     query = ("SELECT Type FROM Users WHERE Username=%s AND Password=%s")
-    #
-    #     cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
-    #     cursor = cnx.cursor()
-    #
-    #     cursor.execute(query, tuple(acceptedKeys))
-    #
-    #     return cursor
-    #
-    #     cursor.close()
-    #     cnx.close()
-    # except mysql.connector.Error as err:
-    #     return Response("Something went wrong: {}".format(err))
-    #
-    # raise exc.HTTPOk()
+    requiredKeys = ['username', 'password', 'type']
+    postVars = request.POST
+    acceptedKeys = []
+
+    for key in requiredKeys:
+        if(key in postVars):
+            acceptedKeys.append(postVars[key])
+        else:
+            raise exc.HTTPBadRequest()
+
+    salt = 'qwerty'
+    salt = '${}${}$'.format(6, salt)
+    cryptedPassword = crypt.crypt(acceptedKeys['password'], salt)
+    try:
+        query = ("SELECT Type FROM Users WHERE Username=%s AND Password=%s")
+
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor()
+
+        cursor.execute(query, tuple(acceptedKeys))
+
+        return cursor
+
+        cursor.close()
+        cnx.close()
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err))
+
+    raise exc.HTTPOk()
 
 
 # @view_config(route_name='allItems', renderer='json')
