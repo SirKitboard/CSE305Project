@@ -22,6 +22,7 @@ def login(request):
     salt = 'qwerty'
     salt = '${}${}$'.format(6, salt)
     cryptedPassword = crypt.crypt(acceptedKeys[1], salt)
+    print(cryptedPassword)
     try:
         query = ("SELECT Type FROM Users WHERE Username=%s AND Password=%s")
 
