@@ -80,7 +80,7 @@ def addItem(request):
 
     for key in requiredKeys:
         if(key in postVars):
-            acceptedKeys.insert(postVars[key])
+            acceptedKeys.append(postVars[key])
         else:
             raise exc.HTTPBadRequest()
 
