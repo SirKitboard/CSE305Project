@@ -29,8 +29,8 @@ def login(request):
         cursor = cnx.cursor()
 
         cursor.execute(query, (acceptedKeys[0], acceptedKeys[1]))
-
-        print(cursor)
+        row = cursor.fetchone()
+        print(row)
 
         cursor.close()
         cnx.close()
