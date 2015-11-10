@@ -48,6 +48,7 @@ def login(request):
             cursor2.execute(query, tuple(str(row[1])))
 
             for row in cursor2:
+                print(row)
                 user = {
                     'type': 0,
                     'id': row['ID'],
