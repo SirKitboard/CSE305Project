@@ -40,9 +40,9 @@ def login(request):
             cnx.close()
             raise exc.HTTPUnauthorized()
 
-        if(row[0] == 0):
+        if(row['Type'] == 0):
             query = ("SELECT * FROM Customers WHERE ID = %s")
-            cursor1.execute(query, tuple(str(row[1])))
+            cursor1.execute(query, tuple(str(row['ID'])))
 
             for row in cursor1:
                 print(row)
@@ -63,7 +63,7 @@ def login(request):
                 session['currentUser'] = user
         else:
             query = ("SELECT * FROM Employees WHERE ID = %s")
-            cursor1.execute(query, (row[1]))
+            cursor1.execute(query, (row['ID']))
 
             for row in cursor1:
                 user = {
