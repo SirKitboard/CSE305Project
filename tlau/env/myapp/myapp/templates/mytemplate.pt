@@ -17,8 +17,11 @@
     <link href="${request.static_url('myapp:static/home.css')}" rel="stylesheet">
   </head>
 
-  <body>
-    <div class="starter-template teal">
+  <body class="teal">
+    <div class="starter-template valign-wrapper">
+        <div class="card-panel hoverble valign">
+          <span class="blue-text text-darken-2">Login</span>
+        </div>
     </div>
 
 
