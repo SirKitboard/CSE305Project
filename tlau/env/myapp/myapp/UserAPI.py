@@ -35,6 +35,9 @@ def login(request):
         cnx.close()
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err))
+
+    print row
+    print acceptedKeys
     if(row[0] == acceptedKeys[2]):
         raise exc.HTTPOk()
     else:
