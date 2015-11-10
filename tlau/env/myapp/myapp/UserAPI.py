@@ -30,7 +30,6 @@ def login(request):
 
         cursor.execute(query, tuple(acceptedKeys))
 
-
         return cursor
 
         cursor.close()
