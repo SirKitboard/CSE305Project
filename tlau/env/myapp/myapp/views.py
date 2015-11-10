@@ -11,11 +11,12 @@ def my_view(request):
 def sessionTest(request):
     session = request.session
     if 'access_token' in session:
+        session['access_token'] = session['access_token'] + 1
         return {
-            'logged_in': 'yes'
+            'access_token': session['access_token']
         }
     else:
-        session['access_token'] = 'true'
+        session['access_token'] = 1
         return {
-            'logged_in': 'no'
+            'access_token': session['access_token']
         }
