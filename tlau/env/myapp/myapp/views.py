@@ -92,9 +92,7 @@ def addItem(request):
 
         cursor.execute(query, tuple(acceptedKeys))
     except mysql.connector.Error as err:
-        return Reponse("Something went wrong: {}".format(err))
+        return Response("Something went wrong: {}".format(err))
 
     cursor.close()
     cnx.close()
-
-    raise exc.HTTPOk()
