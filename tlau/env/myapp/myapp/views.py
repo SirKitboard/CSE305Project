@@ -15,6 +15,7 @@ def hello_world(request):
     return Response('Hello EOD')
 
 
+@view_config(route_name='allItems', renderer='json')
 def allItems(request):
     cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
     cursor = cnx.cursor()

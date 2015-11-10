@@ -19,7 +19,6 @@ def main(global_config, **settings):
 
     # Define Views
     config.add_view(views.hello_world, route_name='hello')
-    config.add_view(views.allItems, route_name='allItems', renderer='json')
     config.add_view(views.addItem, route_name='addItem')
     config.add_view(views.getItem, route_name='getItem', renderer='json')
     config.scan()
