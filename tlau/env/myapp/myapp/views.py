@@ -37,7 +37,7 @@ def allItems(request):
     cursor.close()
     cnx.close()
 
-    if(len(items.length) == 0):
+    if(len(items) == 0):
         raise exc.HTTPNoContent()
 
     return items
