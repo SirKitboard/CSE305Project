@@ -41,7 +41,7 @@ def getItem(request):
     cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
     cursor = cnx.cursor()
 
-    query = ("SELECT * FROM Items WHERE ID = %s")
+    query = "SELECT * FROM Items WHERE ID = %s"
 
     cursor.execute(query, tuple(itemID))
 
