@@ -31,7 +31,7 @@ def login(request):
 
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor1 = cnx.cursor()
-        cursor2 = cnx.cursor()
+        cursor2 = cnx.cursor(dictionary=True)
 
         cursor1.execute(query, (acceptedKeys[0], cryptedPassword))
         row = cursor1.fetchone()
@@ -45,23 +45,24 @@ def login(request):
         if(row[0] == 0):
             query = ("SELECT * FROM Customers WHERE ID = %s")
             cursor2.execute(query, tuple(str(row[1])))
-            row = cursor2.fetchone()
-            print(row)
-            user = {
-                'type': 0,
-                'id': row['ID'],
-                'name': row['FirstName'] + row['LastName'],
-                'address': row['Address'],
-                'city': row['City'],
-                'state': row['State'],
-                'zipCode': row['ZipCode'],
-                'telephone': row['Telephone'],
-                'email': row['Email'],
-                'itemsSold': row['ItemsSold'],
-                'itemsPurchased': row['ItemsPurchased'],
-                'rating': row['Rating']
-            }
-            session['currentUser'] = user
+
+            for row in cursor2:
+                print(row)
+                user = {
+                    'type': 0,
+                    'id': row['ID'],
+                    'name': row['FirstName'] + row['LastName'],
+                    'address': row['Address'],
+                    'city': row['City'],
+                    'state': row['State'],
+                    'zipCode': row['ZipCode'],
+                    'telephone': row['Telephone'],
+                    'email': row['Email'],
+                    'itemsSold': row['ItemsSold'],
+                    'itemsPurchased': row['ItemsPurchased'],
+                    'rating': row['Rating']
+                }
+                session['currentUser'] = user
         else:
             query = ("SELECT * FROM Employees WHERE ID = %s")
             cursor2.execute(query, (row[1]))
