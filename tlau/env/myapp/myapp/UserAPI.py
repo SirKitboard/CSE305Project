@@ -36,8 +36,8 @@ def login(request):
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err))
 
-    print row
-    print acceptedKeys
+    print(row)
+    print(acceptedKeys)
     if(row[0] == int(acceptedKeys[2])):
         raise exc.HTTPOk()
     else:
