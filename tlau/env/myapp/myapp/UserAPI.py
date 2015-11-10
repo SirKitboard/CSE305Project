@@ -20,7 +20,6 @@ def login(request):
             raise exc.HTTPBadRequest()
 
     salt = 'qwerty'
-    salt = '${}${}$'.format(6, salt)
     cryptedPassword = crypt.crypt(acceptedKeys[1], salt)
     print(cryptedPassword)
     try:
