@@ -32,7 +32,6 @@ def login(request):
 
         return cursor
 
-
         cursor.close()
         cnx.close()
     except mysql.connector.Error as err:
