@@ -106,6 +106,16 @@ def logout(request):
         session.pop('currentUser')
         raise exc.HTTPOk()
 
+
+@view_config(route_name='currentUser', renderer='json')
+def currentUser(request):
+    session = request.session
+    if 'currentUser' in session:
+        return session['currentUser']
+    else:
+        raise exc.HTTPUnauthorized()
+
+
 # @view_config(route_name='allItems''], renderer='json')
 # def allItems(request):
 #     cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
