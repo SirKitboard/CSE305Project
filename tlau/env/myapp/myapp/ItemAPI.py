@@ -43,7 +43,7 @@ def getItem(request):
 
     query = ("SELECT * FROM Items WHERE ID = " + str(itemID))
 
-    cursor.execute(query)
+    # cursor.execute(query)
 
     item = None
 
