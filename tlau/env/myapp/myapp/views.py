@@ -86,10 +86,15 @@ def addItem(request):
 
     query = ("INSERT INTO Items (Name, Type, ManufactureYear, Stock) VALUES (%s, %s, %s, %s)")
 
-    cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
-    cursor = cnx.cursor()
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor()
 
-    cursor.execute(query, tuple(acceptedKeys))
+        cursor.execute(query, tuple(acceptedKeys))
+    except mysql.connector.Error as err:
+        return Reponse("Something went wrong: {}".format(err))
 
     cursor.close()
     cnx.close()
+
+    raise exc.HTTPOk()
