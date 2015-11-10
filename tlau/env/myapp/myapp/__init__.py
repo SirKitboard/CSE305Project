@@ -12,10 +12,10 @@ def main(global_config, **settings):
 
     # Define all views
     config.add_route('home', '/')
-    config.add_route('allItems', 'items/all')
-    config.add_route('getItem', 'items/{id}')
-    config.add_route('addItem', 'items', request_method='POST')
+    config.add_route('allItems', 'api/items')
+    config.add_route('getItem', 'api/items/{id}')
+    config.add_route('addItem', 'api/items', request_method='POST')
     config.add_route('hello', '/hello')
-
+    
     config.scan()
     return config.make_wsgi_app()
