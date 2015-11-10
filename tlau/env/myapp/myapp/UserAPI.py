@@ -44,7 +44,8 @@ def login(request):
 
         if(row[0] == 0):
             query = ("SELECT * FROM Customers WHERE ID = %s")
-            cursor2.execute(query, tuple(row[1]))
+            print(row[1])
+            cursor2.execute(query, tuple(str(row[1])))
 
             for row in cursor2:
                 user = {
