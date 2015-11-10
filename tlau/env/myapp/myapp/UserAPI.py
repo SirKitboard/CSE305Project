@@ -37,7 +37,7 @@ def login(request):
         row = cursor1.fetchone()
 
         if(row[0] != int(acceptedKeys[2])):
-            cursor1.close(dictionary=True)
+            cursor1.close()
             cursor2.close(dictionary=True)
             cnx.close()
             raise exc.HTTPUnauthorized()
