@@ -20,10 +20,11 @@ def main(global_config, **settings):
     config.add_route('getItem', 'api/items/{id}')
     config.add_route('addItem', 'api/items', request_method='POST')
     config.add_route('hello', '/hello')
-    config.add_route('sessionTest', '/ses')
+    # config.add_route('sessionTest', '/ses')
 
     # User Routes
     config.add_route('login', 'api/login')
+    config.add_route('login', 'api/logout')
 
     config.scan()
     return config.make_wsgi_app()
