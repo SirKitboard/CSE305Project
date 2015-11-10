@@ -68,6 +68,7 @@ def getItem(request):
         raise exc.HTTPNoContent()
 
     cursor.close()
+    cnx.commit()
     cnx.close()
 
     return item
@@ -91,8 +92,12 @@ def addItem(request):
         cursor = cnx.cursor()
 
         cursor.execute(query, tuple(acceptedKeys))
+
+        cursor.close()
+
+        cnx.commit()
+        cnx.close()
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err))
 
-    cursor.close()
-    cnx.close()
+    raise exc.HTTPOk()
