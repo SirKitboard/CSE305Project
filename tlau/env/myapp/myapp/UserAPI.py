@@ -87,6 +87,9 @@ def login(request):
         cnx.close()
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err))
+        cursor2.close()
+        cursor1.close()
+        cnx.close()
 
     return session['currentUser']
     raise exc.HTTPOk()
