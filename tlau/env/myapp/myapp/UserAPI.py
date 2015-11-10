@@ -30,23 +30,21 @@ def login(request):
         query = ("SELECT Type, ID FROM Users WHERE Username=%s AND Password=%s")
 
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
-        cursor1 = cnx.cursor()
-        cursor2 = cnx.cursor(dictionary=True)
+        cursor1 = cnx.cursor(dictionary=True)
 
         cursor1.execute(query, (acceptedKeys[0], cryptedPassword))
         row = cursor1.fetchone()
 
-        if(row[0] != int(acceptedKeys[2])):
+        if(row['Type'] != int(acceptedKeys[2])):
             cursor1.close()
-            cursor2.close(dictionary=True)
             cnx.close()
             raise exc.HTTPUnauthorized()
 
         if(row[0] == 0):
             query = ("SELECT * FROM Customers WHERE ID = %s")
-            cursor2.execute(query, tuple(str(row[1])))
+            cursor1.execute(query, tuple(str(row[1])))
 
-            for row in cursor2:
+            for row in cursor1:
                 print(row)
                 user = {
                     'type': 0,
@@ -65,9 +63,9 @@ def login(request):
                 session['currentUser'] = user
         else:
             query = ("SELECT * FROM Employees WHERE ID = %s")
-            cursor2.execute(query, (row[1]))
+            cursor1.execute(query, (row[1]))
 
-            for row in cursor2:
+            for row in cursor1:
                 user = {
                     'type': 1,
                     'id': row['ID'],
@@ -83,14 +81,12 @@ def login(request):
                 }
                 session['currentUser'] = user
 
-        cursor2.close()
         cursor1.close()
         cnx.close()
     except mysql.connector.Error as err:
-        return Response("Something went wrong: {}".format(err))
-        cursor2.close()
         cursor1.close()
         cnx.close()
+        return Response("Something went wrong: {}".format(err))
 
     return session['currentUser']
     raise exc.HTTPOk()
