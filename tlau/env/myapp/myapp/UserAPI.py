@@ -30,7 +30,7 @@ def login(request):
 
         cursor.execute(query, (acceptedKeys[0], acceptedKeys[1]))
 
-        return cursor
+        print(cursor)
 
         cursor.close()
         cnx.close()
