@@ -37,7 +37,8 @@ def login(request):
         return Response("Something went wrong: {}".format(err))
     if(row[0] == acceptedKeys[2]):
         raise exc.HTTPOk()
-    raise exc.HTTPUnauthorized()
+    else:
+        raise exc.HTTPUnauthorized()
 
 
 # @view_config(route_name='allItems', renderer='json')
