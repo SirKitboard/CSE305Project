@@ -30,14 +30,14 @@ def login(request):
 
         cursor.execute(query, (acceptedKeys[0], cryptedPassword))
         row = cursor.fetchone()
-        return row
 
         cursor.close()
         cnx.close()
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err))
-
-    raise exc.HTTPOk()
+    if(row[0] == acceptedKeys[2]):
+        raise exc.HTTPOk()
+    raise exc.HTTPUnauthorized()
 
 
 # @view_config(route_name='allItems', renderer='json')
