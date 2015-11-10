@@ -24,7 +24,7 @@ def main(global_config, **settings):
 
     # User Routes
     config.add_route('login', 'api/login')
-    config.add_route('login', 'api/logout')
+    config.add_route('logout', 'api/logout')
 
     config.scan()
     return config.make_wsgi_app()
