@@ -28,7 +28,7 @@ def login(request):
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
-        cursor.execute(query, (acceptedKeys[0], acceptedKeys[1]))
+        cursor.execute(query, (acceptedKeys[0], cryptedPassword))
         row = cursor.fetchone()
         return row
 
