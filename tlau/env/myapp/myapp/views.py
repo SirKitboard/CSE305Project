@@ -1,6 +1,8 @@
 from pyramid.view import view_config
 from pyramid.response import Response
 
+import pyramid.httpexceptions as exc
+
 import mysql.connector
 
 
@@ -32,6 +34,12 @@ def allItems(request):
             'stock': Stock
         })
 
+    cursor.close()
+    cnx.close()
+
+    if(len(items.length) == 0):
+        raise exc.HTTPNoContent()
+
     return items
 
 
@@ -56,4 +64,32 @@ def getItem(request):
             'stock': Stock
         }
 
+    if(item is None):
+        raise exc.HTTPNoContent()
+
+    cursor.close()
+    cnx.close()
+
     return item
+
+
+def addItem(request):
+    requiredKeys = ['name', 'type', 'manufactureYear', 'stock']
+    postVars = request.POST
+    acceptedKeys = []
+
+    for key in requiredKeys:
+        if(key in postVars):
+            acceptedKeys.insert(postVars[key])
+        else:
+            raise exc.HTTPBadRequest()
+
+    query = ("INSERT INTO Items (Name, Type, ManufactureYear, Stock) VALUES (%s, %s, %d, %d)")
+
+    cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+    cursor = cnx.cursor()
+
+    cursor.execute(query, tuple(acceptedKeys))
+
+    cursor.close()
+    cnx.close()

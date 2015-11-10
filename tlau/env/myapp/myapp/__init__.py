@@ -14,11 +14,13 @@ def main(global_config, **settings):
     config.add_route('home', '/')
     config.add_route('allItems', 'items/all')
     config.add_route('getItem', 'items/{id}')
+    config.add_route('addItem', 'items', request_method='POST')
     config.add_route('hello', '/hello')
 
     # Define Views
     config.add_view(views.hello_world, route_name='hello')
     config.add_view(views.allItems, route_name='allItems', renderer='json')
+    config.add_view(views.addItem, route_name='addItem')
     config.add_view(views.getItem, route_name='getItem', renderer='json')
     config.scan()
     return config.make_wsgi_app()
