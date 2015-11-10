@@ -13,6 +13,7 @@ def main(global_config, **settings):
     config.set_session_factory(my_session_factory)
 
     # Define all routes
+    config.add_route('home', '/')
 
     # Item Routes
     config.add_route('allItems', 'api/items')
