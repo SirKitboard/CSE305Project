@@ -7,11 +7,6 @@ def my_view(request):
     return {'project': 'myapp'}
 
 
-@view_config(route_name='hii')
-def hii(request):
-    return Response('<h1>HII</hi>')
-
-
 # @view_config(route_name='sessionTest', renderer='json')
 # def sessionTest(request):
 #     session = request.session

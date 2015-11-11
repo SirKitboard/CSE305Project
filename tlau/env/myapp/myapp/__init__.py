@@ -20,7 +20,6 @@ def main(global_config, **settings):
     config.add_route('getItem', 'api/items/{id}')
     config.add_route('addItem', 'api/items', request_method='POST')
     config.add_route('hello', '/hello')
-    config.add_route('hii', '/hii')
     # config.add_route('sessionTest', '/ses')
 
     # User Routes
