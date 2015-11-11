@@ -1,7 +1,5 @@
 .idea
 bak
-tlau/env/bin
-tlau/env/include
 tlau/env/lib
 tlau/env/myapp/dist
 tlau/env/myapp/build
