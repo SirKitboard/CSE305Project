@@ -17,6 +17,6 @@ Vagrant.configure(2) do |config|
 		web.vm.network :forwarded_port, guest: 80, host: 8081
 		web.vm.network :forwarded_port, guest: 443, host: 4430
 
-		web.vm.synced_folder "E:/Dropbox/Notes/CSE305/GroupProject/", "/app", owner: "vagrant", group: "www-data", mount_options: ["dmode=775,fmode=664"]
+		web.vm.synced_folder "../tlau", "/tlau", owner: "vagrant", group: "www-data", mount_options: ["dmode=775,fmode=664"]
 	end
 end
