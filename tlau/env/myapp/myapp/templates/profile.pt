@@ -22,7 +22,7 @@
         <div class="login-card card-panel hoverble valign col s12 m6 offset-m3" style="text-align: center;">
           <span class="flow-text blue-text text-darken-2">Logged in as</span>
           <div class="row">
-              <span class="flow-text col s12">${view.name}</span>
+              <span class="flow-text col s12">${request.session['currentUser']['name']}</span>
           </div>
         </div>
     </div>
