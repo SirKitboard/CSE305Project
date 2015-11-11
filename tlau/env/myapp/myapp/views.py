@@ -1,15 +1,17 @@
 from pyramid.view import view_config
+from pyramid.renderers import render
 from pyramid.response import Response
 
 
-@view_config(route_name='home', renderer='templates/mytemplate.pt')
+@view_config(route_name='home')
 def my_view(request):
-    return {'project': 'myapp'}
-
-
-@view_config(route_name='hii')
-def hii(request):
-    return Response('<h1>HII</hi>')
+    if('currentUser' not in request.session):
+        result = render('myapp:templates/home.pt', {}, request=request)
+    else:
+        result = render('myapp:templates/profile.pt', {
+            'name': request.session['currentUser']['name']
+        }, request=request)
+    return Response(result)
 
 
 # @view_config(route_name='sessionTest', renderer='json')
