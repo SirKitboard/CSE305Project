@@ -8,7 +8,7 @@ def my_view(request):
     if('currentUser' not in request.session):
         result = render('myapp:templates/home.pt', {}, request=request)
     else:
-        result = render('myapp:templates/home.pt', {
+        result = render('myapp:templates/profile.pt', {
             'name': request.session['currentUser']['name']
         }, request=request)
     return Response(result)
