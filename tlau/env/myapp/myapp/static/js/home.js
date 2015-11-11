@@ -13,6 +13,7 @@ $('#login').on('click', function(e) {
         },
         success: function() {
             console.log('login_success');
+            window.location.reload()
         },
         error: function() {
             $('#username').addClass('invalid')
