@@ -1,10 +1,15 @@
 from pyramid.view import view_config
+from pyramid.renderers import render
 from pyramid.response import Response
 
 
-@view_config(route_name='home', renderer='templates/mytemplate.pt')
+@view_config(route_name='home')
 def my_view(request):
-    return {'project': 'myapp'}
+    if('currentUser' in request.session):
+        result = render('mypackage:templates/home.pt', request=request)
+    else:
+        result = 'User logged in'
+    return Response(result)
 
 
 # @view_config(route_name='sessionTest', renderer='json')

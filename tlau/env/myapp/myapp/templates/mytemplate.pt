@@ -22,6 +22,7 @@
         <div class="login-card card-panel hoverble valign col s12 m6 offset-m3" style="text-align: center;">
           <span class="flow-text blue-text text-darken-2">Login</span>
           <div class="row">
+              {if('currentUser' in request.session):}
               <div class="input-field col s12">
                   <input id="username" type="text" class="validate"/>
                   <label for="username">User Name</label>
