@@ -6,7 +6,7 @@ from pyramid.response import Response
 @view_config(route_name='home')
 def my_view(request):
     if('currentUser' in request.session):
-        result = render('mypackage:templates/home.pt', request=request)
+        result = render('mypackage:templates/home.pt', {}, request=request)
     else:
         result = 'User logged in'
     return Response(result)
