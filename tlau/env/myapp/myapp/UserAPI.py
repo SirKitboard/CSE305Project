@@ -41,8 +41,8 @@ def login(request):
             raise exc.HTTPUnauthorized()
 
         if(row['type'] == 0):
-            query = ("SELECT * FROM Customers WHERE ID = %s")
-            cursor1.execute(query, tuple(str(row['ID'])))
+            query = ("SELECT * FROM Customers WHERE id = %s")
+            cursor1.execute(query, tuple(str(row['id'])))
 
             for row in cursor1:
                 print(row)
@@ -62,8 +62,8 @@ def login(request):
                 }
                 session['currentUser'] = user
         else:
-            query = ("SELECT * FROM Employees WHERE ID = %s")
-            cursor1.execute(query, (row['ID']))
+            query = ("SELECT * FROM Employees WHERE id = %s")
+            cursor1.execute(query, (row['id']))
 
             for row in cursor1:
                 user = {
