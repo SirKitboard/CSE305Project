@@ -79,7 +79,7 @@ def addItem(request):
         else:
             raise exc.HTTPBadRequest()
 
-    query = ("INSERT INTO Items (Name, Type, ManufactureYear, Stock) VALUES (%s, %s, %s, %s)")
+    query = ("INSERT INTO Items (name, type, manufactureYear, stock) VALUES (%s, %s, %s, %s)")
 
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')

@@ -27,7 +27,7 @@ def login(request):
     cryptedPassword = crypt.crypt(acceptedKeys[1], salt)
     print(cryptedPassword)
     try:
-        query = ("SELECT Type, ID FROM Users WHERE Username=%s AND Password=%s")
+        query = ("SELECT type, id FROM Users WHERE username=%s AND password=%s")
 
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor1 = cnx.cursor(dictionary=True)
@@ -48,17 +48,17 @@ def login(request):
                 print(row)
                 user = {
                     'type': 0,
-                    'id': row['ID'],
-                    'name': row['FirstName'] + row['LastName'],
-                    'address': row['Address'],
-                    'city': row['City'],
-                    'state': row['State'],
-                    'zipCode': row['ZipCode'],
-                    'telephone': row['Telephone'],
-                    'email': row['Email'],
-                    'itemsSold': row['ItemsSold'],
-                    'itemsPurchased': row['ItemsPurchased'],
-                    'rating': row['Rating']
+                    'id': row['id'],
+                    'name': row['firstName'] + row['lastName'],
+                    'address': row['address'],
+                    'city': row['city'],
+                    'state': row['state'],
+                    'zipCode': row['zipCode'],
+                    'telephone': row['telephone'],
+                    'email': row['email'],
+                    'itemsSold': row['itemsSold'],
+                    'itemsPurchased': row['itemsPurchased'],
+                    'rating': row['rating']
                 }
                 session['currentUser'] = user
         else:
@@ -68,13 +68,13 @@ def login(request):
             for row in cursor1:
                 user = {
                     'type': 1,
-                    'id': row['ID'],
-                    'name': row['FirstName'] + row['LastName'],
-                    'address': row['Address'],
-                    'city': row['City'],
-                    'state': row['State'],
-                    'zipCode': row['ZipCode'],
-                    'telephone': row['Telephone'],
+                    'id': row['id'],
+                    'name': row['firstName'] + row['lastName'],
+                    'address': row['address'],
+                    'city': row['city'],
+                    'state': row['state'],
+                    'zipCode': row['zipCode'],
+                    'telephone': row['telephone'],
                     'startDate': row['startDate'],
                     'hourlyRate': row['hourlyRate'],
                     'employeeType': row['type'],
@@ -110,64 +110,3 @@ def currentUser(request):
         return session['currentUser']
     else:
         raise exc.HTTPUnauthorized()
-
-
-# @view_config(route_name='allItems''], renderer='json')
-# def allItems(request):
-#     cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
-#     cursor = cnx.cursor()
-#
-#     query = ("SELECT * FROM Items ")
-#
-#     cursor.execute(query)
-#
-#     items = []
-#     for (ID, Name, Type, ManufactureYear, CopiesSold, Stock) in cursor:
-#         items.append({
-#             'id': ID,
-#             'name': Name,
-#             'type': Type,
-#             'manufactureYear': ManufactureYear,
-#             'copiesSold': CopiesSold,
-#             'stock': Stock
-#         })
-#
-#     cursor.close()
-#     cnx.close()
-#
-#     if(len(items) == 0):
-#         raise exc.HTTPNoContent()
-#
-#     return items
-
-
-# @view_config(route_name='getItem', renderer='json')
-# def getItem(request):
-#     itemID = request.matchdict['id']
-#     cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
-#     cursor = cnx.cursor()
-#
-#     query = ("SELECT * FROM Items WHERE ID = " + str(itemID))
-#
-#     cursor.execute(query)
-#
-#     item = None
-#
-#     for (ID, Name, Type, ManufactureYear, CopiesSold, Stock) in cursor:
-#         item = {
-#             'id': ID,
-#             'name': Name,
-#             'type': Type,
-#             'manufactureYear': ManufactureYear,
-#             'copiesSold': CopiesSold,
-#             'stock': Stock
-#         }
-#
-#     if(item is None):
-#         raise exc.HTTPNoContent()
-#
-#     cursor.close()
-#     cnx.commit()
-#     cnx.close()
-#
-#     return item
