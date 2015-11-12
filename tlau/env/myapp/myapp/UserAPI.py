@@ -35,12 +35,12 @@ def login(request):
         cursor1.execute(query, (acceptedKeys[0], cryptedPassword))
         row = cursor1.fetchone()
 
-        if(row['Type'] != int(acceptedKeys[2])):
+        if(row['type'] != int(acceptedKeys[2])):
             cursor1.close()
             cnx.close()
             raise exc.HTTPUnauthorized()
 
-        if(row['Type'] == 0):
+        if(row['type'] == 0):
             query = ("SELECT * FROM Customers WHERE ID = %s")
             cursor1.execute(query, tuple(str(row['ID'])))
 
