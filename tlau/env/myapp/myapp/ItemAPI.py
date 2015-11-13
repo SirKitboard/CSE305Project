@@ -128,3 +128,28 @@ def updateItem(request):
         return Response("Something went wrong: {}".format(err))
 
     raise exc.HTTPOk()
+
+
+@view_config(route_name= 'deleteItem')
+def deleteItem(request):
+    query= "DELETE FROM Items WHERE id= %s"
+
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor()
+
+        cursor.execute(query, tuple([request.matchdict['id']]))
+
+        cursor.close()
+
+        cnx.commit()
+        cnx.close()
+
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err))
+
+    raise exc.HTTPOk()
+
+
+
+
