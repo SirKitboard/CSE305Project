@@ -102,16 +102,17 @@ def updateItem(request):
     postVars = request.POST
     validKeys = ['name', 'type', 'manufactureYear', 'stock']
     acceptedValues = []
+    queryAppend = []
 
     query = "UPDATE Items SET "
 
     for key in validKeys:
         if key in postVars:
-            query = query + key + " = %s "
+            queryAppend.append(key + " = %s ")
             acceptedValues.append(postVars[key])
 
     acceptedValues.append(request.matchdict['id'])
-    query = query + " WHERE ID = %s"
+    query = query + queryAppend.join(',') + "WHERE ID = %s"
 
     return Response(query)
 
