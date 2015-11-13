@@ -108,7 +108,7 @@ def updateItem(request):
 
     for key in validKeys:
         if key in postVars:
-            queryAppend.append(key + " = %s ")
+            queryAppend.append(key + " = %s")
             acceptedValues.append(postVars[key])
 
     acceptedValues.append(request.matchdict['id'])
