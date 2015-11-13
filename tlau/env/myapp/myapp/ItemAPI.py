@@ -112,7 +112,7 @@ def updateItem(request):
             acceptedValues.append(postVars[key])
 
     acceptedValues.append(request.matchdict['id'])
-    query = query + ', '.join(queryAppend) + "WHERE ID = %s"
+    query = query + ', '.join(queryAppend) + " WHERE ID = %s"
 
     return Response(query)
 
