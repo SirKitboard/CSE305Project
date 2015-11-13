@@ -71,11 +71,11 @@ def getItem(request):
 def addItem(request):
     requiredKeys = ['name', 'type', 'manufactureYear', 'stock']
     postVars = request.POST
-    acceptedKeys = []
+    acceptedValues = []
 
     for key in requiredKeys:
         if(key in postVars):
-            acceptedKeys.append(postVars[key])
+            acceptedValues.append(postVars[key])
         else:
             raise exc.HTTPBadRequest()
 
@@ -85,7 +85,40 @@ def addItem(request):
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
-        cursor.execute(query, tuple(acceptedKeys))
+        cursor.execute(query, tuple(acceptedValues))
+
+        cursor.close()
+
+        cnx.commit()
+        cnx.close()
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err))
+
+    raise exc.HTTPOk()
+
+
+@view_config(route_name='updateItem')
+def updateItem(request):
+    postVars = request.POST
+    validKeys = ['name', 'type', 'manufactureYear', 'stock']
+    acceptedValues = []
+    queryAppend = []
+
+    query = "UPDATE Items SET "
+
+    for key in validKeys:
+        if key in postVars:
+            queryAppend.append(key + " = %s")
+            acceptedValues.append(postVars[key])
+
+    acceptedValues.append(request.matchdict['id'])
+    query = query + ', '.join(queryAppend) + " WHERE ID = %s"
+
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor()
+
+        cursor.execute(query, tuple(acceptedValues))
 
         cursor.close()
 
