@@ -114,8 +114,6 @@ def updateItem(request):
     acceptedValues.append(request.matchdict['id'])
     query = query + ', '.join(queryAppend) + " WHERE ID = %s"
 
-    return Response(query)
-
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
@@ -124,7 +122,7 @@ def updateItem(request):
 
         cursor.close()
 
-        # cnx.commit()
+        cnx.commit()
         cnx.close()
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err))
