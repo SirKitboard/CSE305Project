@@ -32,7 +32,7 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/cse/tlau/env"
+set -gx VIRTUAL_ENV "/home/adi/Dropbox/Notes/CSE305/GroupProject/tlau/env"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
