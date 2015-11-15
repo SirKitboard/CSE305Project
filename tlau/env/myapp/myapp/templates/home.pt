@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Custom styles for this scaffold -->
-    <link href="${request.static_url('myapp:static/home.css')}" rel="stylesheet">
+    <link href="${request.static_url('myapp:static/css/home.css')}" rel="stylesheet">
   </head>
 
   <body class="teal">
