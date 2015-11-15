@@ -34,7 +34,7 @@ def login(request):
 
         cursor1.execute(query, (acceptedKeys[0], cryptedPassword))
         row = cursor1.fetchone()
-
+        print(row)
         if(row['type'] != int(acceptedKeys[2])):
             cursor1.close()
             cnx.close()
@@ -63,7 +63,7 @@ def login(request):
                 session['currentUser'] = user
         else:
             query = ("SELECT * FROM Employees WHERE id = %s")
-            cursor1.execute(query, (row['id']))
+            cursor1.execute(query, tuple(str(row['id'])))
 
             for row in cursor1:
                 user = {
@@ -75,8 +75,8 @@ def login(request):
                     'state': row['state'],
                     'zipCode': row['zipCode'],
                     'telephone': row['telephone'],
-                    'startDate': row['startDate'],
-                    'hourlyRate': row['hourlyRate'],
+                    'startDate': row['startDate'].isoformat(),
+                    'hourlyRate': str(row['hourlyRate']),
                     'employeeType': row['type'],
                 }
                 session['currentUser'] = user

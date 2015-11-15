@@ -8,26 +8,29 @@ import mysql.connector
 
 @view_config(route_name='allItems', renderer='json')
 def allItems(request):
-    cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
-    cursor = cnx.cursor()
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor()
 
-    query = ("SELECT * FROM Items")
+        query = ("SELECT * FROM Items")
 
-    cursor.execute(query)
+        cursor.execute(query)
 
-    items = []
-    for (ID, Name, Type, ManufactureYear, CopiesSold, Stock) in cursor:
-        items.append({
-            'id': ID,
-            'name': Name,
-            'type': Type,
-            'manufactureYear': ManufactureYear,
-            'copiesSold': CopiesSold,
-            'stock': Stock
-        })
+        items = []
+        for (ID, Name, Type, ManufactureYear, CopiesSold, Stock) in cursor:
+            items.append({
+                'id': ID,
+                'name': Name,
+                'type': Type,
+                'manufactureYear': ManufactureYear,
+                'copiesSold': CopiesSold,
+                'stock': Stock
+            })
 
-    cursor.close()
-    cnx.close()
+        cursor.close()
+        cnx.close()
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
 
     if(len(items) == 0):
         raise exc.HTTPNoContent()
@@ -38,31 +41,35 @@ def allItems(request):
 @view_config(route_name='getItem', renderer='json')
 def getItem(request):
     itemID = request.matchdict['id']
-    cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
-    cursor = cnx.cursor()
-
-    query = ("SELECT * FROM Items WHERE ID = " + str(itemID))
-
-    cursor.execute(query)
 
     item = None
 
-    for (ID, Name, Type, ManufactureYear, CopiesSold, Stock) in cursor:
-        item = {
-            'id': ID,
-            'name': Name,
-            'type': Type,
-            'manufactureYear': ManufactureYear,
-            'copiesSold': CopiesSold,
-            'stock': Stock
-        }
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor()
 
-    if(item is None):
-        raise exc.HTTPNoContent()
+        query = ("SELECT * FROM Items WHERE ID = " + str(itemID))
 
-    cursor.close()
-    cnx.commit()
-    cnx.close()
+        cursor.execute(query)
+
+        for (ID, Name, Type, ManufactureYear, CopiesSold, Stock) in cursor:
+            item = {
+                'id': ID,
+                'name': Name,
+                'type': Type,
+                'manufactureYear': ManufactureYear,
+                'copiesSold': CopiesSold,
+                'stock': Stock
+            }
+
+        if(item is None):
+            raise exc.HTTPNoContent()
+
+        cursor.close()
+        cnx.close()
+
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
 
     return item
 
@@ -92,7 +99,7 @@ def addItem(request):
         cnx.commit()
         cnx.close()
     except mysql.connector.Error as err:
-        return Response("Something went wrong: {}".format(err))
+        return Response("Something went wrong: {}".format(err), status=500)
 
     raise exc.HTTPOk()
 
@@ -149,7 +156,3 @@ def deleteItem(request):
         return Response("Something went wrong: {}".format(err))
 
     raise exc.HTTPOk()
-
-
-
-

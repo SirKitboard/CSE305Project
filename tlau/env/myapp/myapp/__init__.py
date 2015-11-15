@@ -29,5 +29,10 @@ def main(global_config, **settings):
     config.add_route('logout', 'api/logout')
     config.add_route('currentUser', 'api/currentUser')
 
+    # Employee Routes
+    config.add_route('allEmployees', 'api/employees', request_method='GET')
+    config.add_route('addEmployee', 'api/employees', request_method='POST')
+
+
     config.scan()
     return config.make_wsgi_app()
