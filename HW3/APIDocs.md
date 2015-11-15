@@ -1,13 +1,16 @@
 Permission : Manager only
 
 ### Add/Modify/Delete Employee
+
+```
 Route:  POST /employees
         PUT /employees/{id}
         DELETE /employees/{id}
         GET /employees
         GET /employees/{id}
+```
 
-### Sales Report 
+### Sales Report
 Route: GET /generate/salesReport?month=''&year=''&itemID=''&customerID=''&itemType=''
 
 ### Max Revenue
