@@ -50,7 +50,7 @@ def allEmployees(request):
     return items
 
 @view_config(route_name='addEmployee', renderer='json')
-def insertEmployee(request):
+def addEmployee(request):
     session = request.session
     if('currentUser' not in session):
         raise exc.HTTPForbidden()
