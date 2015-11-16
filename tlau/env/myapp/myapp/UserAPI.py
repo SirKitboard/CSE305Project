@@ -49,7 +49,7 @@ def login(request):
                 user = {
                     'type': 0,
                     'id': row['id'],
-                    'name': row['firstName'] + row['lastName'],
+                    'name': row['firstName'] + " " + row['lastName'],
                     'address': row['address'],
                     'city': row['city'],
                     'state': row['state'],
@@ -69,7 +69,7 @@ def login(request):
                 user = {
                     'type': 1,
                     'id': row['id'],
-                    'name': row['firstName'] + row['lastName'],
+                    'name': row['firstName'] + " " + row['lastName'],
                     'address': row['address'],
                     'city': row['city'],
                     'state': row['state'],
