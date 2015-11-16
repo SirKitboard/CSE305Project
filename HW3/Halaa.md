@@ -1,32 +1,39 @@
-Permission : Manager only
+# Customer Rep Level
 
-### Add/Modify/Delete Employee
+Permission : request.session['currentUser']['type'] = 1
 
+### Record a sale
+Route: POST /items/sold
+
+### Add/edit/Delete customer
 ```
-Route:  POST /employees
-        PUT /employees/{id}
-        DELETE /employees/{id}
-        GET /employees
-        GET /employees/{id}
+Route:  POST /customers/add
+        GET /customers <- ALL CUSTOMERS
+        GET /customers/{id} <- 1 Customer
+        PUT /customers/{id}
+        DELETE /customers/{id}
+```
+# Customer Level
+
+### Bid History for auction
+Route: GET /auctions/{id}/bids
+
+### Items sold by seller and auction info
+Route: GET /customers/{id}/sellHistory
+
+### Items available by type or by keyword
+```
+Route: GET /items/search?type=''
+Route: GET /items/search?keyword=''
+
+getVars = request.GET
+getVars['type']
 ```
 
-### Sales Report
-Route: GET /generate/salesReport?month=''&year=''&itemID=''&customerID=''&itemType=''
-
-### Max Revenue
-Route: GET /generate/revenueReport?rep=''&customerID=''
-
-
-Permission : Anyone
-
-### Best Sellers
-Route: GET /generate/bestSellers
-
-### Suggestions List
-Route: GET /items/suggestions
-
-### Produce Mailing List
-Route: GET /generate/mailingList
-
-### Auction History for customer (Current and past auctions)
-Route: GET /customers/{id}/auctions
+### Receipts
+```
+Route: GET /generate/receipt?auctionID=''
+request.session['currentUser']['type'] = 1
+OR
+request.session['currentUser']['ID'] = auction.buyerID || auction.sellerID
+```

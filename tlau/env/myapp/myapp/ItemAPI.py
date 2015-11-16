@@ -28,6 +28,18 @@ def allItems(request):
             })
 
         cursor.close()
+
+        cursor = cnx.cursor(dictionary=True)
+
+        for item in items:
+            query = ("SELECT url FROM ItemsImages WHERE itemID = %s")
+            cursor.execute(query, tuple(str(item['id'])))
+            urls = []
+            for row in cursor:
+                urls.append(row['url'])
+            item['images'] = urls
+
+
         cnx.close()
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err), status=500)
@@ -64,6 +76,16 @@ def getItem(request):
 
         if(item is None):
             raise exc.HTTPNoContent()
+
+        cursor.close()
+        cursor = cnx.cursor(dictionary=True)
+
+        query = ("SELECT url FROM ItemsImages WHERE itemID = %s")
+        cursor.execute(query, tuple(str(item['id'])))
+        urls = []
+        for row in cursor:
+            urls.append(row['url'])
+        item['images'] = urls
 
         cursor.close()
         cnx.close()

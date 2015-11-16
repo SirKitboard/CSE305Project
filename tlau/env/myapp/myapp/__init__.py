@@ -31,6 +31,7 @@ def main(global_config, **settings):
 
     # Employee Routes
     config.add_route('allEmployees', 'api/employees', request_method='GET')
+    config.add_route('getEmployee', 'api/employees/{id}', request_method='GET')
     config.add_route('addEmployee', 'api/employees', request_method='POST')
 
     # Customer Routes

@@ -23,12 +23,12 @@ def allEmployees(request):
 
         cursor.execute(query)
 
-        items = []
+        employees = []
         for employee in cursor:
-            items.append({
+            employees.append({
                 'type': employee['type'],
                 'id': employee['id'],
-                'name': employee['firstName'] + employee['lastName'],
+                'name': employee['firstName'] + " " +employee['lastName'],
                 'address': employee['address'],
                 'city': employee['city'],
                 'state': employee['state'],
@@ -44,10 +44,61 @@ def allEmployees(request):
         return Response("Something went wrong: {}".format(err), status=500)
 
 
-    if(len(items) == 0):
+    if(len(employees) == 0):
         raise exc.HTTPNoContent()
 
-    return items
+    return employees
+
+# --------------------------------------------------------------------------------------------------------------------------------------------
+
+@view_config(route_name='getEmployee', renderer='json')
+def getEmployee(request):
+    session = request.session
+    if('currentUser' not in session):
+        raise exc.HTTPForbidden()
+    elif(session['currentUser']['type'] == 0):
+        raise exc.HTTPForbidden()
+    elif(session['currentUser']['employeeType'] != 0):
+        raise exc.HTTPForbidden()
+
+    employeeID = request.matchdict['id']
+
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        query = ("SELECT * FROM Employees WHERE id = %s")
+
+        cursor.execute(query, tuple(str(employeeID)))
+
+        employee = {}
+        for employee in cursor:
+            employee = {
+                'type': employee['type'],
+                'id': employee['id'],
+                'name': employee['firstName'] + " " + employee['lastName'],
+                'address': employee['address'],
+                'city': employee['city'],
+                'state': employee['state'],
+                'zipCode': employee['zipCode'],
+                'telephone': employee['telephone'],
+                'startDate': employee['startDate'].isoformat(),
+                'hourlyRate': str(employee['hourlyRate']),
+            }
+
+        cursor.close()
+        cnx.close()
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
+
+    if(len(employee) == 0):
+        raise exc.HTTPNoContent()
+
+    return employee
+
+
+# --------------------------------------------------------------------------------------------------------------------------------------------
+
 
 @view_config(route_name='addEmployee', renderer='json')
 def addEmployee(request):
@@ -76,7 +127,7 @@ def addEmployee(request):
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
-        cursor.execute(query, tuple(acceptedValues))
+        cursor.execute(query, tuple(acceptedKeys))
 
         cursor.close()
 
@@ -86,3 +137,5 @@ def addEmployee(request):
         return Response("Something went wrong: {}".format(err))
 
     raise exc.HTTPOk()
+
+# --------------------------------------------------------------------------------------------------------------------------------------------
