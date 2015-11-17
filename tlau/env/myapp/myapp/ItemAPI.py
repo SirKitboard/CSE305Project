@@ -78,6 +78,8 @@ def getItem(request):
             }
 
         if(item is None):
+            cursor.close()
+            cnx.close()
             raise exc.HTTPNoContent()
 
         cursor.close()
@@ -97,6 +99,56 @@ def getItem(request):
         return Response("Something went wrong: {}".format(err), status=500)
 
     return item
+
+
+@view_config(route_name='getItemThumbnails', renderer='json')
+def getItemThumbnails(request):
+    itemID = request.matchdict['id']
+
+    thumbnails = []
+
+    item = None
+
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor()
+
+        query = ("SELECT * FROM Items WHERE ID = " + str(itemID))
+
+        cursor.execute(query)
+
+        for (ID, Name, Type, ManufactureYear, CopiesSold, Stock) in cursor:
+            item = {
+                'id': ID,
+                'name': Name,
+                'type': Type,
+                'manufactureYear': ManufactureYear,
+                'copiesSold': CopiesSold,
+                'stock': Stock
+            }
+
+        cursor.close()
+
+        if(item is None):
+            cnx.close()
+            raise exc.HTTPNoContent()
+
+        cursor.close()
+        cursor = cnx.cursor(dictionary=True)
+
+        query = ("SELECT url FROM ItemsImages WHERE itemID = %s")
+        cursor.execute(query, tuple(str(item['id'])))
+        urls = []
+        for row in cursor:
+            urls.append(row['url'])
+
+        cursor.close()
+        cnx.close()
+
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
+
+    return urls
 
 
 @view_config(route_name='addItem', renderer='json', request_method='POST')
