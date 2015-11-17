@@ -40,13 +40,13 @@ def main(global_config, **settings):
     # Customer Routes
     config.add_route('allCustomers', 'api/customers', request_method='GET')
     config.add_route('addCustomer', 'api/customers', request_method='POST')
-    config.add_route('addCustomer', 'api/customers', request_method="POST")
     config.add_route('getCustomer', 'api/customers/{id}', request_method='GET')
     config.add_route('deleteCustomer', 'api/customers/{id}', request_method='DELETE')
     config.add_route('updateCustomer', 'api/customers/{id}', request_method='PUT')
 
     # Generators
     config.add_route('salesReport', 'api/generate/salesReport', request_method='GET')
+    config.add_route('revenueReport', 'api/generate/revenueReport', request_method='GET')
 
     config.scan()
     return config.make_wsgi_app()

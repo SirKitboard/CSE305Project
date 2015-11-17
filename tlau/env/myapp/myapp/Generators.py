@@ -60,7 +60,57 @@ def salesReport(request):
                     reportValues[key] = row[key]
             report.append(reportValues)
 
+        cursor.close()
+        cnx.close()
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
 
+    return report
+
+# --------------------------------------------------------------------------------------------------------------------------------------------
+
+@view_config(route_name='revenueReport', renderer='json')
+def revenueReport(request):
+    session = request.session
+    if('currentUser' not in session):
+        raise exc.HTTPForbidden()
+    elif(session['currentUser']['type'] == 0):
+        raise exc.HTTPForbidden()
+    elif(session['currentUser']['employeeType'] != 0):
+        raise exc.HTTPForbidden()
+
+    getVars = request.GET
+
+    query = "SELECT ItemName, SUM(Amount) AS Revenue, COUNT(Amount) AS CopiesSold FROM Sales_Report WHERE "
+    value = None
+    if 'employeeID' in getVars and 'customerID' not in getVars:
+        query = query + "monitorID = %s GROUP BY ItemName"
+        value = getVars['employeeID']
+    elif 'employeeID' not in getVars and 'customerID' in getVars:
+        query = query + "customerID = %s GROUP BY ItemName"
+        value = getVars['customerID']
+    else:
+        raise exc.HTTPBadRequest()
+
+
+    report = []
+
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        cursor.execute(query, tuple(str(value)))
+
+        for row in cursor:
+            reportValues = {}
+            for key in row:
+                if(isinstance(row[key], datetime)):
+                    reportValues[key] = row[key].isoformat()
+                elif(isinstance(row[key], Decimal)):
+                    reportValues[key] = str(row[key])
+                else:
+                    reportValues[key] = row[key]
+            report.append(reportValues)
 
         cursor.close()
         cnx.close()
