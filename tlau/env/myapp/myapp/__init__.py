@@ -37,6 +37,7 @@ def main(global_config, **settings):
     # Customer Routes
     config.add_route('allCustomers', 'api/customers', request_method='GET')
     config.add_route('addCustomer', 'api/customers', request_method="POST")
+    config.add_route('getCustomer', 'api/customers/{id}', request_method='GET')
 
     config.scan()
     return config.make_wsgi_app()
