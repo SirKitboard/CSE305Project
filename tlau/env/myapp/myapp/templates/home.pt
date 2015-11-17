@@ -31,14 +31,14 @@
                   <label for="password">Password</label>
               </div>
               <div class="input-field col s12 row">
-                  <div class="col s12 m6">
+                  <p class="col s12 m6">
                       <input name="group1" type="radio" id="isCustomer"/>
                       <label for="test1">Customer</label>
-                  </div>
-                  <div class="col s12 m6">
+                  </p>
+                  <p class="col s12 m6">
                       <input name="group1" type="radio" id="isEmployee"/>
                       <label for="test1">Employees</label>
-                  </div>
+                  </p>
               </div>
               <button class="btn waves-effect waves-light" id='login' type="submit" name="action">Submit
                 <i class="material-icons right">send</i>
