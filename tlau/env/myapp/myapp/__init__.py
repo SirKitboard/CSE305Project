@@ -17,7 +17,7 @@ def main(global_config, **settings):
     config.add_route('home', '/')
 
     # Item Routes
-    config.add_route('allItems', 'api/items')
+    config.add_route('allItems', 'api/items', request_method='GET')
     config.add_route('getItem', 'api/items/{id}', request_method='GET')
     config.add_route('addItem', 'api/items', request_method='POST')
     config.add_route('updateItem', 'api/items/{id}', request_method='PUT')
@@ -47,6 +47,10 @@ def main(global_config, **settings):
 
     # Generators
     config.add_route('salesReport', 'api/generate/salesReport', request_method='GET')
+    config.add_route('receipt', 'api/generate/receipt', request_method='GET')
+
+    # Bid Routes
+    config.add_route('bidHistory', 'api/auction/{id}/bids', request_method='GET')
 
     config.scan()
     return config.make_wsgi_app()

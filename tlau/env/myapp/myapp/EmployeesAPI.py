@@ -6,6 +6,7 @@ import pyramid.httpexceptions as exc
 
 import mysql.connector
 
+
 @view_config(route_name='allEmployees', renderer='json')
 def allEmployees(request):
     session = request.session
@@ -29,7 +30,7 @@ def allEmployees(request):
             employees.append({
                 'type': employee['type'],
                 'id': employee['id'],
-                'name': employee['firstName'] + " " +employee['lastName'],
+                'name': employee['firstName'] + " " + employee['lastName'],
                 'address': employee['address'],
                 'city': employee['city'],
                 'state': employee['state'],
@@ -44,14 +45,13 @@ def allEmployees(request):
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err), status=500)
 
-
     if(len(employees) == 0):
         raise exc.HTTPNoContent()
 
     return employees
 
-# --------------------------------------------------------------------------------------------------------------------------------------------
 
+# --------------------------------------------------------------------------------------------------------------------------------------------
 @view_config(route_name='getEmployee', renderer='json')
 def getEmployee(request):
     session = request.session
