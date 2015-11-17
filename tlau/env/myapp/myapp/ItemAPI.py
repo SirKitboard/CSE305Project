@@ -1,6 +1,8 @@
 #pylint: disable=W,C
 from pyramid.view import view_config
 from pyramid.response import Response
+from datetime import datetime
+from decimal import Decimal
 
 import pyramid.httpexceptions as exc
 
@@ -179,3 +181,57 @@ def deleteItem(request):
         return Response("Something went wrong: {}".format(err))
 
     raise exc.HTTPOk()
+
+@view_config(route_name='itemSuggestions', renderer='json')
+def itemSuggestions(request):
+    session = request.session
+    customerID = None
+    if('currentUser' not in session):
+        raise exc.HTTPForbidden()
+    elif(session['currentUser']['type'] == 0):
+        customerID = session['currentUser']['id']
+    else:
+        if('customerID' in request.GET):
+            customerID = request.GET['customerID']
+        else:
+            raise exc.HTTPBadRequest()
+
+    query = """
+        SELECT * FROM Items WHERE type IN (
+            SELECT type FROM Items WHERE id IN (
+                SELECT itemID FROM Searches WHERE customerID = %s
+                )
+            )
+        AND Items.name NOT IN (
+            SELECT name FROM Items WHERE id IN (
+                SELECT itemID FROM Auctions WHERE id IN (
+                    SELECT auctionID FROM Bids
+                    )
+                )
+            )
+        """
+
+    suggestedItems = []
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        cursor.execute(query, tuple(str(customerID)))
+
+        for row in cursor:
+            item = {}
+            for key in row:
+                if(isinstance(row[key], datetime)):
+                    item[key] = row[key].isoformat()
+                elif(isinstance(row[key], Decimal)):
+                    item[key] = str(row[key])
+                else:
+                    item[key] = row[key]
+            suggestedItems.append(item)
+
+        cursor.close()
+        cnx.close()
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
+
+    return suggestedItems
