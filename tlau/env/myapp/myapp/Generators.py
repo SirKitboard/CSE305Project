@@ -33,10 +33,10 @@ def salesReport(request):
     for key in validKeys:
         if key in getVars:
             if(key == 'month'):
-                queryAppend.append('MONTH(Time) = %s')
+                queryAppend.append('MONTH(time) = %s')
                 acceptedValues.append(getVars[key])
             elif(key == 'year'):
-                queryAppend.append('YEAR(Time) = %s')
+                queryAppend.append('YEAR(time) = %s')
                 acceptedValues.append(getVars[key])
             else:
                 queryAppend.append(key + " = %s")
@@ -132,7 +132,7 @@ def receipt(request):
 
     receiptOfCustomer = {}
 
-    query = "SELECT * FROM receipt WHERE auctionID = %s"
+    query = "SELECT * FROM Receipts WHERE auctionID = %s"
 
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
@@ -154,7 +154,7 @@ def receipt(request):
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err), status=500)
 
-    if(session['currentUser']['id'] != receiptOfCustomer['id']):
+    if(session['currentUser']['id'] != receiptOfCustomer['customerID']):
         raise exc.HTTPForbidden()
 
     return receiptOfCustomer

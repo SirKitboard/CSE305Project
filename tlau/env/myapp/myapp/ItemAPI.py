@@ -1,3 +1,4 @@
+#pylint: disable=W,C
 from pyramid.view import view_config
 from pyramid.response import Response
 

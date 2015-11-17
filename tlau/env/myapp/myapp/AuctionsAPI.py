@@ -20,7 +20,7 @@ def bidHistory(request):
         for row in cursor:
             history.append({
                 'id': row['id'],
-                'time': row['Time'].isoformat(),
+                'time': row['time'].isoformat(),
                 'amount': str(row['amount']),
                 'customerID': row['customerID'],
                 'auctionID': row['auctionID'],
