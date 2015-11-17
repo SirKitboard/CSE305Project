@@ -162,3 +162,39 @@ def deleteEmployee(request):
         return Response("Something went wrong: {}".format(err))
 
     raise exc.HTTPOk()
+
+# --------------------------------------------------------------------------------------------------------------------------------------------
+
+@view_config(route_name='updateEmployee')
+def updateEmployee(request):
+    employeeID = request.matchdict['id']
+
+    postVars = request.POST
+    validKeys = ['ssn', 'lastName', 'firstName', 'address', 'city', 'state', 'zipCode', 'telephone', 'hourlyRate', 'type']
+    acceptedValues = []
+    queryAppend = []
+
+    query = "UPDATE Employees SET "
+
+    for key in validKeys:
+        if key in postVars:
+            queryAppend.append(key + " = %s")
+            acceptedValues.append(postVars[key])
+
+    acceptedValues.append(request.matchdict['id'])
+    query = query + ', '.join(queryAppend) + " WHERE ID = %s"
+
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor()
+
+        cursor.execute(query, tuple(acceptedValues))
+
+        cursor.close()
+
+        cnx.commit()
+        cnx.close()
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err))
+
+    raise exc.HTTPOk()

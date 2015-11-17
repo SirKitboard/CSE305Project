@@ -34,11 +34,15 @@ def main(global_config, **settings):
     config.add_route('allEmployees', 'api/employees', request_method='GET')
     config.add_route('getEmployee', 'api/employees/{id}', request_method='GET')
     config.add_route('addEmployee', 'api/employees', request_method='POST')
+    config.add_route('updateEmployee', 'api/employees/{id}', request_method='PUT')
     config.add_route('deleteEmployee', 'api/employees/{id}', request_method='DELETE')
 
     # Customer Routes
     config.add_route('allCustomers', 'api/customers', request_method='GET')
-    config.add_route('addCustomer', 'api/customers', request_method="POST")
+    config.add_route('addCustomer', 'api/customers', request_method='POST')
+
+    # Generators
+    config.add_route('salesReport', 'api/generate/salesReport', request_method='GET')
 
     config.scan()
     return config.make_wsgi_app()
