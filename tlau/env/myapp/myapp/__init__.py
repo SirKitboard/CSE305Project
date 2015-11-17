@@ -39,6 +39,7 @@ def main(global_config, **settings):
     config.add_route('addCustomer', 'api/customers', request_method="POST")
     config.add_route('getCustomer', 'api/customers/{id}', request_method='GET')
     config.add_route('deleteCustomer', 'api/customers/{id}', request_method='DELETE')
+    config.add_route('updateCustomer', 'api/customers/{id}', request_method='PUT')
 
     config.scan()
     return config.make_wsgi_app()
