@@ -1,3 +1,4 @@
+#pylint: disable=C,F
 from pyramid.view import view_config
 from pyramid.response import Response
 
@@ -139,3 +140,25 @@ def addEmployee(request):
     raise exc.HTTPOk()
 
 # --------------------------------------------------------------------------------------------------------------------------------------------
+
+@view_config(route_name='deleteEmployee')
+def deleteEmployee(request):
+    employeeID = request.matchdict['id']
+
+    query= "DELETE FROM Employees WHERE id= %s"
+
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor()
+
+        cursor.execute(query, tuple(employeeID))
+
+        cursor.close()
+
+        cnx.commit()
+        cnx.close()
+
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err))
+
+    raise exc.HTTPOk()

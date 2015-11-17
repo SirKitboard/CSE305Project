@@ -1,3 +1,4 @@
+#pylint: disable=C,F
 from pyramid.config import Configurator
 
 from pyramid.session import SignedCookieSessionFactory
@@ -33,6 +34,7 @@ def main(global_config, **settings):
     config.add_route('allEmployees', 'api/employees', request_method='GET')
     config.add_route('getEmployee', 'api/employees/{id}', request_method='GET')
     config.add_route('addEmployee', 'api/employees', request_method='POST')
+    config.add_route('deleteEmployee', 'api/employees/{id}', request_method='DELETE')
 
     # Customer Routes
     config.add_route('allCustomers', 'api/customers', request_method='GET')
