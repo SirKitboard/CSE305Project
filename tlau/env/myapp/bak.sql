@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.44, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.46, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: 305
 -- ------------------------------------------------------
--- Server version	5.5.44-0ubuntu0.14.04.1
+-- Server version	5.5.46-0ubuntu0.14.04.2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -31,23 +31,23 @@ DROP TABLE IF EXISTS `Auctions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Auctions` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `ItemID` int(11) DEFAULT NULL,
-  `SellerID` int(11) DEFAULT NULL,
-  `OpeningTime` datetime DEFAULT NULL,
-  `ClosingTime` datetime DEFAULT NULL,
-  `OpeningBid` decimal(10,2) DEFAULT NULL,
-  `CurrentBid` decimal(10,2) DEFAULT NULL,
-  `Reserve` decimal(10,2) DEFAULT NULL,
-  `Increment` decimal(10,2) DEFAULT NULL,
-  `EmployeeID` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `ItemID` (`ItemID`),
-  KEY `SellerID` (`SellerID`),
-  KEY `EmployeeID` (`EmployeeID`),
-  CONSTRAINT `Auctions_ibfk_5` FOREIGN KEY (`EmployeeID`) REFERENCES `Employees` (`ID`),
-  CONSTRAINT `Auctions_ibfk_1` FOREIGN KEY (`ItemID`) REFERENCES `Items` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `Auctions_ibfk_4` FOREIGN KEY (`SellerID`) REFERENCES `Customers` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `itemID` int(11) DEFAULT NULL,
+  `sellerID` int(11) DEFAULT NULL,
+  `openingTime` datetime DEFAULT NULL,
+  `closingTime` datetime DEFAULT NULL,
+  `openingBid` decimal(10,2) DEFAULT NULL,
+  `currentBid` decimal(10,2) DEFAULT NULL,
+  `reserve` decimal(10,2) DEFAULT NULL,
+  `increment` decimal(10,2) DEFAULT NULL,
+  `employeeID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `itemID` (`itemID`),
+  KEY `sellerID` (`sellerID`),
+  KEY `employeeID` (`employeeID`),
+  CONSTRAINT `Auctions_ibfk_5` FOREIGN KEY (`employeeID`) REFERENCES `Employees` (`id`),
+  CONSTRAINT `Auctions_ibfk_1` FOREIGN KEY (`itemID`) REFERENCES `Items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `Auctions_ibfk_4` FOREIGN KEY (`sellerID`) REFERENCES `Customers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -69,20 +69,20 @@ DROP TABLE IF EXISTS `Bids`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Bids` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Time` datetime DEFAULT NULL,
-  `Amount` decimal(10,2) DEFAULT NULL,
-  `CustomerID` int(11) DEFAULT NULL,
-  `AuctionID` int(11) DEFAULT NULL,
-  `MaxBid` decimal(10,2) DEFAULT NULL,
-  `ItemID` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `ItemID` (`ItemID`),
-  KEY `Bids_Customers_ID_fk` (`CustomerID`),
-  KEY `Bids_Auctions_ID_fk` (`AuctionID`),
-  CONSTRAINT `Bids_Auctions_ID_fk` FOREIGN KEY (`AuctionID`) REFERENCES `Auctions` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `Bids_Customers_ID_fk` FOREIGN KEY (`CustomerID`) REFERENCES `Customers` (`ID`) ON DELETE SET NULL ON UPDATE SET NULL,
-  CONSTRAINT `Bids_ibfk_3` FOREIGN KEY (`ItemID`) REFERENCES `Items` (`ID`) ON DELETE NO ACTION ON UPDATE CASCADE
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `time` datetime DEFAULT NULL,
+  `amount` decimal(10,2) DEFAULT NULL,
+  `customerID` int(11) DEFAULT NULL,
+  `auctionID` int(11) DEFAULT NULL,
+  `maxBid` decimal(10,2) DEFAULT NULL,
+  `itemID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `itemID` (`itemID`),
+  KEY `Bids_Customers_ID_fk` (`customerID`),
+  KEY `Bids_Auctions_ID_fk` (`auctionID`),
+  CONSTRAINT `Bids_Auctions_ID_fk` FOREIGN KEY (`auctionID`) REFERENCES `Auctions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `Bids_Customers_ID_fk` FOREIGN KEY (`customerID`) REFERENCES `Customers` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  CONSTRAINT `Bids_ibfk_3` FOREIGN KEY (`itemID`) REFERENCES `Items` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -104,20 +104,20 @@ DROP TABLE IF EXISTS `Customers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Customers` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `LastName` char(30) NOT NULL,
-  `FirstName` char(30) NOT NULL,
-  `Address` char(100) NOT NULL,
-  `City` char(30) NOT NULL,
-  `State` char(30) NOT NULL,
-  `ZipCode` int(11) NOT NULL,
-  `Telephone` char(20) NOT NULL,
-  `Email` char(60) NOT NULL,
-  `CreditCardNumber` char(24) NOT NULL DEFAULT '',
-  `ItemsSold` int(11) DEFAULT '0',
-  `ItemsPurchased` int(11) DEFAULT '0',
-  `Rating` int(11) DEFAULT '3',
-  PRIMARY KEY (`ID`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lastName` char(30) NOT NULL,
+  `firstName` char(30) NOT NULL,
+  `address` char(100) NOT NULL,
+  `city` char(30) NOT NULL,
+  `state` char(30) NOT NULL,
+  `zipCode` int(11) NOT NULL,
+  `telephone` char(20) NOT NULL,
+  `email` char(60) NOT NULL,
+  `creditCardNumber` char(24) NOT NULL DEFAULT '',
+  `itemsSold` int(11) DEFAULT '0',
+  `itemsPurchased` int(11) DEFAULT '0',
+  `rating` int(11) DEFAULT '3',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -139,20 +139,20 @@ DROP TABLE IF EXISTS `Employees`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Employees` (
-  `SSN` char(12) NOT NULL,
-  `LastName` char(30) NOT NULL,
-  `FirstName` char(30) NOT NULL,
-  `Address` char(100) NOT NULL,
-  `City` char(30) NOT NULL,
-  `State` char(30) NOT NULL,
-  `ZipCode` int(11) NOT NULL,
-  `Telephone` char(20) NOT NULL,
-  `StartDate` date NOT NULL,
-  `HourlyRate` decimal(10,2) NOT NULL,
-  `Type` char(10) DEFAULT NULL,
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `SSN` (`SSN`)
+  `ssn` char(12) NOT NULL,
+  `lastName` char(30) NOT NULL,
+  `firstName` char(30) NOT NULL,
+  `address` char(100) NOT NULL,
+  `city` char(30) NOT NULL,
+  `state` char(30) NOT NULL,
+  `zipCode` int(11) NOT NULL,
+  `telephone` char(20) NOT NULL,
+  `startDate` date NOT NULL,
+  `hourlyRate` decimal(10,2) NOT NULL,
+  `type` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ssn` (`ssn`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -162,7 +162,7 @@ CREATE TABLE `Employees` (
 
 LOCK TABLES `Employees` WRITE;
 /*!40000 ALTER TABLE `Employees` DISABLE KEYS */;
-INSERT INTO `Employees` VALUES ('123-45-6789','Smith','David','123 College Road','Stony Brook','NY',11790,'(516)215-2345','1998-11-01',60.00,'Manager',1),('789-12-3456','Warren','David','456 Sunken Street','Stony Brook','NY',11794,'(516) 632-9987','1994-02-02',50.00,'Employee',2),('781-14-3126','Karl','Kyle','123 Broad Street','Bell','NY',11241,'(516) 212-1234','2003-10-07',50.00,'Employee',3);
+INSERT INTO `Employees` VALUES ('123-45-6789','Smith','David','123 College Road','Stony Brook','NY',11790,'(516)215-2345','1998-11-01',60.00,0,1),('789-12-3456','Warren','David','456 Sunken Street','Stony Brook','NY',11794,'(516) 632-9987','1994-02-02',50.00,1,2),('781-14-3126','Karl','Kyle','123 Broad Street','Bell','NY',11241,'(516) 212-1234','2003-10-07',50.00,1,3);
 /*!40000 ALTER TABLE `Employees` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -174,13 +174,13 @@ DROP TABLE IF EXISTS `Items`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Items` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Name` char(100) NOT NULL,
-  `Type` char(20) NOT NULL,
-  `ManufactureYear` int(11) DEFAULT NULL,
-  `CopiesSold` int(11) DEFAULT '0',
-  `Stock` int(11) DEFAULT '0',
-  PRIMARY KEY (`ID`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` char(100) NOT NULL,
+  `type` char(20) NOT NULL,
+  `manufactureYear` int(11) DEFAULT NULL,
+  `copiesSold` int(11) DEFAULT '0',
+  `stock` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -190,9 +190,60 @@ CREATE TABLE `Items` (
 
 LOCK TABLES `Items` WRITE;
 /*!40000 ALTER TABLE `Items` DISABLE KEYS */;
-INSERT INTO `Items` VALUES (1,'Titanic','DVD',2005,1,2),(2,'Nissan Sentra','Car',2007,1,3),(3,'Gamecube','Game',2001,0,3),(4,'Scott Pilgrim','DVD',2010,0,2),(5,'Inception','DVD',2010,0,10),(6,'GTAV','Game',2014,0,10);
+INSERT INTO `Items` VALUES (1,'Titanic','DVD',2011,1,100),(2,'Nissan Sentra','Car',2007,1,3),(3,'Gamecube','Game',2001,1,3),(4,'Scott Pilgrim','DVD',2010,0,2),(5,'Inception','DVD',2010,0,10),(6,'GTAV','Game',2014,1,10);
 /*!40000 ALTER TABLE `Items` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `ItemsImages`
+--
+
+DROP TABLE IF EXISTS `ItemsImages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ItemsImages` (
+  `itemID` int(11) DEFAULT NULL,
+  `url` varchar(1000) DEFAULT NULL,
+  KEY `itemID` (`itemID`),
+  CONSTRAINT `ItemsImages_ibfk_1` FOREIGN KEY (`itemID`) REFERENCES `Items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ItemsImages`
+--
+
+LOCK TABLES `ItemsImages` WRITE;
+/*!40000 ALTER TABLE `ItemsImages` DISABLE KEYS */;
+INSERT INTO `ItemsImages` VALUES (1,'http://ecx.images-amazon.com/images/I/51d17yMqhVL.jpg'),(6,'http://media.rockstargames.com/rockstargames/img/global/news/upload/actual_1364906194.jpg');
+/*!40000 ALTER TABLE `ItemsImages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Temporary table structure for view `Receipts`
+--
+
+DROP TABLE IF EXISTS `Receipts`;
+/*!50001 DROP VIEW IF EXISTS `Receipts`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `Receipts` (
+  `customerID` tinyint NOT NULL,
+  `lastName` tinyint NOT NULL,
+  `firstName` tinyint NOT NULL,
+  `address` tinyint NOT NULL,
+  `city` tinyint NOT NULL,
+  `state` tinyint NOT NULL,
+  `zipCode` tinyint NOT NULL,
+  `telephone` tinyint NOT NULL,
+  `email` tinyint NOT NULL,
+  `creditCardNumber` tinyint NOT NULL,
+  `name` tinyint NOT NULL,
+  `time` tinyint NOT NULL,
+  `auctionID` tinyint NOT NULL,
+  `currentBid` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Temporary table structure for view `Sales_Report`
@@ -203,17 +254,17 @@ DROP TABLE IF EXISTS `Sales_Report`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 /*!50001 CREATE TABLE `Sales_Report` (
-  `ItemID` tinyint NOT NULL,
-  `BidID` tinyint NOT NULL,
-  `CustomerID` tinyint NOT NULL,
-  `MonitorSSN` tinyint NOT NULL,
-  `Time` tinyint NOT NULL,
-  `BoughtBy` tinyint NOT NULL,
-  `Amount` tinyint NOT NULL,
-  `Email` tinyint NOT NULL,
-  `ItemName` tinyint NOT NULL,
-  `ItemType` tinyint NOT NULL,
-  `MonitorName` tinyint NOT NULL
+  `itemID` tinyint NOT NULL,
+  `bidID` tinyint NOT NULL,
+  `customerID` tinyint NOT NULL,
+  `monitorID` tinyint NOT NULL,
+  `time` tinyint NOT NULL,
+  `boughtBy` tinyint NOT NULL,
+  `amount` tinyint NOT NULL,
+  `email` tinyint NOT NULL,
+  `itemName` tinyint NOT NULL,
+  `itemType` tinyint NOT NULL,
+  `monitorName` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
@@ -225,13 +276,13 @@ DROP TABLE IF EXISTS `Searches`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Searches` (
-  `CustomerID` int(11) NOT NULL DEFAULT '0',
-  `ItemID` int(11) NOT NULL DEFAULT '0',
-  `Frequency` int(11) DEFAULT '0',
-  PRIMARY KEY (`CustomerID`,`ItemID`),
-  KEY `ItemID` (`ItemID`),
-  CONSTRAINT `Searches_ibfk_1` FOREIGN KEY (`CustomerID`) REFERENCES `Customers` (`ID`) ON DELETE CASCADE,
-  CONSTRAINT `Searches_ibfk_2` FOREIGN KEY (`ItemID`) REFERENCES `Items` (`ID`) ON DELETE CASCADE
+  `customerID` int(11) NOT NULL DEFAULT '0',
+  `itemID` int(11) NOT NULL DEFAULT '0',
+  `frequency` int(11) DEFAULT '0',
+  PRIMARY KEY (`customerID`,`itemID`),
+  KEY `itemID` (`itemID`),
+  CONSTRAINT `Searches_ibfk_1` FOREIGN KEY (`customerID`) REFERENCES `Customers` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `Searches_ibfk_2` FOREIGN KEY (`itemID`) REFERENCES `Items` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -246,6 +297,33 @@ INSERT INTO `Searches` VALUES (2,2,1),(3,4,2);
 UNLOCK TABLES;
 
 --
+-- Table structure for table `Users`
+--
+
+DROP TABLE IF EXISTS `Users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Users` (
+  `username` varchar(20) NOT NULL DEFAULT '',
+  `password` varchar(32) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`username`),
+  UNIQUE KEY `type` (`type`,`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Users`
+--
+
+LOCK TABLES `Users` WRITE;
+/*!40000 ALTER TABLE `Users` DISABLE KEYS */;
+INSERT INTO `Users` VALUES ('atticus_finch','qwIL39doGCEfo',0,2),('david_smith','qwIL39doGCEfo',1,1),('david_warren','qwIL39doGCEfo',1,2),('haixia_du','qwIL39doGCEfo',0,4),('john_smith','qwIL39doGCEfo',0,1),('kyle_karl','qwIL39doGCEfo',1,3),('shiyong_lu','qwIL39doGCEfo',0,3);
+/*!40000 ALTER TABLE `Users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `Wins`
 --
 
@@ -253,16 +331,16 @@ DROP TABLE IF EXISTS `Wins`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Wins` (
-  `BidID` int(11) NOT NULL DEFAULT '0',
+  `bidID` int(11) NOT NULL DEFAULT '0',
   `Time` datetime DEFAULT NULL,
-  `CustomerID` int(11) NOT NULL DEFAULT '0',
-  `AuctionID` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`AuctionID`),
-  KEY `CustomerID` (`CustomerID`),
-  KEY `BidID` (`BidID`),
-  CONSTRAINT `Wins_ibfk_4` FOREIGN KEY (`BidID`) REFERENCES `Bids` (`ID`) ON DELETE CASCADE,
-  CONSTRAINT `Wins_ibfk_2` FOREIGN KEY (`CustomerID`) REFERENCES `Customers` (`ID`) ON DELETE CASCADE,
-  CONSTRAINT `Wins_ibfk_3` FOREIGN KEY (`AuctionID`) REFERENCES `Auctions` (`ID`) ON DELETE NO ACTION
+  `customerID` int(11) NOT NULL DEFAULT '0',
+  `auctionID` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`auctionID`),
+  KEY `customerID` (`customerID`),
+  KEY `bidID` (`bidID`),
+  CONSTRAINT `Wins_ibfk_4` FOREIGN KEY (`bidID`) REFERENCES `Bids` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `Wins_ibfk_2` FOREIGN KEY (`customerID`) REFERENCES `Customers` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `Wins_ibfk_3` FOREIGN KEY (`auctionID`) REFERENCES `Auctions` (`id`) ON DELETE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -277,32 +355,6 @@ INSERT INTO `Wins` VALUES (6,'2008-12-08 13:00:00',2,1),(1,'2015-08-08 09:00:00'
 UNLOCK TABLES;
 
 --
--- Temporary table structure for view `receipt`
---
-
-DROP TABLE IF EXISTS `receipt`;
-/*!50001 DROP VIEW IF EXISTS `receipt`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE TABLE `receipt` (
-  `Id` tinyint NOT NULL,
-  `LastName` tinyint NOT NULL,
-  `FirstName` tinyint NOT NULL,
-  `Address` tinyint NOT NULL,
-  `City` tinyint NOT NULL,
-  `State` tinyint NOT NULL,
-  `ZipCode` tinyint NOT NULL,
-  `Telephone` tinyint NOT NULL,
-  `Email` tinyint NOT NULL,
-  `CreditCardNumber` tinyint NOT NULL,
-  `Name` tinyint NOT NULL,
-  `Time` tinyint NOT NULL,
-  `AuctionID` tinyint NOT NULL,
-  `CurrentBid` tinyint NOT NULL
-) ENGINE=MyISAM */;
-SET character_set_client = @saved_cs_client;
-
---
 -- Temporary table structure for view `view_employees`
 --
 
@@ -311,15 +363,15 @@ DROP TABLE IF EXISTS `view_employees`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 /*!50001 CREATE TABLE `view_employees` (
-  `LastName` tinyint NOT NULL,
-  `FirstName` tinyint NOT NULL,
-  `Address` tinyint NOT NULL,
-  `City` tinyint NOT NULL,
-  `State` tinyint NOT NULL,
-  `ZipCode` tinyint NOT NULL,
-  `Telephone` tinyint NOT NULL,
+  `lastName` tinyint NOT NULL,
+  `firstName` tinyint NOT NULL,
+  `address` tinyint NOT NULL,
+  `city` tinyint NOT NULL,
+  `state` tinyint NOT NULL,
+  `zipCode` tinyint NOT NULL,
+  `telephone` tinyint NOT NULL,
   `StartDate` tinyint NOT NULL,
-  `Type` tinyint NOT NULL
+  `type` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
@@ -328,6 +380,25 @@ SET character_set_client = @saved_cs_client;
 --
 
 USE `305`;
+
+--
+-- Final view structure for view `Receipts`
+--
+
+/*!50001 DROP TABLE IF EXISTS `Receipts`*/;
+/*!50001 DROP VIEW IF EXISTS `Receipts`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `Receipts` AS (select `C`.`id` AS `customerID`,`C`.`lastName` AS `lastName`,`C`.`firstName` AS `firstName`,`C`.`address` AS `address`,`C`.`city` AS `city`,`C`.`state` AS `state`,`C`.`zipCode` AS `zipCode`,`C`.`telephone` AS `telephone`,`C`.`email` AS `email`,`C`.`creditCardNumber` AS `creditCardNumber`,`I`.`name` AS `name`,`W`.`Time` AS `time`,`W`.`auctionID` AS `auctionID`,`A`.`currentBid` AS `currentBid` from (((`Customers` `C` join `Items` `I`) join `Wins` `W`) join `Auctions` `A`) where ((`W`.`customerID` = `C`.`id`) and (`W`.`auctionID` = `A`.`id`) and (`A`.`itemID` = `I`.`id`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
 -- Final view structure for view `Sales_Report`
@@ -343,26 +414,7 @@ USE `305`;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `Sales_Report` AS select `Items`.`ID` AS `ItemID`,`Bids`.`ID` AS `BidID`,`Customers`.`ID` AS `CustomerID`,`Employees`.`SSN` AS `MonitorSSN`,`Wins`.`Time` AS `Time`,concat(`Customers`.`LastName`,' ',`Customers`.`FirstName`) AS `BoughtBy`,`Bids`.`Amount` AS `Amount`,`Customers`.`Email` AS `Email`,`Items`.`Name` AS `ItemName`,`Items`.`Type` AS `ItemType`,concat(`Employees`.`FirstName`,' ',`Employees`.`LastName`) AS `MonitorName` from (((((`Wins` join `Bids`) join `Customers`) join `Items`) join `Employees`) join `Auctions`) where ((`Wins`.`BidID` = `Bids`.`ID`) and (`Bids`.`CustomerID` = `Customers`.`ID`) and (`Bids`.`ItemID` = `Items`.`ID`) and (`Bids`.`AuctionID` = `Auctions`.`ID`) and (`Auctions`.`EmployeeID` = `Employees`.`ID`)) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `receipt`
---
-
-/*!50001 DROP TABLE IF EXISTS `receipt`*/;
-/*!50001 DROP VIEW IF EXISTS `receipt`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = latin1 */;
-/*!50001 SET character_set_results     = latin1 */;
-/*!50001 SET collation_connection      = latin1_swedish_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `receipt` AS (select `C`.`ID` AS `Id`,`C`.`LastName` AS `LastName`,`C`.`FirstName` AS `FirstName`,`C`.`Address` AS `Address`,`C`.`City` AS `City`,`C`.`State` AS `State`,`C`.`ZipCode` AS `ZipCode`,`C`.`Telephone` AS `Telephone`,`C`.`Email` AS `Email`,`C`.`CreditCardNumber` AS `CreditCardNumber`,`I`.`Name` AS `Name`,`W`.`Time` AS `Time`,`W`.`AuctionID` AS `AuctionID`,`A`.`CurrentBid` AS `CurrentBid` from (((`Customers` `C` join `Items` `I`) join `Wins` `W`) join `Auctions` `A`) where ((`W`.`CustomerID` = `C`.`ID`) and (`W`.`AuctionID` = `A`.`ID`) and (`A`.`ItemID` = `I`.`ID`))) */;
+/*!50001 VIEW `Sales_Report` AS select `Items`.`id` AS `itemID`,`Bids`.`id` AS `bidID`,`Customers`.`id` AS `customerID`,`Employees`.`id` AS `monitorID`,`Wins`.`Time` AS `time`,concat(`Customers`.`lastName`,' ',`Customers`.`firstName`) AS `boughtBy`,`Bids`.`amount` AS `amount`,`Customers`.`email` AS `email`,`Items`.`name` AS `itemName`,`Items`.`type` AS `itemType`,concat(`Employees`.`firstName`,' ',`Employees`.`lastName`) AS `monitorName` from (((((`Wins` join `Bids`) join `Customers`) join `Items`) join `Employees`) join `Auctions`) where ((`Wins`.`bidID` = `Bids`.`id`) and (`Bids`.`customerID` = `Customers`.`id`) and (`Bids`.`itemID` = `Items`.`id`) and (`Bids`.`auctionID` = `Auctions`.`id`) and (`Auctions`.`employeeID` = `Employees`.`id`)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -381,7 +433,7 @@ USE `305`;
 /*!50001 SET collation_connection      = latin1_swedish_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `view_employees` AS (select `Employees`.`LastName` AS `LastName`,`Employees`.`FirstName` AS `FirstName`,`Employees`.`Address` AS `Address`,`Employees`.`City` AS `City`,`Employees`.`State` AS `State`,`Employees`.`ZipCode` AS `ZipCode`,`Employees`.`Telephone` AS `Telephone`,`Employees`.`StartDate` AS `StartDate`,`Employees`.`Type` AS `Type` from `Employees`) */;
+/*!50001 VIEW `view_employees` AS (select `Employees`.`lastName` AS `lastName`,`Employees`.`firstName` AS `firstName`,`Employees`.`address` AS `address`,`Employees`.`city` AS `city`,`Employees`.`state` AS `state`,`Employees`.`zipCode` AS `zipCode`,`Employees`.`telephone` AS `telephone`,`Employees`.`startDate` AS `StartDate`,`Employees`.`type` AS `type` from `Employees`) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -395,4 +447,4 @@ USE `305`;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-27 16:21:15
+-- Dump completed on 2015-11-17 18:03:13
