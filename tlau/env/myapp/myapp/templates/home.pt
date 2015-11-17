@@ -33,7 +33,7 @@
               <div class="input-field col s12 row">
                   <p class="col s12 m6">
                       <input name="group1" type="radio" id="isCustomer"/>
-                      <label for="test1">Custome</label>
+                      <label for="test1">Customer</label>
                   </p>
                   <p class="col s12 m6">
                       <input name="group1" type="radio" id="isEmployee"/>
