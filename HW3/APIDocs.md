@@ -14,7 +14,7 @@ Route:  POST /employees
 Route: GET /generate/salesReport?month=''&year=''&itemID=''&customerID=''&itemType=''
 
 ### Max Revenue
-Route: GET /generate/revenueReport?rep=''&customerID=''
+Route: GET /generate/revenueReport?employeeID=''&customerID=''
 
 
 Permission : Anyone
