@@ -197,7 +197,6 @@ def updateItem(request):
 # Get the sell history of a customer
 @view_config(route_name='sellHistory', renderer='json')
 def sellHistory(request):
-
     sellerID = request.matchdict['id']
     history = []
 
@@ -206,6 +205,45 @@ def sellHistory(request):
         cursor = cnx.cursor(dictionary=True)
 
         query = ("SELECT * FROM Auctions WHERE id = %s")
+
+        cursor.execute(query, tuple(str(sellerID)))
+
+        for row in cursor:
+            historyRow = {}
+            for key in row:
+                if(isinstance(row[key], datetime)):
+                    historyRow[key] = row[key].isoformat()
+                elif(isinstance(row[key], Decimal)):
+                    historyRow[key] = str(row[key])
+                else:
+                    historyRow[key] = row[key]
+            history.append(historyRow)
+
+        cursor.close()
+        cnx.close()
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
+
+    return history
+
+# -----------------------------------------------------------------------------------------------------------------------------
+
+@view_config(route_name='auctionHistory', renderer='json')
+def auctionHistory(request):
+    sellerID = request.matchdict['id']
+    history = []
+
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        query = """
+            SELECT * FROM Auctions WHERE ID IN (
+                SELECT AuctionID
+                FROM Bids
+                WHERE CustomerID = %s
+            );
+        """
 
         cursor.execute(query, tuple(str(sellerID)))
 
