@@ -118,6 +118,7 @@ def revenueReport(request):
         return Response("Something went wrong: {}".format(err), status=500)
 
     return report
+
 # -----------------------------------------------------------------------------------------------------------------------------
 
 
@@ -158,3 +159,34 @@ def receipt(request):
         raise exc.HTTPForbidden()
 
     return receiptOfCustomer
+
+# -----------------------------------------------------------------------------------------------------------------------------
+
+@view_config(route_name='mailingList', renderer='json')
+def mailingList(request):
+    session = request.session
+    if('currentUser' not in session):
+        raise exc.HTTPForbidden()
+    elif(session['currentUser']['type'] == 0):
+        raise exc.HTTPForbidden()
+
+    query = """SELECT email, concat(lastName, ' ', firstName) AS name FROM Customers"""
+
+    mailingList = []
+
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        cursor.execute(query)
+
+        for row in cursor:
+            customer = {}
+            for key in row:
+                customer[key] = row[key]
+            mailingList.append(customer)
+
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
+
+    return mailingList

@@ -49,6 +49,7 @@ def main(global_config, **settings):
     # Generators
     config.add_route('salesReport', 'api/generate/salesReport', request_method='GET')
     config.add_route('receipt', 'api/generate/receipt', request_method='GET')
+    config.add_route('mailingList', 'api/generate/mailingList', request_method='GET')
 
     # Bid Routes
     config.add_route('bidHistory', 'api/auction/{id}/bids', request_method='GET')
