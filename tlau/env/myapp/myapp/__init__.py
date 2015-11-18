@@ -45,6 +45,7 @@ def main(global_config, **settings):
     config.add_route('getCustomer', 'api/customers/{id}', request_method='GET')
     config.add_route('deleteCustomer', 'api/customers/{id}', request_method='DELETE')
     config.add_route('updateCustomer', 'api/customers/{id}', request_method='PUT')
+    config.add_route('sellHistory', 'api/customers/{id}/sellHistory', request_method='GET')
 
     # Generators
     config.add_route('salesReport', 'api/generate/salesReport', request_method='GET')
