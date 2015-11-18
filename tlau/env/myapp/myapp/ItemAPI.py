@@ -234,6 +234,7 @@ def deleteItem(request):
 
     raise exc.HTTPOk()
 
+
 @view_config(route_name='itemSuggestions', renderer='json')
 def itemSuggestions(request):
     session = request.session
@@ -287,3 +288,114 @@ def itemSuggestions(request):
         return Response("Something went wrong: {}".format(err), status=500)
 
     return suggestedItems
+
+
+#  Items available by type or keyword
+@view_config(route_name='search', renderer='json')
+def search(request):
+    getVars = request.GET
+
+    query = """
+          SELECT *
+          FROM Auctions
+          WHERE itemID IN(
+            SELECT id
+            FROM Items
+            WHERE
+         """
+
+    items = []
+    validValues = []
+
+    if 'type' in getVars and 'keyword' in getVars:
+        query = query + ' Type = %s AND Name LIKE %s' + ');'
+        validValues.append(getVars['type'])
+        validValues.append('%' + getVars['keyword'] + '%')
+    elif 'type' in getVars:
+        query = query + ' Type = %s' + ');'
+        validValues.append(getVars['type'])
+    elif 'keyword' in getVars:
+        query = query + ' Name LIKE %s' + ');'
+        validValues.append('%' + getVars['keyword'] + '%')
+
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        cursor.execute(query, tuple(validValues))
+
+        for row in cursor:
+            searches = {}
+            for key in row:
+                if(isinstance(row[key], datetime)):
+                    searches[key] = row[key].isoformat()
+                elif(isinstance(row[key], Decimal)):
+                    searches[key] = str(row[key])
+                else:
+                    searches[key] = row[key]
+            items.append(searches)
+
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
+
+    return items
+
+
+# Record a sale
+@view_config(route_name='sold', renderer='json')
+def sold(request):
+    session = request.session
+    if('currentUser' not in session):
+        raise exc.HTTPForbidden()
+    elif(session['currentUser']['type'] == 0):
+        raise exc.HTTPForbidden()
+
+    postVars = request.POST
+    requiredKeys = ['bidID', 'customerID', 'auctionID', 'itemID']
+    for key in requiredKeys:
+        if(key not in postVars):
+            raise exc.HTTPBadRequest()
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        query = """
+        INSERT INTO Wins (BidID, Time, CustomerID, AuctionID)
+        VALUES (%s,NOW(),%s, %s);
+        """
+
+        cursor.execute(query, tuple([str(postVars['bidID']), str(postVars['customerID']), str(postVars['auctionID'])]))
+
+        query = """
+        UPDATE Items
+        SET CopiesSold = CopiesSold + 1, Stock=Stock-1
+        WHERE ID= %s
+        """
+
+        cursor.execute(query, tuple(str(postVars['itemID'])))
+
+        query = """
+        UPDATE Customers
+        SET ItemsSold=ItemsSold+1
+        WHERE ID = (SELECT SellerID
+            FROM Auctions
+            WHERE ID = %s);
+        """
+        cursor.execute(query, tuple(str(postVars['auctionID'])))
+
+        query = """
+        UPDATE Customers
+        SET ItemsPurchased=ItemsPurchased+1
+        WHERE ID = %s
+
+            """
+        cursor.execute(query, tuple(str(postVars['customerID'])))
+
+        cursor.close()
+        cnx.commit()
+        cnx.close()
+
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
+
+    raise exc.HTTPOk()
