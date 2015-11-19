@@ -3,7 +3,7 @@ from pyramid.view import view_config
 from pyramid.response import Response
 from datetime import datetime
 from decimal import Decimal
-
+import Authorizer
 
 import pyramid.httpexceptions as exc
 
@@ -12,13 +12,7 @@ import mysql.connector
 
 @view_config(route_name='salesReport', renderer='json')
 def salesReport(request):
-    session = request.session
-    if('currentUser' not in session):
-        raise exc.HTTPForbidden()
-    elif(session['currentUser']['type'] == 0):
-        raise exc.HTTPForbidden()
-    elif(session['currentUser']['employeeType'] != 0):
-        raise exc.HTTPForbidden()
+    Authorizer.authorizeManager(request)
 
     getVars = request.GET
 
@@ -73,13 +67,7 @@ def salesReport(request):
 
 @view_config(route_name='revenueReport', renderer='json')
 def revenueReport(request):
-    session = request.session
-    if('currentUser' not in session):
-        raise exc.HTTPForbidden()
-    elif(session['currentUser']['type'] == 0):
-        raise exc.HTTPForbidden()
-    elif(session['currentUser']['employeeType'] != 0):
-        raise exc.HTTPForbidden()
+    Authorizer.authorizeManager(request)
 
     getVars = request.GET
 
@@ -124,9 +112,7 @@ def revenueReport(request):
 
 @view_config(route_name='receipt', renderer='json')
 def receipt(request):
-    session = request.session
-    if('currentUser' not in session):
-        raise exc.HTTPForbidden()
+    Authorizer.authorizeCustomer(request)
 
     getVars = request.GET
     auctionID = getVars['auctionID']
@@ -164,11 +150,7 @@ def receipt(request):
 
 @view_config(route_name='mailingList', renderer='json')
 def mailingList(request):
-    session = request.session
-    if('currentUser' not in session):
-        raise exc.HTTPForbidden()
-    elif(session['currentUser']['type'] == 0):
-        raise exc.HTTPForbidden()
+    Authorizer.authorizeEmployee(request)
 
     query = """SELECT email, concat(lastName, ' ', firstName) AS name FROM Customers"""
 
