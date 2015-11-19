@@ -3,6 +3,7 @@ from pyramid.view import view_config
 from pyramid.response import Response
 from datetime import datetime
 from decimal import Decimal
+import Authorizer
 
 import pyramid.httpexceptions as exc
 
@@ -237,12 +238,12 @@ def deleteItem(request):
 
 @view_config(route_name='itemSuggestions', renderer='json')
 def itemSuggestions(request):
+    Authorizer.authorizeCustomer(request)
+
     session = request.session
     customerID = None
-    if('currentUser' not in session):
-        raise exc.HTTPForbidden()
-    elif(session['currentUser']['type'] == 0):
-        customerID = session['currentUser']['id']
+    if(Authorizer.getCurrentUserType(request) == 0):
+        customerID = Authorizer.getCurrentUser(request)['id']
     else:
         if('customerID' in request.GET):
             customerID = request.GET['customerID']
@@ -344,11 +345,7 @@ def search(request):
 # Record a sale
 @view_config(route_name='sold', renderer='json')
 def sold(request):
-    session = request.session
-    if('currentUser' not in session):
-        raise exc.HTTPForbidden()
-    elif(session['currentUser']['type'] == 0):
-        raise exc.HTTPForbidden()
+    Authorizer.authorizeEmployee(request)
 
     postVars = request.POST
     requiredKeys = ['bidID', 'customerID', 'auctionID', 'itemID']
