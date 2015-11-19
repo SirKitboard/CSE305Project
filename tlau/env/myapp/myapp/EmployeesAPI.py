@@ -5,17 +5,12 @@ from pyramid.response import Response
 import pyramid.httpexceptions as exc
 
 import mysql.connector
+import Authorizer
 
 
 @view_config(route_name='allEmployees', renderer='json')
 def allEmployees(request):
-    session = request.session
-    if('currentUser' not in session):
-        raise exc.HTTPForbidden()
-    elif(session['currentUser']['type'] == 0):
-        raise exc.HTTPForbidden()
-    elif(session['currentUser']['employeeType'] != 0):
-        raise exc.HTTPForbidden()
+    Authorizer.authorizeManager(request)
 
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
@@ -54,13 +49,7 @@ def allEmployees(request):
 # --------------------------------------------------------------------------------------------------------------------------------------------
 @view_config(route_name='getEmployee', renderer='json')
 def getEmployee(request):
-    session = request.session
-    if('currentUser' not in session):
-        raise exc.HTTPForbidden()
-    elif(session['currentUser']['type'] == 0):
-        raise exc.HTTPForbidden()
-    elif(session['currentUser']['employeeType'] != 0):
-        raise exc.HTTPForbidden()
+    Authorizer.authorizeManager(request)
 
     employeeID = request.matchdict['id']
 
@@ -103,13 +92,7 @@ def getEmployee(request):
 
 @view_config(route_name='addEmployee', renderer='json')
 def addEmployee(request):
-    session = request.session
-    if('currentUser' not in session):
-        raise exc.HTTPForbidden()
-    elif(session['currentUser']['type'] == 0):
-        raise exc.HTTPForbidden()
-    elif(session['currentUser']['employeeType'] != 0):
-        raise exc.HTTPForbidden()
+    Authorizer.authorizeManager(request)
 
     requiredKeys = ['ssn', 'lastName', 'firstName', 'address', 'city', 'state', 'zipCode', 'telephone', 'startDate', 'hourlyRate', 'type']
     postVars = request.POST
@@ -143,6 +126,8 @@ def addEmployee(request):
 
 @view_config(route_name='deleteEmployee')
 def deleteEmployee(request):
+    Authorizer.authorizeManager(request)
+
     employeeID = request.matchdict['id']
 
     query= "DELETE FROM Employees WHERE id= %s"
@@ -167,6 +152,8 @@ def deleteEmployee(request):
 
 @view_config(route_name='updateEmployee')
 def updateEmployee(request):
+    Authorizer.authorizeManager(request)
+
     employeeID = request.matchdict['id']
 
     postVars = request.POST
