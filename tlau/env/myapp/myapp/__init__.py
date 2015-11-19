@@ -13,6 +13,9 @@ def main(global_config, **settings):
     settings['mako.directories'] = os.path.join(here, 'templates')
     config = Configurator(settings=settings)
     config.include('pyramid_mako')
+    config.include('pyramid_scss')
+    config.add_route('css', 'static/css/{css_path:.*}.css')
+    config.add_view(route_name='css', view='pyramid_scss.controller.get_scss', renderer='scss', request_method='GET')
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.set_session_factory(my_session_factory)
 
