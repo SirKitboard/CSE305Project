@@ -1,7 +1,9 @@
+#pylint: disable=C
 from pyramid.view import view_config
 from pyramid.response import Response
 from datetime import datetime
 from decimal import Decimal
+import Authorizer
 
 import pyramid.httpexceptions as exc
 
@@ -11,11 +13,7 @@ import mysql.connector
 # Get a list of all the customers
 @view_config(route_name='allCustomers', renderer='json')
 def allCustomers(request):
-    session = request.session
-    if('currentUser' not in session):
-        raise exc.HTTPForbidden()
-    elif(session['currentUser']['type'] == 0):
-        raise exc.HTTPForbidden()
+    Authorizer.authorizeEmployee(request)
 
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
@@ -56,11 +54,7 @@ def allCustomers(request):
 # Get a List of a specific Customer by ID
 @view_config(route_name='getCustomer', renderer='json')
 def getCustomer(request):
-    session = request.session
-    if('currentUser' not in session):
-        raise exc.HTTPForbidden()
-    elif(session['currentUser']['type'] == 0):
-        raise exc.HTTPForbidden()
+    Authorizer.authorizeEmployee(request)
 
     customerID = request.matchdict['id']
 
@@ -103,11 +97,7 @@ def getCustomer(request):
 # Add a customer
 @view_config(route_name='addCustomer', renderer='json')
 def addCustomer(request):
-    session = request.session
-    if('currentUser' not in session):
-        raise exc.HTTPForbidden()
-    elif(session['currentUser']['type'] == 0):
-        raise exc.HTTPForbidden()
+    Authorizer.authorizeEmployee(request)
 
     requiredKeys = ['lastName', 'firstName', 'address', 'city', 'state', 'zipCode', 'telephone', 'email', 'creditCardNumber']
     postVars = request.POST
@@ -140,7 +130,9 @@ def addCustomer(request):
 
 # Delete a customer
 @view_config(route_name='deleteCustomer')
-def deleteItem(request):
+def deleteCustomer(request):
+    Authorizer.authorizeEmployee(request)
+
     query = "DELETE FROM Customers WHERE id= %s"
 
     try:
@@ -162,7 +154,9 @@ def deleteItem(request):
 
 # Update a customer
 @view_config(route_name='updateCustomer')
-def updateItem(request):
+def updateCustomer(request):
+    Authorizer.authorizeEmployee(request)
+
     postVars = request.POST
     validKeys = ['lastName', 'firstName', 'address', 'city', 'state', 'zipCode', 'telephone', 'email', 'creditCardNumber']
     acceptedValues = []
