@@ -1,0 +1,4 @@
+<%inherit file="/template.pt" />
+<%def name="title()">Index</%def>
+
+<h1>hi</h1>
