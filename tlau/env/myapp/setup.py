@@ -29,6 +29,7 @@ for root, _, files in os.walk(scssPath):
                 os.remove(newFilePath)
             outputFile = open(newFilePath, "w")
             outputFile.write(css)
+            outputFile.flush()
 
 
 
