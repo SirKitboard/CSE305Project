@@ -1,6 +1,6 @@
-<%inherit file="myapp:templates/template.pt" />
+<%inherit file="myapp:templates/template.mako" />
 <%def name="title()">Index</%def>
 
 <%def name="body()">
-    <h1>HIII</h1>
+    <h1>HIIII</h1>
 </%def>

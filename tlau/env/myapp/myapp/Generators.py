@@ -3,7 +3,7 @@ from pyramid.view import view_config
 from pyramid.response import Response
 from datetime import datetime
 from decimal import Decimal
-import Authorizer
+from myapp import Authorizer
 
 import pyramid.httpexceptions as exc
 

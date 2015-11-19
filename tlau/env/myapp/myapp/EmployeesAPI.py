@@ -5,7 +5,7 @@ from pyramid.response import Response
 import pyramid.httpexceptions as exc
 
 import mysql.connector
-import Authorizer
+from myapp import Authorizer
 
 
 @view_config(route_name='allEmployees', renderer='json')
