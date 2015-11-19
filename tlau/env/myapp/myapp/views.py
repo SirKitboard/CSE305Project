@@ -6,9 +6,9 @@ from pyramid.response import Response
 @view_config(route_name='home')
 def my_view(request):
     if('currentUser' not in request.session):
-        result = render('myapp:templates/index.pt', {}, request=request)
+        result = render('myapp:templates/index.mako', {}, request=request)
     else:
-        result = render('myapp:templates/index.pt', {
+        result = render('myapp:templates/index.mako', {
             'name': request.session['currentUser']['name']
         }, request=request)
     return Response(result)

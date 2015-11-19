@@ -1,6 +1,8 @@
 <html>
 <head>
-    <link href="${request.static_url('myapp:static/css/navbar/css')}" rel="stylesheet">
+    <link href="${request.static_url('myapp:static/css/navbar.css')}" rel="stylesheet">
+    <link type="text/css" href="${request.static_url('myapp:static/css/materialize/materialize.min.css')}" rel="stylesheet">
+    <title>${self.title()}</title>
 </head>
 <body>
     <nav>

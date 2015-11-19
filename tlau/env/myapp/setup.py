@@ -20,11 +20,13 @@ for root, _, files in os.walk(scssPath):
         fullpath = os.path.join(root, f)
         relativePath = fullpath.split(scssPath)[1]
         css = open(fullpath).read()
+        print(css)
         if(len(css.strip()) > 0):
             print("Compiling " + relativePath)
             relativePath = relativePath.replace('scss', 'css')
             newFilePath = cssPath + relativePath
             css = sass.compile(string=css)
+            print("HIIII" + css)
             if os.path.isfile(newFilePath):
                 os.remove(newFilePath)
             outputFile = open(newFilePath, "w")
@@ -35,7 +37,7 @@ for root, _, files in os.walk(scssPath):
 
 requires = [
     'pyramid',
-    'pyramid_chameleon',
+    'pyramid_mako',
     'pyramid_debugtoolbar',
     'waitress',
     ]
