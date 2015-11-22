@@ -2,36 +2,36 @@
 import os
 
 from setuptools import setup, find_packages
-
-import sass
-
+#
+# import sass
+#
 here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, 'README.txt')) as f:
     README = f.read()
 with open(os.path.join(here, 'CHANGES.txt')) as f:
     CHANGES = f.read()
-
-scssPath = here+"/myapp/static/scss/"
-
-cssPath = here+"/myapp/static/css/"
-
-for root, _, files in os.walk(scssPath):
-    for f in files:
-        fullpath = os.path.join(root, f)
-        relativePath = fullpath.split(scssPath)[1]
-        css = open(fullpath).read()
-        print(css)
-        if(len(css.strip()) > 0):
-            print("Compiling " + relativePath)
-            relativePath = relativePath.replace('scss', 'css')
-            newFilePath = cssPath + relativePath
-            css = sass.compile(string=css)
-            print("HIIII" + css)
-            if os.path.isfile(newFilePath):
-                os.remove(newFilePath)
-            outputFile = open(newFilePath, "w")
-            outputFile.write(css)
-            outputFile.flush()
+#
+# scssPath = here+"/myapp/static/scss/"
+#
+# cssPath = here+"/myapp/static/css/"
+#
+# for root, _, files in os.walk(scssPath):
+#     for f in files:
+#         fullpath = os.path.join(root, f)
+#         relativePath = fullpath.split(scssPath)[1]
+#         css = open(fullpath).read()
+#         print(css)
+#         if(len(css.strip()) > 0):
+#             print("Compiling " + relativePath)
+#             relativePath = relativePath.replace('scss', 'css')
+#             newFilePath = cssPath + relativePath
+#             css = sass.compile(string=css)
+#             print("HIIII" + css)
+#             if os.path.isfile(newFilePath):
+#                 os.remove(newFilePath)
+#             outputFile = open(newFilePath, "w")
+#             outputFile.write(css)
+#             outputFile.flush()
 
 
 
