@@ -1,3 +1,8 @@
+$tloa-green: #4CAF50;
+$tloa-red: #EF5350;
+$tloa-blue: #42A5F5;
+$tloa-yellow: #FFB74D;
+
 @font-face {
   font-family: "HammersmithOne", "Helvetica", sans-serif;
   src: url("../font/Hammersmith.ttf");
@@ -8,7 +13,4 @@
   src: url("../font/Pacifico.ttf");
 }
 
-$tloa-green: #4CAF50;
-$tloa-red: #EF5350;
-$tloa-blue: #42A5F5;
-$tloa-yellow: #FFB74D;
+@import "navbar.scss";

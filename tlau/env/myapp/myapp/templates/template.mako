@@ -13,7 +13,7 @@
     <link type="text/css" href="${request.static_url('myapp:static/css/materialize/materialize.min.css')}" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <!-- Custom styles for this scaffold -->
-    <link href="${request.static_url('myapp:static/css/index.css')}" rel="stylesheet">
+    <!-- <link href="${request.static_url('myapp:static/css/index.css')}" rel="stylesheet"> -->
     <link href="${request.static_url('myapp:static/css/template.css')}" rel="stylesheet">
     <link href="${request.static_url('myapp:static/css/navbar.css')}" rel="stylesheet">
 

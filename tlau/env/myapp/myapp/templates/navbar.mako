@@ -7,7 +7,7 @@
 <body>
     <nav>
         <div class="nav-wrapper">
-            <a href="#" class="brand-logo">Totally Legit Auctions</a>
+            <a href="#" class="brand-logo">Totally Legit Online Auctions</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a class="sign-in">Why not sign in?</a><i class="material-icons">person_add</i></li>
                 <li><a href="badges.html">Components</a></li>
