@@ -65,5 +65,8 @@ def main(global_config, **settings):
     config.add_route('bidHistory', 'api/auction/{id}/bids', request_method='GET')
     config.add_route('revenueReport', 'api/generate/revenueReport', request_method='GET')
 
+    # Views
+    config.add_route('items', 'item/{id}', request_method='GET')
+
     config.scan()
     return config.make_wsgi_app()

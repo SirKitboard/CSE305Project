@@ -14,6 +14,23 @@ def my_view(request):
     return Response(result)
 
 
+@view_config(route_name='items', renderer='myapp:templates/items.mako')
+def item_view(request):
+	itemID = request.matchdict['id']
+	return {
+		'itemID': itemID
+	}
+
+    # if('currentUser' not in request.session):
+    #     result = render('myapp:templates/items.mako', {}, request=request)
+    # else:
+    #     result = render('myapp:templates/items.mako', {
+    #         'name': request.session['currentUser']['name'],
+    #         'itemID': itemID
+    #     }, request=request)
+    # return Response(result)
+
+
 # @view_config(route_name='sessionTest', renderer='json')
 # def sessionTest(request):
 #     session = request.session
