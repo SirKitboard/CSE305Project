@@ -1,0 +1,26 @@
+.fixed-action-btn {
+  bottom: 45px; right: 24px;
+
+  .btn-floating:hover {
+    background-color: #00b8d4;
+      ul {
+
+        .btn-floating {
+          opacity: 1;
+        }
+      }
+  }
+}
+
+.fixed-action-btn:hover {
+
+  ul {
+    visibility: visible;
+    li {
+      a {
+        opacity: 1;
+      }
+    }
+  }
+}
+

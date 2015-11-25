@@ -1,1 +1,68 @@
-$tloa-green: #4CAF50;
+@import "variables.scss";
+
+
+nav {
+  background-color: $tloa-green;
+  height: 80px;
+
+  .nav-wrapper {
+    .top {
+      height:40px;
+
+      .brand-logo {
+        font-family: "HammersmithOne", "Helvetica", sans-serif;
+        position: relative;
+        margin-left: 10px;
+        line-height: 40px;
+
+        .black-alt {
+          color: black;
+        }
+
+      }
+
+      i {
+        display: inline;
+        font-size: inherit;
+        line-height: 40px;
+        height: 40px;
+      }
+
+      ul {
+
+        font-family: "Roboto", "Arial", sans-serif;
+
+        li {
+          a:hover {
+            color: black;
+          }
+        }
+        li:hover {
+          background: none;
+          cursor: pointer;
+        }
+      }
+    }
+    .bottom{
+      height: 40px;
+      line-height: 40px;
+
+      .subtitle {
+        margin-left: 10px;
+        font-family: "Pacifico", serif;
+      }
+
+      .searchbar {
+        position: absolute;
+        right: 15px;
+        margin-top: 10px;
+        width: 200px;
+        height: 20px;
+        background-color: white;
+        border-radius: 5px;
+        font-family: Roboto-Regular;
+        color: #808080;
+      }
+    }
+  }
+}
