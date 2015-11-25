@@ -11,7 +11,7 @@ import mysql.connector
 
 
 # Get a list of all the customers
-@view_config(route_name='allCustomers', renderer='json')
+@view_config(route_name='apiallCustomers', renderer='json')
 def allCustomers(request):
     Authorizer.authorizeEmployee(request)
 
@@ -52,7 +52,7 @@ def allCustomers(request):
 
 
 # Get a List of a specific Customer by ID
-@view_config(route_name='getCustomer', renderer='json')
+@view_config(route_name='apigetCustomer', renderer='json')
 def getCustomer(request):
     Authorizer.authorizeEmployee(request)
 
@@ -95,7 +95,7 @@ def getCustomer(request):
 
 
 # Add a customer
-@view_config(route_name='addCustomer', renderer='json')
+@view_config(route_name='apiaddCustomer', renderer='json')
 def addCustomer(request):
     Authorizer.authorizeEmployee(request)
 
@@ -129,7 +129,7 @@ def addCustomer(request):
 
 
 # Delete a customer
-@view_config(route_name='deleteCustomer')
+@view_config(route_name='apideleteCustomer')
 def deleteCustomer(request):
     Authorizer.authorizeEmployee(request)
 
@@ -153,7 +153,7 @@ def deleteCustomer(request):
 
 
 # Update a customer
-@view_config(route_name='updateCustomer')
+@view_config(route_name='apiupdateCustomer')
 def updateCustomer(request):
     Authorizer.authorizeEmployee(request)
 
@@ -189,7 +189,7 @@ def updateCustomer(request):
 
 
 # Get the sell history of a customer
-@view_config(route_name='sellHistory', renderer='json')
+@view_config(route_name='apisellHistory', renderer='json')
 def sellHistory(request):
     sellerID = request.matchdict['id']
     history = []
@@ -222,7 +222,7 @@ def sellHistory(request):
 
 # -----------------------------------------------------------------------------------------------------------------------------
 
-@view_config(route_name='auctionHistory', renderer='json')
+@view_config(route_name='apiauctionHistory', renderer='json')
 def auctionHistory(request):
     sellerID = request.matchdict['id']
     history = []

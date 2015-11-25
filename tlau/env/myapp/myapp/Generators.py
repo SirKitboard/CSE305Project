@@ -10,7 +10,7 @@ import pyramid.httpexceptions as exc
 import mysql.connector
 
 
-@view_config(route_name='salesReport', renderer='json')
+@view_config(route_name='apisalesReport', renderer='json')
 def salesReport(request):
     Authorizer.authorizeManager(request)
 
@@ -65,7 +65,7 @@ def salesReport(request):
 # --------------------------------------------------------------------------------------------------------------------------------------------
 
 
-@view_config(route_name='revenueReport', renderer='json')
+@view_config(route_name='apirevenueReport', renderer='json')
 def revenueReport(request):
     Authorizer.authorizeManager(request)
 
@@ -110,7 +110,7 @@ def revenueReport(request):
 # -----------------------------------------------------------------------------------------------------------------------------
 
 
-@view_config(route_name='receipt', renderer='json')
+@view_config(route_name='apireceipt', renderer='json')
 def receipt(request):
     Authorizer.authorizeCustomer(request)
 
@@ -148,7 +148,7 @@ def receipt(request):
 
 # -----------------------------------------------------------------------------------------------------------------------------
 
-@view_config(route_name='mailingList', renderer='json')
+@view_config(route_name='apimailingList', renderer='json')
 def mailingList(request):
     Authorizer.authorizeEmployee(request)
 

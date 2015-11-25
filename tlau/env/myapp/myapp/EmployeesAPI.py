@@ -8,7 +8,7 @@ import mysql.connector
 from myapp import Authorizer
 
 
-@view_config(route_name='allEmployees', renderer='json')
+@view_config(route_name='apiallEmployees', renderer='json')
 def allEmployees(request):
     Authorizer.authorizeManager(request)
 
@@ -47,7 +47,7 @@ def allEmployees(request):
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------------
-@view_config(route_name='getEmployee', renderer='json')
+@view_config(route_name='apigetEmployee', renderer='json')
 def getEmployee(request):
     Authorizer.authorizeManager(request)
 
@@ -90,7 +90,7 @@ def getEmployee(request):
 # --------------------------------------------------------------------------------------------------------------------------------------------
 
 
-@view_config(route_name='addEmployee', renderer='json')
+@view_config(route_name='apiaddEmployee', renderer='json')
 def addEmployee(request):
     Authorizer.authorizeManager(request)
 
@@ -124,7 +124,7 @@ def addEmployee(request):
 
 # --------------------------------------------------------------------------------------------------------------------------------------------
 
-@view_config(route_name='deleteEmployee')
+@view_config(route_name='apideleteEmployee')
 def deleteEmployee(request):
     Authorizer.authorizeManager(request)
 
@@ -150,7 +150,7 @@ def deleteEmployee(request):
 
 # --------------------------------------------------------------------------------------------------------------------------------------------
 
-@view_config(route_name='updateEmployee')
+@view_config(route_name='apiupdateEmployee')
 def updateEmployee(request):
     Authorizer.authorizeManager(request)
 

@@ -7,7 +7,7 @@ import crypt
 import mysql.connector
 
 
-@view_config(route_name='login', renderer='json')
+@view_config(route_name='apilogin', renderer='json')
 def login(request):
     requiredKeys = ['username', 'password', 'type']
     postVars = request.POST
@@ -92,7 +92,7 @@ def login(request):
     raise exc.HTTPOk()
 
 
-@view_config(route_name='logout')
+@view_config(route_name='apilogout')
 def logout(request):
     session = request.session
 
@@ -103,7 +103,7 @@ def logout(request):
         raise exc.HTTPOk()
 
 
-@view_config(route_name='currentUser', renderer='json')
+@view_config(route_name='apicurrentUser', renderer='json')
 def currentUser(request):
     session = request.session
     if 'currentUser' in session:

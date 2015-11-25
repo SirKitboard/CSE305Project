@@ -10,7 +10,7 @@ import pyramid.httpexceptions as exc
 import mysql.connector
 
 
-@view_config(route_name='allItems', renderer='json')
+@view_config(route_name='apiallItems', renderer='json')
 def allItems(request):
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
@@ -54,7 +54,7 @@ def allItems(request):
     return items
 
 
-@view_config(route_name='getItem', renderer='json')
+@view_config(route_name='apigetItem', renderer='json')
 def getItem(request):
     itemID = request.matchdict['id']
 
@@ -102,7 +102,7 @@ def getItem(request):
     return item
 
 
-@view_config(route_name='getItemThumbnails', renderer='json')
+@view_config(route_name='apigetItemThumbnails', renderer='json')
 def getItemThumbnails(request):
     itemID = request.matchdict['id']
 
@@ -152,7 +152,7 @@ def getItemThumbnails(request):
     return urls
 
 
-@view_config(route_name='addItem', renderer='json', request_method='POST')
+@view_config(route_name='apiaddItem', renderer='json', request_method='POST')
 def addItem(request):
     requiredKeys = ['name', 'type', 'manufactureYear', 'stock']
     postVars = request.POST
@@ -182,7 +182,7 @@ def addItem(request):
     raise exc.HTTPOk()
 
 
-@view_config(route_name='updateItem')
+@view_config(route_name='apiupdateItem')
 def updateItem(request):
     postVars = request.POST
     validKeys = ['name', 'type', 'manufactureYear', 'stock']
@@ -215,7 +215,7 @@ def updateItem(request):
     raise exc.HTTPOk()
 
 
-@view_config(route_name= 'deleteItem')
+@view_config(route_name='apideleteItem')
 def deleteItem(request):
     query= "DELETE FROM Items WHERE id= %s"
 
@@ -236,7 +236,7 @@ def deleteItem(request):
     raise exc.HTTPOk()
 
 
-@view_config(route_name='itemSuggestions', renderer='json')
+@view_config(route_name='apiitemSuggestions', renderer='json')
 def itemSuggestions(request):
     Authorizer.authorizeCustomer(request)
 
@@ -292,7 +292,7 @@ def itemSuggestions(request):
 
 
 #  Items available by type or keyword
-@view_config(route_name='search', renderer='json')
+@view_config(route_name='apisearch', renderer='json')
 def search(request):
     getVars = request.GET
 
@@ -343,7 +343,7 @@ def search(request):
 
 
 # Record a sale
-@view_config(route_name='sold', renderer='json')
+@view_config(route_name='apisold', renderer='json')
 def sold(request):
     Authorizer.authorizeEmployee(request)
 

@@ -6,7 +6,7 @@ import pyramid.httpexceptions as exc
 import mysql.connector
 
 
-@view_config(route_name='bidHistory', renderer='json')
+@view_config(route_name='apibidHistory', renderer='json')
 def bidHistory(request):
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
