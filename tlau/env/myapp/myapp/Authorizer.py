@@ -12,7 +12,7 @@ def getCurrentUser(request):
     else:
         return None
 
-def getCurrentUserType(request):
+def getCurrentUserType(request):n
     if(isLoggedIn(request)):
         return request.session['currentUser']['type']
 
