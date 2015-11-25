@@ -56,6 +56,9 @@ def main(global_config, **settings):
     config.add_route('apisellHistory', 'api/customers/{id}/sellHistory', request_method='GET')
     config.add_route('apiauctionHistory', 'api/customers/{id}/auctionHistory', request_method='GET')
 
+    # Auctions Routes
+    config.add_route('apiGetOpenAuctions', 'api/auctions/open', request_method='GET')
+
     # Generators
     config.add_route('apisalesReport', 'api/generate/salesReport', request_method='GET')
     config.add_route('apireceipt', 'api/generate/receipt', request_method='GET')
