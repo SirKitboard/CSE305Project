@@ -6,10 +6,7 @@
         <div class="col s12">
             <h1>Hot Items</h1>
             <div class="itemContainer" id="hotItems">
-                <h5>Loading Items</h5>
-                <div class="progress">
-                    <div class="indeterminate"></div>
-                </div>
+
             </div>
         </div>
     </div>
@@ -26,5 +23,5 @@
     </div>
 </%def>
 <%def name="scripts()">
-<script src="${request.static_url('myapp:static/js/home.js')}"></script>
+<script type="text/babel" src="${request.static_url('myapp:static/js/home.js')}"></script>
 </%def>
