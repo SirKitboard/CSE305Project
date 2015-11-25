@@ -18,6 +18,8 @@
     <!-- Custom styles for this scaffold -->
     <!-- <link href="${request.static_url('myapp:static/css/index.css')}" rel="stylesheet"> -->
     <link href="${request.static_url('myapp:static/css/template.css')}" rel="stylesheet">
+
+    ${self.head()}
 </head>
 <body>
     <nav>
@@ -36,6 +38,8 @@
     </nav>
 
     ${self.body()}
+
+    ${self.scripts()}
 
 </body>
 </html>
