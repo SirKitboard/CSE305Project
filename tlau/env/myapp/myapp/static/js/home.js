@@ -26,3 +26,19 @@ $('#username').on('change', function() {
     $('#username').removeClass('invalid')
     $('#password').removeClass('invalid')
 });
+
+// $(document).ready(function(){
+//     $.ajax({
+//         url: 'api/auctions/open',
+//         method: 'GET',
+//         success: function(response){
+//             var something = "<div>HIII</div>";
+//             $("#hotItems").html(something);
+//         }
+//     })
+// });
+
+ReactDOM.render(
+  <h1>Hello, world!</h1>,
+  document.getElementById('hotItems')
+);

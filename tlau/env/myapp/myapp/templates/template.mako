@@ -19,6 +19,8 @@
     <!-- <link href="${request.static_url('myapp:static/css/index.css')}" rel="stylesheet"> -->
     <link href="${request.static_url('myapp:static/css/template.css')}" rel="stylesheet">
     <script src="${request.static_url('myapp:static/js/jquery-2.1.4.min.js')}"></script>
+    <script src="${request.static_url('myapp:static/js/underscore-min.js')}"></script>
+    <script src="${request.static_url('myapp:static/js/react/react.js')}"></script>
 
     ${self.head()}
 </head>
@@ -40,7 +42,7 @@
 
     ${self.body()}
 
-    ${self.scripts()}   
+    ${self.scripts()}
 
 </body>
 </html>
