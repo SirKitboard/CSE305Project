@@ -1,6 +1,6 @@
 <%inherit file="myapp:templates/template.mako" />
 <%def name="title()">Index</%def>
-
+<%def name="head()"></%def>
 <%def name="body()">
     <div class="row">
         <div class="col s12">
@@ -31,3 +31,4 @@
         </ul>
     </div>
 </%def>
+<%def name="scripts()"></%def>
