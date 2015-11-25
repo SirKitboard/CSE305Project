@@ -67,6 +67,7 @@ def main(global_config, **settings):
 
     # Views
     config.add_route('items', 'item/{id}', request_method='GET')
+    config.add_route('auctions','auction/{id}', request_method='GET')
 
     config.scan()
     return config.make_wsgi_app()

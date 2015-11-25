@@ -1,4 +1,4 @@
-#pylint: disable=W,C
+# pylint: disable=W,C
 from pyramid.view import view_config
 from pyramid.renderers import render
 from pyramid.response import Response
@@ -20,4 +20,12 @@ def item_view(request):
 	itemID = request.matchdict['id']
 	return {
 		'itemID': itemID
+	}
+
+
+@view_config(route_name='auctions', renderer='myapp:templates/auctions.mako')
+def auction_view(request):
+	auctionID = request.matchdict['id']
+	return {
+		'auctionID': auctionID
 	}
