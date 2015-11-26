@@ -21,7 +21,7 @@ def allItems(request):
         cursor.execute(query)
 
         items = []
-        for (ID, Name, Type, ManufactureYear, CopiesSold, Stock) in cursor:
+        for (ID, Name, Type, ManufactureYear, CopiesSold, Stock, Description) in cursor:
             items.append({
                 'id': ID,
                 'name': Name,
@@ -68,7 +68,7 @@ def getItem(request):
 
         cursor.execute(query)
 
-        for (ID, Name, Type, ManufactureYear, CopiesSold, Stock) in cursor:
+        for (ID, Name, Type, ManufactureYear, CopiesSold, Stock, Description) in cursor:
             item = {
                 'id': ID,
                 'name': Name,

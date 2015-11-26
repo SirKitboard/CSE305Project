@@ -54,7 +54,7 @@ def allCustomers(request):
 # Get a List of a specific Customer by ID
 @view_config(route_name='apigetCustomer', renderer='json')
 def getCustomer(request):
-    Authorizer.authorizeEmployee(request)
+    # Authorizer.authorizeEmployee(request)
 
     customerID = request.matchdict['id']
 

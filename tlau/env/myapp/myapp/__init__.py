@@ -1,4 +1,4 @@
-#pylint: disable=C,F
+# pylint: disable=C,F
 from pyramid.config import Configurator
 import os
 
@@ -32,7 +32,7 @@ def main(global_config, **settings):
     config.add_route('apiupdateItem', 'api/items/{id}', request_method='PUT')
     config.add_route('apihello', '/hello')
     config.add_route('apideleteItem', 'api/items/{id}', request_method='DELETE')
-    config.add_route('apisold','api/items/sold', request_method='POST')
+    config.add_route('apisold', 'api/items/sold', request_method='POST')
     # config.add_route('apisessionTest', '/ses')
 
     # User Routes
@@ -58,6 +58,7 @@ def main(global_config, **settings):
 
     # Auctions Routes
     config.add_route('apiGetOpenAuctions', 'api/auctions/open', request_method='GET')
+    config.add_route('apiGetAuction', 'api/auctions/{id}', request_method='GET')
 
     # Generators
     config.add_route('apisalesReport', 'api/generate/salesReport', request_method='GET')
@@ -70,7 +71,7 @@ def main(global_config, **settings):
 
     # Views
     config.add_route('items', 'item/{id}', request_method='GET')
-    config.add_route('auctions','auction/{id}', request_method='GET')
+    config.add_route('auctions', 'auction/{id}', request_method='GET')
 
     config.scan()
     return config.make_wsgi_app()
