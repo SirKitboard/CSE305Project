@@ -36,3 +36,12 @@ def auction_view(request):
 	if('currentUser' in request.session):
 		values["currentUser"] = request.session['currentUser']
 	return values
+
+@view_config(route_name='profile', renderer='myapp:templates/profile.mako')
+def profile(request):
+	values = {
+		'currentUser' : None
+	}
+	if('currentUser' in request.session):
+		values["currentUser"] = request.session['currentUser']
+	return values

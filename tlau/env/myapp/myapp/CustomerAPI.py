@@ -94,6 +94,59 @@ def getCustomer(request):
     return customer
 
 
+# Get a List of a specific Customer by ID
+@view_config(route_name='apiCustomerStats', renderer='json')
+def customerStats(request):
+    customerID = request.matchdict['id']
+
+    responseDict = {}
+
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        query = ("SELECT SUM(currentBid) as stat FROM Auctions WHERE sellerID = %s AND finished='1'")
+
+        cursor.execute(query, tuple(str(customerID)))
+
+        responseDict["moneyMade"] = (str(cursor.fetchone()['stat']))
+
+        query = ("SELECT SUM(Auctions.currentBid) as stat FROM Auctions, Wins WHERE Auctions.id = Wins.auctionID AND Wins.customerID = %s")
+
+        cursor.execute(query, tuple(str(customerID)))
+
+        responseDict["moneySpent"] = (str(cursor.fetchone()['stat']))
+
+        query = ("SELECT COUNT(*) as stat FROM Auctions WHERE Auctions.sellerID = %s AND Auctions.finished='0'")
+
+        cursor.execute(query, tuple(str(customerID)))
+
+        responseDict["activeAuctions"] = (str(cursor.fetchone()['stat']))
+
+        query = ("SELECT COUNT(DISTINCT(Auctions.id)) as stat FROM Auctions, Bids WHERE Bids.auctionID = Auctions.id AND Bids.customerID = %s AND Auctions.finished='0'")
+
+        cursor.execute(query, tuple(str(customerID)))
+
+        responseDict["activeBids"] = (str(cursor.fetchone()['stat']))
+
+        # for row in cursor:
+        #     statsRow = {}
+        #     for key in row:
+        #         if(isinstance(row[key], datetime)):
+        #             statsRow[key] = row[key].isoformat()
+        #         elif(isinstance(row[key], Decimal)):
+        #             statsRow[key] = str(row[key])
+        #         else:
+        #             statsRow[key] = row[key]
+        #     responseDict.append(statsRow)
+        cursor.close()
+        cnx.close()
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
+
+    return responseDict
+
+
 # Add a customer
 @view_config(route_name='apiaddCustomer', renderer='json')
 def addCustomer(request):

@@ -49,6 +49,7 @@ def main(global_config, **settings):
 
     # Customer Routes
     config.add_route('apiallCustomers', 'api/customers', request_method='GET')
+    config.add_route('apiCustomerStats', 'api/customers/{id}/stats', request_method='GET')
     config.add_route('apiaddCustomer', 'api/customers', request_method='POST')
     config.add_route('apigetCustomer', 'api/customers/{id}', request_method='GET')
     config.add_route('apideleteCustomer', 'api/customers/{id}', request_method='DELETE')
@@ -72,6 +73,7 @@ def main(global_config, **settings):
     # Views
     config.add_route('items', 'item/{id}', request_method='GET')
     config.add_route('auctions', 'auction/{id}', request_method='GET')
+    config.add_route('profile', 'profile', request_method='GET')
 
     config.scan()
     return config.make_wsgi_app()

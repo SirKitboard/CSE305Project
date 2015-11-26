@@ -1,38 +1,12 @@
-<!DOCTYPE html>
-<html lang="${request.locale_name}">
-  <head>
-    <meta charset="utf-8">
-
-    <meta name="description" content="Home Page">
-    <meta name="author" content="Aditya Balwani">
-    <link rel="shortcut icon" href="${request.static_url('myapp:static/pyramid-16x16.png')}">
-
-    <title>Totally Legit Online Auctions</title>
-
-    <!-- Bootstrap core CSS -->
-    <link type="text/css" href="${request.static_url('myapp:static/css/materialize/materialize.min.css')}" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- Custom styles for this scaffold -->
-    <link href="${request.static_url('myapp:static/css/home.css')}" rel="stylesheet">
-  </head>
-
-  <body class="teal">
-    <div class="starter-template valign-wrapper row" style="width:100%;height:100%;">
-        <div class="login-card card-panel hoverble valign col s12 m6 offset-m3" style="text-align: center;">
-          <span class="flow-text blue-text text-darken-2">Logged in as</span>
-          <div class="row">
-              <span class="flow-text col s12">${request.session['currentUser']['name']}</span>
-          </div>
-        </div>
+<%inherit file="myapp:templates/template.mako" />
+<%def name="title()">Index</%def>
+<%def name="head()">
+<link href="${request.static_url('myapp:static/css/profile.css')}" rel="stylesheet">
+</%def>
+<%def name="body()">
+    <div id="profileContainer" class="container">
     </div>
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="${request.static_url('myapp:static/js/jquery-2.1.4.min.js')}"></script>
-    <script src="${request.static_url('myapp:static/js/materialize/materialize.min.js')}"></script>
-    <script src="${request.static_url('myapp:static/js/home.js')}"></script>
-  </body>
-</html>
+</%def>
+<%def name="scripts()">
+<script type="text/babel" src="${request.static_url('myapp:static/js/profile.jsx')}"></script>
+</%def>

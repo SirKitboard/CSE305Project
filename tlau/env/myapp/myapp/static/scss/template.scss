@@ -49,6 +49,23 @@ h1 {
     }
 }
 
+.material-icons {
+    font-size: inherit;
+}
+
+@media only screen and (min-width:993px) {
+    .container{
+        width: 80%;
+    }
+}
+
+.bold{
+	font-weight: bold;
+}
+
+.green-text {
+    color:$tloa-green;
+}
 
 @import "navbar.scss";
 @import "cards.scss";

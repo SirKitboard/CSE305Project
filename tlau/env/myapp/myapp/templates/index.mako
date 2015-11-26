@@ -2,6 +2,7 @@
 <%def name="title()">Index</%def>
 <%def name="head()"></%def>
 <%def name="body()">
+<div class="container">
     <div class="row">
         <div class="col s12">
             <h1>Hot Items</h1>
@@ -21,6 +22,7 @@
             <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
         </ul>
     </div>
+</div>
 </%def>
 <%def name="scripts()">
 <script type="text/babel" src="${request.static_url('myapp:static/js/home.jsx')}"></script>

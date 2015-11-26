@@ -36,9 +36,17 @@
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
 % if currentUser == None:
                     <li><a class="modal-trigger sign-in" href="#modalLogin">Why not sign in? <i class="tiny material-icons">person_add</i></a></li>
+                    <script>
+                        window.currentUser = null;
+                    </script>
 % else:
                     <li>Hi ${currentUser['firstName']}</li>
                     <li><a id="logout" class="logout">Logout<i class="tiny material-icons">power_settings_new</i></a></li>
+                    <script>
+                    window.currentUser = "${currentUser}".replace(/&#39;/g,"\"");
+                    window.currentUser = JSON.parse(window.currentUser);
+                    console.log(window.currentUser)
+                    </script>
 % endif
                 </ul>
             </div>
@@ -50,10 +58,11 @@
     </nav>
     ${self.body()}
 
+
     ${self.scripts()}
 
     <div id="modalLogin" class="modal">
-        <div class="modal-content container row">
+        <div class="modal-content container">
             <div style="text-align: center;">
             <span class="flow-text blue-text text-darken-2">Login</span>
             <div class="row">
