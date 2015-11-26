@@ -13,7 +13,7 @@ $(document).ready(function() {
 				$("#Reserve").html("");
 			}
 			else{
-				$("$Reserve").html("Reserve not met");
+				$("#Reserve").html("Reserve not met");
 			}
 			getExtraInfo(response.itemID, response.sellerID);
 
@@ -33,7 +33,7 @@ function getExtraInfo(itemID,sellerID) {
 			$("#manufactureYear").html(response.manufactureYear);// from item
 			$("#thumbnail").attr('src', response.images[0]);
 			$('#Description').html(response.description);
-			
+
 		}
 	});
 
@@ -42,7 +42,7 @@ function getExtraInfo(itemID,sellerID) {
 		method: 'GET',
 		success : function(response) {
 			// debugger;
-			$("#SellerID").html(response.name);	
+			$("#SellerID").html(response.name);
 			$("#Rating").html(response.rating);//from customers
 		}
 	})

@@ -20,7 +20,7 @@
     <link href="${request.static_url('myapp:static/css/template.css')}" rel="stylesheet">
     <script src="${request.static_url('myapp:static/js/jquery-2.1.4.min.js')}"></script>
     <script src="${request.static_url('myapp:static/js/materialize/materialize.js')}"></script>
-    <script src="${request.static_url('myapp:static/js/template.js')}"></script>
+
     <script src="${request.static_url('myapp:static/js/underscore-min.js')}"></script>
     <script src="${request.static_url('myapp:static/js/react/react.js')}"></script>
     <script src="${request.static_url('myapp:static/js/react/react-dom.js')}"></script>
@@ -34,10 +34,11 @@
             <div class="top">
                 <a href="#" class="brand-logo"><span class="black-alt">TOTALLY</span> LEGIT <span class="black-alt">ONLINE</span> AUCTIONS</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-% if currentUser == 0:
+% if currentUser == None:
                     <li><a class="modal-trigger sign-in" href="#modalLogin">Why not sign in? <i class="tiny material-icons">person_add</i></a></li>
 % else:
-                    <li><a class="logout">Logout<i class="tiny material-icons">power_settings_new</i></a></li>
+                    <li>Hi ${currentUser['firstName']}</li>
+                    <li><a id="logout" class="logout">Logout<i class="tiny material-icons">power_settings_new</i></a></li>
 % endif
                 </ul>
             </div>
@@ -85,36 +86,7 @@
         </div>
     </div>
 
-    <!-- <div class="login-wrapper valign-wrapper hidden">
-        <div class="container row valign">
-            <div class="login-card card-panel col m6 offset-m3" style="text-align: center;">
-                <span class="flow-text blue-text text-darken-2">Login</span><span class="closeButton">X</span>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input id="username" type="text" class="validate"/>
-                        <label for="username">User Name</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <input id="password" type="password" class="validate" data-error="Invalid username or password"/>
-                        <label for="password">Password</label>
-                    </div>
-                    <div class="col s12 row">
-                        <p class="col s12 m6">
-                            <input name="group1" type="radio" id="isCustomer"/>
-                            <label for="isCustomer">Customer</label>
-                        </p>
-                        <p class="col s12 m6">
-                            <input name="group1" type="radio" id="isEmployee"/>
-                            <label for="isEmployee">Employees</label>
-                        </p>
-                    </div>
-                    <button class="btn waves-effect waves-light" id='login' type="submit" name="action">Submit
-                      <i class="material-icons right">send</i>
-                    </button>
-              </div>
-          </div>
-      </div>
-    </div> -->
+    <script src="${request.static_url('myapp:static/js/template.js')}"></script>
 
 </body>
 </html>

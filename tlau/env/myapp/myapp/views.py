@@ -7,7 +7,7 @@ from pyramid.response import Response
 @view_config(route_name='home', renderer='myapp:templates/index.mako')
 def home(request):
 	values = {
-		'currentUser' : 0,
+		'currentUser' : None,
 		'id' : 1
 	}
 	if('currentUser' in request.session):
@@ -19,8 +19,11 @@ def item_view(request):
 	itemID = request.matchdict['id']
 	values = {
 		'itemID': itemID,
-		'currentUser' : 0
+		'currentUser' : None
 	}
+	if('currentUser' in request.session):
+		values["currentUser"] = request.session['currentUser']
+	return values
 
 
 @view_config(route_name='auctions', renderer='myapp:templates/auctions.mako')
@@ -28,7 +31,7 @@ def auction_view(request):
 	auctionID = request.matchdict['id']
 	values = {
 		'auctionID': auctionID,
-		currentUser : 0
+		'currentUser' : None
 	}
 	if('currentUser' in request.session):
 		values["currentUser"] = request.session['currentUser']
