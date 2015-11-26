@@ -24,7 +24,7 @@
     <script src="${request.static_url('myapp:static/js/underscore-min.js')}"></script>
     <script src="${request.static_url('myapp:static/js/react/react.js')}"></script>
     <script src="${request.static_url('myapp:static/js/react/react-dom.js')}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="${request.static_url('myapp:static/js/react/browser.min.js')}"></script>
     ${self.head()}
 </head>
 
