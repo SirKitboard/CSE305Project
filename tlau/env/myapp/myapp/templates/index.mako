@@ -23,5 +23,5 @@
     </div>
 </%def>
 <%def name="scripts()">
-<script type="text/babel" src="${request.static_url('myapp:static/js/home.js')}"></script>
+<script type="text/babel" src="${request.static_url('myapp:static/js/home.jsx')}"></script>
 </%def>

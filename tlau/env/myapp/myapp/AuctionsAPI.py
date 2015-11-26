@@ -15,7 +15,7 @@ def openAuctions(request):
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
-        query = ("SELECT * FROM Auctions where closingTime > NOW()")
+        query = ("SELECT * FROM Auctions LEFT JOIN Items ON Auctions.itemID = Items.id where closingTime > NOW()")
 
         cursor.execute(query)
 
