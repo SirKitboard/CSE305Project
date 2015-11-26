@@ -4,14 +4,22 @@ body {
 
 h1 {
     color: black;
-    font-family: 
+    // font-family: 
 }
 
 
 p {
     font-family: "Times New Roman";
-    font-size: 10px;
-    padding-left: 80px;
+    font-size: 15px;
 }
 
+.bold{
+	font-weight: bold;
+}
+
+#currentBid {
+	font-family: "Verdana";
+	font-size: 25px;
+	color: green;
+}
 

@@ -7,13 +7,13 @@ $(document).ready(function() {
 			    weekday: "long", year: "numeric", month: "short",
 			    day: "numeric", hour: "2-digit", minute: "2-digit"
 			};
-			$("#CurrentBid").html(response.currentBid);
+			$("#currentBid").html("Current Bid : "+response.currentBid);
 			$("#ClosingTime").html(new Date(response.closingTime).toLocaleDateString("en-US", options));
 			if (response.currentBid>response.reserve){
-				$("#Reserve").html("");
+				 $("#Reserve").remove();
 			}
 			else{
-				$("#Reserve").html("Reserve not met");
+				$("#Reserve").html("<i class='material-icons'>not_interested</i> Reserve not met");
 			}
 			getExtraInfo(response.itemID, response.sellerID);
 
