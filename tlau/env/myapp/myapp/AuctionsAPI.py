@@ -37,6 +37,38 @@ def openAuctions(request):
 
     return auctions
 
+
+@view_config(route_name='apiGetAuction', renderer='json')
+def getAuction(request):
+    auctionID = request.matchdict['id']
+    auction = {}
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        query = ("SELECT * FROM Auctions where id = %s")
+
+        cursor.execute(query, tuple(str(auctionID)))
+
+        for row in cursor:
+            auctionInfo = {}
+            for key in row:
+                if(isinstance(row[key], datetime)):
+                    auctionInfo[key] = row[key].isoformat()
+                elif(isinstance(row[key], Decimal)):
+                    auctionInfo[key] = str(row[key])
+                else:
+                    auctionInfo[key] = row[key]
+            auction = auctionInfo
+
+        cursor.close()
+        cnx.close()
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
+
+    return auction
+
+
 @view_config(route_name='apibidHistory', renderer='json')
 def bidHistory(request):
     try:

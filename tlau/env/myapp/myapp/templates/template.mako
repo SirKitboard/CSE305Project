@@ -25,6 +25,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
     ${self.head()}
 </head>
+
 <body>
     <nav>
         <div class="nav-wrapper">
