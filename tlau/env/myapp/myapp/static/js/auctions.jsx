@@ -92,6 +92,9 @@ var Auction = React.createClass({
 			}
 		});
 	},
+	getAuctionSearch: function(itemID){
+		window.location = "/auctions/search/"+this.state.item.id;
+	},
 	render : function() {
 		var options = {
 		 	weekday: "long", year: "numeric", month: "short",
@@ -156,7 +159,7 @@ var Auction = React.createClass({
 						</div>
 						<div> Description:  <span id="description">{this.state.item.description}</span> </div>
 
-						<button className= "btn waves-effect waves-light  light-blue darken-2" type="seeMoreButton">See More Auctions for this Item </button>
+						<button onClick= {this.getAuctionSearch} className  = "btn waves-effect waves-light  light-blue darken-2" type="seeMoreButton">See More Auctions for this Item </button>
 					</div>
 				</div>
 				</div>
