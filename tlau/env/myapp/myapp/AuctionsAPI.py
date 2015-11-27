@@ -114,7 +114,7 @@ def apiAuctionSearch(request):
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
-        query = "SELECT * FROM Auctions WHERE itemID = %s"
+        query = "SELECT * FROM Auctions WHERE closingTime > NOW() AND itemID = %s"
 
         cursor.execute(query, tuple(str(getVars['itemID'])))
 
