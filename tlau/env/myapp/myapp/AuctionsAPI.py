@@ -100,3 +100,36 @@ def bidHistory(request):
         raise exc.HTTPNoContent()
 
     return history
+
+@view_config(route_name="apiSearchAuction", renderer='json')
+def apiAuctionSearch(request):
+    getVars = request.GET
+    # requiredKeys = 'itemID'
+    if('itemID' not in getVars):
+        raise exc.HTTPBadRequest()
+
+    searchResults = []
+
+    try :
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        query = "SELECT * FROM Auctions WHERE itemID = %s"
+
+        cursor.execute(query, tuple(str(getVars['itemID'])))
+
+        for row in cursor:
+            auctionInfo = {}
+            for key in row:
+                if(isinstance(row[key], datetime)):
+                    auctionInfo[key] = row[key].isoformat()
+                elif(isinstance(row[key], Decimal)):
+                    auctionInfo[key] = str(row[key])
+                else:
+                    auctionInfo[key] = row[key]
+            searchResults.append(auctionInfo)
+
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
+
+    return searchResults

@@ -59,6 +59,7 @@ def main(global_config, **settings):
 
     # Auctions Routes
     config.add_route('apiGetOpenAuctions', 'api/auctions/open', request_method='GET')
+    config.add_route('apiSearchAucton', 'api/auctions/search')
     config.add_route('apiGetAuction', 'api/auctions/{id}', request_method='GET')
 
     # Generators
