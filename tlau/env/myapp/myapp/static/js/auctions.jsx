@@ -1,52 +1,4 @@
-// $(document).ready(function() {
-// 	$.ajax({
-// 		url: '/api/auctions/'+auctionID,
-// 		method: 'GET',
-// 		success : function(response) {
-// 			var options = {
-// 			    weekday: "long", year: "numeric", month: "short",
-// 			    day: "numeric", hour: "2-digit", minute: "2-digit"
-// 			};
-// 			$("#currentBid").html("Current Bid : "+response.currentBid);
-// 			$("#ClosingTime").html(new Date(response.closingTime).toLocaleDateString("en-US", options));
-// 			if (response.currentBid>response.reserve){
-// 				 $("#Reserve").remove();
-// 			}
-// 			else{
-// 				$("#Reserve").html("<i class='material-icons'>not_interested</i> Reserve not met");
-// 			}
-// 			getExtraInfo(response.itemID, response.sellerID);
-//
-//
-// 		}
-// 	})
-// });
-//
-//
-// function getExtraInfo(itemID,sellerID) {
-// 	$.ajax({
-// 		url: '/api/items/'+itemID,
-// 		method: 'GET',
-// 		success : function(response) {
-// 			$("#name").html(response.name); //from item
-// 			$("#Type").html(response.type); //from item
-// 			$("#manufactureYear").html(response.manufactureYear);// from item
-// 			$("#thumbnail").attr('src', response.images[0]);
-// 			$('#Description').html(response.description);
-//
-// 		}
-// 	});
-//
-// 	$.ajax({
-// 		url: '/api/customers/'+sellerID,
-// 		method: 'GET',
-// 		success : function(response) {
-// 			// debugger;
-// 			$("#SellerID").html(response.name);
-// 			$("#Rating").html(response.rating);//from customers
-// 		}
-// 	});
-// }
+
 var ImageScroller = React.createClass({
 	getInitialState: function(){
 		return {
@@ -55,7 +7,6 @@ var ImageScroller = React.createClass({
 	},
 
 	nextImage: function(){
-		// console.log(this.props.images.length);
 		this.setState({
 			currentIndex: (this.state.currentIndex + 1) % this.props.images.length
 		})
@@ -73,7 +24,6 @@ var ImageScroller = React.createClass({
 	},
 
 	render : function(){
-		// console.log(this.state.currentIndex);
 		return (
 			<div className = "col s12 m4 l3">
 				<div className= "row">
@@ -89,7 +39,6 @@ var ImageScroller = React.createClass({
 		)		
 	}
 })
-
 
 
 var Auction = React.createClass({
@@ -113,19 +62,6 @@ var Auction = React.createClass({
 				});
 				self.getItemInfo(response.itemID);
 				self.getSellerInfo(response.sellerID);
-				// var options = {
-				//     weekday: "long", year: "numeric", month: "short",
-				//     day: "numeric", hour: "2-digit", minute: "2-digit"
-				// };
-				// $("#currentBid").html("Current Bid : "+response.currentBid);
-				// $("#ClosingTime").html(new Date(response.closingTime).toLocaleDateString("en-US", options));
-				// if (response.currentBid>response.reserve){
-				// 	 $("#Reserve").remove();
-				// }
-				// else{
-				// 	$("#Reserve").html("<i class='material-icons'>not_interested</i> Reserve not met");
-				// }
-				// self.getExtraInfo(response.itemID, response.sellerID);
 			}
 		});
 	},
@@ -139,11 +75,7 @@ var Auction = React.createClass({
 					item : response,
 					loading : self.state.loading + 1
 				});
-				// $("#name").html(response.name); //from item
-				// $("#Type").html(response.type); //from item
-				// $("#manufactureYear").html(response.manufactureYear);// from item
-				// $("#thumbnail").attr('src', response.images[0]);
-				// $('#Description').html(response.description);
+				
 			}
 		});
 	},
@@ -157,16 +89,15 @@ var Auction = React.createClass({
 					seller : response,
 					loading : self.state.loading + 1
 				});
-				// debugger;
-				// $("#SellerID").html(response.name);
-				// $("#Rating").html(response.rating);//from customers
 			}
 		});
 	},
 	render : function() {
-		// console.log(this.state.loading);
-		// console.log(this.state.item);
-		// console.log(this.state.seller);
+		var options = {
+		 	weekday: "long", year: "numeric", month: "short",
+		    day: "numeric", hour: "2-digit", minute: "2-digit"
+		};
+
 		if(this.state.loading < 3) {
             return (
 				<div className="preloader-wrapper big active">
@@ -190,7 +121,7 @@ var Auction = React.createClass({
         }
 		else {
 			var image = <img className = "col s12 m4 l3" id="thumbnail" src="http://placehold.it/300x500"/>
-			if(this.state.item && this.state.item.images) {
+			if(this.state.item && this.state.item.images.length > 0) {
 				var url = this.state.item.images[0];
 				image = <ImageScroller images={this.state.item.images}/>
 			}
@@ -214,7 +145,7 @@ var Auction = React.createClass({
 								<div id="currentBid" className="col s12 m8"> Current Price: {this.state.auction.currentBid}</div>
 								<button className="btn waves-effect waves-light col s12 m2 green z-depth-2" type ="bidButton"> Bid </button>
 							</div>
-							<div> <i className="material-icons">hourglass_full</i>Closes at: <span id= "closingTime">{this.state.auction.closingTime}</span></div>
+							<div> <i className="material-icons">hourglass_full</i>Closes at: <span id= "closingTime">{new Date(this.state.auction.closingTime).toLocaleDateString("en-US", options)}</span></div>
 
 							<div className="row">
 								<div className="col"> <i className="material-icons">create</i> Posted by: <span  className= "green-text" id= "sellerName">{this.state.seller.name}</span></div>

@@ -73,6 +73,7 @@ def main(global_config, **settings):
 
     # Views
     config.add_route('items', 'item/{id}', request_method='GET')
+    config.add_route('auctionSearch', 'auctions/search/{id}', request_method='GET')
     config.add_route('auctions', 'auction/{id}', request_method='GET')
     config.add_route('profile', 'profile', request_method='GET')
 
