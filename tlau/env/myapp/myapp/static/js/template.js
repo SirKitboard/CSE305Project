@@ -8,7 +8,7 @@ $('#login').on('click', function(e) {
         url: '/api/login',
         method: 'POST',
         data: {
-            username: username,
+            username: username.toLowerCase(),
             password: password,
             type: type
         },

@@ -40,7 +40,7 @@
                         window.currentUser = null;
                     </script>
 % else:
-                    <li>Hi ${currentUser['firstName']}</li>
+                    <li><a href="/profile">Hi ${currentUser['firstName']}</a></li>
                     <li><a id="logout" class="logout">Logout<i class="tiny material-icons">power_settings_new</i></a></li>
                     <script>
                     window.currentUser = "${currentUser}".replace(/&#39;/g,"\"");

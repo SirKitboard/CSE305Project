@@ -35,6 +35,10 @@ def main(global_config, **settings):
     config.add_route('apisold', 'api/items/sold', request_method='POST')
     # config.add_route('apisessionTest', '/ses')
 
+    # File routes
+    config.add_route('uploadFile', 'api/file', request_method='POST')
+    config.add_route('addItemImage', 'api/items/{id}/image', request_method='POST')
+
     # User Routes
     config.add_route('apilogin', 'api/login')
     config.add_route('apilogout', 'api/logout')
@@ -72,6 +76,7 @@ def main(global_config, **settings):
     config.add_route('apirevenueReport', 'api/generate/revenueReport', request_method='GET')
 
     # Views
+    config.add_route('addItem', '/items/add', request_method='GET')
     config.add_route('items', 'item/{id}', request_method='GET')
     config.add_route('auctionSearch', 'auctions/search/{id}', request_method='GET')
     config.add_route('auctions', 'auction/{id}', request_method='GET')
@@ -80,4 +85,4 @@ def main(global_config, **settings):
     config.add_route('itemSearch', 'items/search', request_method='GET')
 
     config.scan()
-    return config.make_wsgi_app()   
+    return config.make_wsgi_app()

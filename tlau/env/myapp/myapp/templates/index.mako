@@ -1,5 +1,5 @@
 <%inherit file="myapp:templates/template.mako" />
-<%def name="title()">Index</%def>
+<%def name="title()">Home</%def>
 <%def name="head()"></%def>
 <%def name="body()">
 <div class="container">

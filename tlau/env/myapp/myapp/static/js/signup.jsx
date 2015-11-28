@@ -32,7 +32,7 @@ var Signup = React.createClass({
         var params = {
             firstName : ReactDOM.findDOMNode(this.refs.first_name).value,
             lastName : ReactDOM.findDOMNode(this.refs.last_name).value,
-            username : ReactDOM.findDOMNode(this.refs.username).value,
+            username : ReactDOM.findDOMNode(this.refs.username).value.toLowerCase(),
             password : ReactDOM.findDOMNode(this.refs.password).value,
             address : ReactDOM.findDOMNode(this.refs.address).value,
             city : ReactDOM.findDOMNode(this.refs.city).value,

@@ -8,7 +8,15 @@ from pyramid.response import Response
 def home(request):
 	values = {
 		'currentUser' : None,
-		'id' : 1
+	}
+	if('currentUser' in request.session):
+		values["currentUser"] = request.session['currentUser']
+	return values
+
+@view_config(route_name='addItem', renderer='myapp:templates/addItem.mako')
+def addItem(request):
+	values = {
+		'currentUser' : None,
 	}
 	if('currentUser' in request.session):
 		values["currentUser"] = request.session['currentUser']

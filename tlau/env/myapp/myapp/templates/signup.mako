@@ -1,5 +1,5 @@
 <%inherit file="myapp:templates/template.mako" />
-<%def name="title()">Index</%def>
+<%def name="title()">Sign Up</%def>
 <%def name="head()">
 <link href="${request.static_url('myapp:static/css/signup.css')}" rel="stylesheet">
 </%def>

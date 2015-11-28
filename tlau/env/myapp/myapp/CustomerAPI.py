@@ -151,7 +151,7 @@ def customerStats(request):
 # Add a customer
 @view_config(route_name='apiaddCustomer', renderer='json')
 def addCustomer(request):
-    # Authorizer.authorizeEmployee(request)
+    Authorizer.authorizeCustomer(request)
 
     requiredCustomerKeys = ['lastName', 'firstName', 'address', 'city', 'state', 'zipCode', 'telephone', 'email', 'creditCardNumber']
     requiredUserKeys = ['username', 'password']
@@ -223,7 +223,7 @@ def deleteCustomer(request):
 # Update a customer
 @view_config(route_name='apiupdateCustomer')
 def updateCustomer(request):
-    Authorizer.authorizeEmployee(request)
+    Authorizer.authorizeCustomer(request)
 
     postVars = request.POST
     validKeys = ['lastName', 'firstName', 'address', 'city', 'state', 'zipCode', 'telephone', 'email', 'creditCardNumber']
@@ -252,7 +252,7 @@ def updateCustomer(request):
         cnx.close()
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err))
-
+    Authorizer.refreshSession(request)
     raise exc.HTTPOk()
 
 

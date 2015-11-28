@@ -60,7 +60,8 @@ def login(request):
                     'email': row['email'],
                     'itemsSold': row['itemsSold'],
                     'itemsPurchased': row['itemsPurchased'],
-                    'rating': row['rating']
+                    'rating': row['rating'],
+                    'creditCardNumber' : row['creditCardNumber']
                 }
                 session['currentUser'] = user
         else:
