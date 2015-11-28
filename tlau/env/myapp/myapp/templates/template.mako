@@ -52,7 +52,7 @@
             </div>
             <div class="bottom">
                 <span class="subtitle">We're not a scam!</span>
-                <input class="searchbar" type=search results=5 placeholder="What are you looking for?" name=s>
+                <input class="searchbar" id="searchItem" type=search results=5 placeholder="What are you looking for?" name=s>
             </div>
         </div>
     </nav>

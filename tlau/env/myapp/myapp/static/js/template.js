@@ -49,3 +49,11 @@ $(document).ready(function(){
         }
     }
 });
+
+$("#searchItem").on("keydown", function (e) {        
+    if(e.keyCode == 13) {
+        window.location = "/items/search?query="+e.target.value;
+    }
+});
+
+

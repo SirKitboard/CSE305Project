@@ -77,6 +77,7 @@ def main(global_config, **settings):
     config.add_route('auctions', 'auction/{id}', request_method='GET')
     config.add_route('profile', 'profile', request_method='GET')
     config.add_route('signup', 'signup', request_method='GET')
+    config.add_route('itemSearch', 'items/search', request_method='GET')
 
     config.scan()
-    return config.make_wsgi_app()
+    return config.make_wsgi_app()   

@@ -59,3 +59,13 @@ def auctionSearch(request):
 	if('currentUser' in request.session):
 		values["currentUser"] = request.session['currentUser']
 	return values
+
+
+@view_config(route_name='itemSearch', renderer='myapp:templates/itemsSearch.mako')
+def itemSearch(request):
+	values = {
+		'currentUser': None
+	}
+	if('currentUser' in request.session):
+		values["currentUser"] = request.session['currentUser']
+	return values

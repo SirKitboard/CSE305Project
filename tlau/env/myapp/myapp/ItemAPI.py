@@ -298,25 +298,22 @@ def search(request):
 
     query = """
           SELECT *
-          FROM Auctions
-          WHERE itemID IN(
-            SELECT id
-            FROM Items
-            WHERE
+          FROM Items
+          WHERE 
          """
 
     items = []
     validValues = []
 
     if 'type' in getVars and 'keyword' in getVars:
-        query = query + ' Type = %s AND Name LIKE %s' + ');'
+        query = query + ' Type = %s AND Name LIKE %s' + ';'
         validValues.append(getVars['type'])
         validValues.append('%' + getVars['keyword'] + '%')
     elif 'type' in getVars:
-        query = query + ' Type = %s' + ');'
+        query = query + ' Type = %s' + ';'
         validValues.append(getVars['type'])
     elif 'keyword' in getVars:
-        query = query + ' Name LIKE %s' + ');'
+        query = query + ' Name LIKE %s' + ';'
         validValues.append('%' + getVars['keyword'] + '%')
 
     try:
@@ -335,6 +332,17 @@ def search(request):
                 else:
                     searches[key] = row[key]
             items.append(searches)
+
+        for item in items:
+            query = ("SELECT url FROM ItemsImages WHERE itemID = %s")
+            cursor.execute(query, tuple(str(item['id'])))
+            urls = []
+            for row in cursor:
+                urls.append(row['url'])
+            item['images'] = urls
+
+        cursor.close()
+        cnx.close()
 
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err), status=500)
