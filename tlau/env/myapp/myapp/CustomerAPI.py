@@ -4,6 +4,7 @@ from pyramid.response import Response
 from datetime import datetime
 from decimal import Decimal
 from myapp import Authorizer
+import crypt
 
 import pyramid.httpexceptions as exc
 
@@ -150,26 +151,40 @@ def customerStats(request):
 # Add a customer
 @view_config(route_name='apiaddCustomer', renderer='json')
 def addCustomer(request):
-    Authorizer.authorizeEmployee(request)
+    # Authorizer.authorizeEmployee(request)
 
-    requiredKeys = ['lastName', 'firstName', 'address', 'city', 'state', 'zipCode', 'telephone', 'email', 'creditCardNumber']
+    requiredCustomerKeys = ['lastName', 'firstName', 'address', 'city', 'state', 'zipCode', 'telephone', 'email', 'creditCardNumber']
+    requiredUserKeys = ['username', 'password']
     postVars = request.POST
     acceptedKeys = []
 
-    for key in requiredKeys:
+    for key in requiredCustomerKeys:
         if(key in postVars):
             acceptedKeys.append(postVars[key])
         else:
+            print(key)
+            raise exc.HTTPBadRequest()
+
+    for key in requiredUserKeys:
+        if(key not in postVars):
+            print(key)
             raise exc.HTTPBadRequest()
 
     query = ("INSERT INTO Customers(lastName, firstName, address, city, state, zipCode, telephone, email, creditCardNumber)\
              VALUES (%s,  %s,  %s,  %s,  %s,  %s,  %s, %s, %s);")
 
+    salt = 'qwerty'
+    postVars['password'] = crypt.crypt(postVars['password'], salt)
+    # print(postVars['password'])
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
         cursor.execute(query, tuple(acceptedKeys))
+
+        query = ("INSERT INTO Users(username, password, type, id) VALUES (%s, %s, 0, LAST_INSERT_ID())")
+
+        cursor.execute(query, tuple([postVars['username'], postVars['password']]))
 
         cursor.close()
 

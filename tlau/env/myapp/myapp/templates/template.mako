@@ -90,6 +90,7 @@
                 <button class="btn waves-effect waves-light modal-action modal-close">Close
                   <i class="material-icons right">clear</i>
                 </button>
+                <span class="col s12">Not a member? Click <a href="/signup">here</a> to Sign up!</span>
           </div>
         </div>
         </div>

@@ -41,4 +41,11 @@ $('#username').on('change', function() {
 
 $(document).ready(function(){
     $('.modal-trigger').leanModal();
+    // debugger;
+    if(!window.currentUser) {
+        if(window.location.hash == '#modalLogin') {
+            // debugger;
+            $('#modalLogin').openModal()
+        }
+    }
 });
