@@ -3,7 +3,6 @@ bak
 tlau/env/bin
 tlau/env/include
 tlau/env/lib
-tlau/env/myapp/myapp/static/images
 tlau/env/myapp/dist
 tlau/env/myapp/build
 tlau/env/myapp/myapp.egg-info
