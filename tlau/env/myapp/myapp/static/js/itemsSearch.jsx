@@ -62,7 +62,7 @@ var ItemSearch = React.createClass ({
         		<div className = "row">
         		{ _.map(this.state.items, function(item) {
                                 var imageURL = "http://placehold.it/300x300"
-                                if(item.images) {
+                                if(item.images.length>0) {
                                     imageURL = item.images[0]
                                 }
                                 return (
