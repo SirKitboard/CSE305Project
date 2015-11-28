@@ -14,5 +14,6 @@
 </%def>
 
 <%def name="scripts()">
+<script type="text/babel" src="${request.static_url('myapp:static/js/imageScroller.jsx')}"></script>
 <script type="text/babel" src="${request.static_url('myapp:static/js/auctions.jsx')}"></script>
 </%def>
