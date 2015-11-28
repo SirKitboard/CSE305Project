@@ -6,7 +6,7 @@ if(!window.currentUser) {
 var AddItem = React.createClass({
     getInitialState: function() {
         return {
-            'loading' : true,
+            complete : false,
             itemID : null
         }
     },
@@ -36,7 +36,7 @@ var AddItem = React.createClass({
         });
         console.log(formD);
         $.ajax({
-            url : "/api/file",
+            url : "/api/items/"+this.state.itemID+"/image",
             method : 'POST',
             data : formD,
             cache: false,
@@ -45,29 +45,49 @@ var AddItem = React.createClass({
             contentType: false, // Set content type to false as jQuery will tell the server its a query string
             success : function(response) {
                 console.log(response);
+                this.setState({
+                    complete : true
+                })
             }
         })
     },
     handleSubmit : function() {
-        params = {
-            name : ReactDOM.findDOMNode(this.refs.name),
-            manufactureYear : ReactDOM.findDOMNode(this.refs.manufactureYear),
-            type : ReactDOM.findDOMNode(this.refs.type),
-            description : ReactDOM.findDOMNode(this.refs.description)
+        var files = ReactDOM.findDOMNode(this.refs.files);
+        if(files.files.length < 1) return;
+
+        var params = {
+            name : ReactDOM.findDOMNode(this.refs.name).value,
+            manufactureYear : ReactDOM.findDOMNode(this.refs.manufactureYear).value,
+            type : ReactDOM.findDOMNode(this.refs.type).value,
+            description : ReactDOM.findDOMNode(this.refs.description).value
         }
+
+        // debugger;
+
+        var self = this;
+
         $.ajax({
-            url : 'api/items',
+            url : '/api/items',
             method : 'POST',
             data : params,
-            function : success(response) {
-                this.setState({
+            success : function(response) {
+                self.setState({
                     itemID : response.id
-                })
+                });
+                self.handleUpload()
             }
         })
     },
     render: function() {
         // console.log('render');
+        if(this.state.complete) {
+            return (
+                <div>
+                    <h3>Item Added!</h3>
+                    <h4><a href="/#modalLogin">Click here to go home and login</a></h4>
+                </div>
+            )
+        }
         return (
             <div>
             <div className="row">

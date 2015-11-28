@@ -28,7 +28,8 @@ def allItems(request):
                 'type': Type,
                 'manufactureYear': ManufactureYear,
                 'copiesSold': CopiesSold,
-                'stock': Stock
+                'stock': Stock,
+                'description' : Description
             })
 
         cursor.close()
@@ -75,7 +76,8 @@ def getItem(request):
                 'type': Type,
                 'manufactureYear': ManufactureYear,
                 'copiesSold': CopiesSold,
-                'stock': Stock
+                'stock': Stock,
+                'description' : Description
             }
 
         if(item is None):
@@ -125,7 +127,8 @@ def getItemThumbnails(request):
                 'type': Type,
                 'manufactureYear': ManufactureYear,
                 'copiesSold': CopiesSold,
-                'stock': Stock
+                'stock': Stock,
+                'description' : Description
             }
 
         cursor.close()
@@ -154,7 +157,7 @@ def getItemThumbnails(request):
 
 @view_config(route_name='apiaddItem', renderer='json', request_method='POST')
 def addItem(request):
-    requiredKeys = ['name', 'type', 'manufactureYear', 'stock']
+    requiredKeys = ['name', 'type', 'manufactureYear', 'description']
     postVars = request.POST
     acceptedValues = []
 
@@ -164,13 +167,30 @@ def addItem(request):
         else:
             raise exc.HTTPBadRequest()
 
-    query = ("INSERT INTO Items (name, type, manufactureYear, stock) VALUES (%s, %s, %s, %s)")
+    query = ("INSERT INTO Items (name, type, manufactureYear, description) VALUES (%s, %s, %s, %s)")
+
+    item = {}
 
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
         cursor.execute(query, tuple(acceptedValues))
+
+        query = ("SELECT * FROM Items WHERE ID = LAST_INSERT_ID()")
+
+        cursor.execute(query)
+
+        for (ID, Name, Type, ManufactureYear, CopiesSold, Stock, Description) in cursor:
+            item = {
+                'id': ID,
+                'name': Name,
+                'type': Type,
+                'manufactureYear': ManufactureYear,
+                'copiesSold': CopiesSold,
+                'stock': Stock,
+                'description' : Description
+            }
 
         cursor.close()
 
@@ -179,7 +199,7 @@ def addItem(request):
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err), status=500)
 
-    raise exc.HTTPOk()
+    return item
 
 
 @view_config(route_name='apiupdateItem')
@@ -299,7 +319,7 @@ def search(request):
     query = """
           SELECT *
           FROM Items
-          WHERE 
+          WHERE
          """
 
     items = []
