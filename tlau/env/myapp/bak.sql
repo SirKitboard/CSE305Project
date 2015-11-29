@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.46, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.44, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: 305
 -- ------------------------------------------------------
--- Server version	5.5.46-0ubuntu0.14.04.2
+-- Server version	5.5.44-0ubuntu0.14.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -41,14 +41,15 @@ CREATE TABLE `Auctions` (
   `reserve` decimal(10,2) DEFAULT NULL,
   `increment` decimal(10,2) DEFAULT NULL,
   `employeeID` int(11) DEFAULT NULL,
+  `finished` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `itemID` (`itemID`),
   KEY `sellerID` (`sellerID`),
   KEY `employeeID` (`employeeID`),
-  CONSTRAINT `Auctions_ibfk_5` FOREIGN KEY (`employeeID`) REFERENCES `Employees` (`id`),
   CONSTRAINT `Auctions_ibfk_1` FOREIGN KEY (`itemID`) REFERENCES `Items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `Auctions_ibfk_4` FOREIGN KEY (`sellerID`) REFERENCES `Customers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+  CONSTRAINT `Auctions_ibfk_4` FOREIGN KEY (`sellerID`) REFERENCES `Customers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `Auctions_ibfk_5` FOREIGN KEY (`employeeID`) REFERENCES `Employees` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -57,8 +58,61 @@ CREATE TABLE `Auctions` (
 
 LOCK TABLES `Auctions` WRITE;
 /*!40000 ALTER TABLE `Auctions` DISABLE KEYS */;
-INSERT INTO `Auctions` VALUES (1,2,1,'1998-11-01 00:00:00','2008-12-08 13:00:00',1000.00,1900.00,1500.00,100.00,2),(3,3,1,'1998-11-01 00:00:00','2015-10-20 10:00:00',90.00,100.00,210.00,20.00,2),(4,1,1,'1998-11-01 00:00:00','1998-12-01 00:00:00',10.00,50.00,25.00,5.00,2),(5,6,3,'2015-04-04 09:00:00','2015-05-05 09:00:00',15.00,31.00,25.00,2.00,2);
+INSERT INTO `Auctions` VALUES (1,2,1,'1998-11-01 00:00:00','2008-12-08 13:00:00',1000.00,1900.00,1500.00,100.00,2,1),(3,3,1,'1998-11-01 00:00:00','2015-10-20 10:00:00',90.00,600.00,210.00,20.00,2,1),(4,1,1,'1998-11-01 00:00:00','1998-12-01 00:00:00',10.00,50.00,25.00,5.00,2,1),(5,6,3,'2015-04-04 09:00:00','2015-05-05 09:00:00',15.00,31.00,25.00,2.00,2,1),(6,1,1,'2015-11-01 00:00:00','2015-11-30 00:00:00',10.00,45.00,25.00,5.00,2,0),(12,1,7,'2015-11-28 19:56:18','2015-11-30 00:00:00',30.00,NULL,30.00,5.00,2,0);
 /*!40000 ALTER TABLE `Auctions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AuctionsImages`
+--
+
+DROP TABLE IF EXISTS `AuctionsImages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AuctionsImages` (
+  `auctionID` int(11) DEFAULT NULL,
+  `url` varchar(1000) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AuctionsImages`
+--
+
+LOCK TABLES `AuctionsImages` WRITE;
+/*!40000 ALTER TABLE `AuctionsImages` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AuctionsImages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `BidLogs`
+--
+
+DROP TABLE IF EXISTS `BidLogs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `BidLogs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `amount` decimal(10,2) DEFAULT NULL,
+  `auctionID` int(11) DEFAULT NULL,
+  `customerID` int(11) DEFAULT NULL,
+  `time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `auctionID` (`auctionID`),
+  KEY `customerID` (`customerID`),
+  CONSTRAINT `BidLogs_ibfk_1` FOREIGN KEY (`auctionID`) REFERENCES `Auctions` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `BidLogs_ibfk_2` FOREIGN KEY (`customerID`) REFERENCES `Customers` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `BidLogs`
+--
+
+LOCK TABLES `BidLogs` WRITE;
+/*!40000 ALTER TABLE `BidLogs` DISABLE KEYS */;
+INSERT INTO `BidLogs` VALUES (1,600.00,3,4,'2015-08-08 09:00:00'),(2,1500.00,1,2,'2004-10-24 09:33:43'),(3,1600.00,1,3,'2004-10-25 09:33:43'),(4,1700.00,1,2,'2004-10-25 09:33:43'),(5,1800.00,1,3,'2004-10-25 09:33:43'),(6,1900.00,1,2,'2004-10-25 09:33:43'),(7,30.00,4,4,'1998-11-04 14:24:00'),(8,50.00,4,3,'1998-11-08 19:13:00'),(9,20.00,5,4,'2015-04-10 12:12:34'),(10,25.00,5,1,'2015-04-11 23:11:14'),(11,30.00,5,2,'2015-04-14 12:12:34'),(12,31.00,5,1,'2015-04-14 12:12:35'),(13,15.00,6,7,'2015-11-28 22:09:43'),(14,20.00,6,9,'2015-11-28 22:26:34'),(15,30.00,6,7,'2015-11-28 22:26:35'),(16,40.00,6,9,'2015-11-28 22:26:36'),(33,35.00,6,7,'2015-11-29 16:21:34'),(34,45.00,6,7,'2015-11-29 16:21:34');
+/*!40000 ALTER TABLE `BidLogs` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -70,7 +124,7 @@ DROP TABLE IF EXISTS `Bids`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Bids` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `time` datetime DEFAULT NULL,
+  `time` datetime NOT NULL,
   `amount` decimal(10,2) DEFAULT NULL,
   `customerID` int(11) DEFAULT NULL,
   `auctionID` int(11) DEFAULT NULL,
@@ -83,7 +137,7 @@ CREATE TABLE `Bids` (
   CONSTRAINT `Bids_Auctions_ID_fk` FOREIGN KEY (`auctionID`) REFERENCES `Auctions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `Bids_Customers_ID_fk` FOREIGN KEY (`customerID`) REFERENCES `Customers` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `Bids_ibfk_3` FOREIGN KEY (`itemID`) REFERENCES `Items` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +146,7 @@ CREATE TABLE `Bids` (
 
 LOCK TABLES `Bids` WRITE;
 /*!40000 ALTER TABLE `Bids` DISABLE KEYS */;
-INSERT INTO `Bids` VALUES (1,'2015-08-08 09:00:00',600.00,4,3,800.00,3),(2,'2004-10-24 09:33:43',1500.00,2,1,2000.00,2),(3,'2004-10-25 09:33:43',1600.00,3,1,1800.00,2),(4,'2004-10-25 09:33:43',1700.00,2,1,1800.00,2),(5,'2004-10-25 09:33:44',1800.00,3,1,1800.00,2),(6,'2004-10-25 09:33:45',1900.00,2,1,1900.00,2),(7,'1998-11-04 14:24:00',30.00,4,4,40.00,1),(8,'1998-11-08 19:13:00',50.00,3,4,55.00,1),(9,'2015-04-10 12:12:34',20.00,4,5,25.00,6),(10,'2015-04-11 23:11:14',25.00,1,5,35.00,6),(11,'2015-04-14 12:12:34',30.00,2,5,30.00,6),(12,'2015-04-14 12:12:35',31.00,1,5,35.00,6);
+INSERT INTO `Bids` VALUES (1,'2015-08-08 09:00:00',600.00,4,3,800.00,3),(5,'2004-10-25 09:33:44',1800.00,3,1,1800.00,2),(6,'2004-10-25 09:33:45',1900.00,2,1,1900.00,2),(7,'1998-11-04 14:24:00',30.00,4,4,40.00,1),(8,'1998-11-08 19:13:00',50.00,3,4,55.00,1),(9,'2015-04-10 12:12:34',20.00,4,5,25.00,6),(11,'2015-04-14 12:12:34',30.00,2,5,30.00,6),(12,'2015-04-14 12:12:35',31.00,1,5,35.00,6),(15,'2015-11-29 16:21:34',45.00,7,6,60.00,1),(16,'2015-11-28 22:26:36',40.00,9,6,40.00,1);
 /*!40000 ALTER TABLE `Bids` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,7 +172,7 @@ CREATE TABLE `Customers` (
   `itemsPurchased` int(11) DEFAULT '0',
   `rating` int(11) DEFAULT '3',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +181,7 @@ CREATE TABLE `Customers` (
 
 LOCK TABLES `Customers` WRITE;
 /*!40000 ALTER TABLE `Customers` DISABLE KEYS */;
-INSERT INTO `Customers` VALUES (1,'Smith','John','789 Peace Blvd','Los Angeles','CA',12345,'(412) 443-4321','shlu@ic.sunysb.edu','2345-6789-2345-6789',3,0,3),(2,'Finch','Atticus',' Happy 987','Stony Brook','NY',11790,'516 111 11111','finch@gmail.com','1111-1111-1111-1111',0,1,3),(3,'Lu','Shiyong','123 Success Street','Stony Brook','NY',11790,'(516) 632-8959','shiyong@cs.sunysb.edu','1234-5678-1234-5678',0,1,3),(4,'Du','Haixia','456 Fortune Road','Stony Brook','NY',11790,'(516) 632-4360','dhaixia@cs.sunysb.edu','5678-1234-5678-1234',0,1,3);
+INSERT INTO `Customers` VALUES (1,'Smith','John','789 Peace Blvd','Los Angeles','CA',12345,'(412) 443-4321','shlu@ic.sunysb.edu','2345-6789-2345-6789',3,0,3),(2,'Finch','Atticus',' Happy 987','Stony Brook','NY',11790,'516 111 11111','finch@gmail.com','1111-1111-1111-1111',0,1,3),(3,'Lu','Shiyong','123 Success Street','Stony Brook','NY',11790,'(516) 632-8959','shiyong@cs.sunysb.edu','1234-5678-1234-5678',0,1,3),(4,'Du','Haixia','456 Fortune Road','Stony Brook','NY',11790,'(516) 632-4360','dhaixia@cs.sunysb.edu','5678-1234-5678-1234',0,1,3),(7,'Balwani','Adi','asdasdasd','asdasd','ny',12312,'6314494337','Adibalwani@gmail.com','1234123412341234',0,0,3),(9,'hjkhkj','hjfkds','kfdjah','hjkh','hjk',11590,'12345678865','menasyhalaa@gmail.com','123456789012',0,0,3);
 /*!40000 ALTER TABLE `Customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -180,8 +234,9 @@ CREATE TABLE `Items` (
   `manufactureYear` int(11) DEFAULT NULL,
   `copiesSold` int(11) DEFAULT '0',
   `stock` int(11) DEFAULT '0',
+  `description` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -190,7 +245,7 @@ CREATE TABLE `Items` (
 
 LOCK TABLES `Items` WRITE;
 /*!40000 ALTER TABLE `Items` DISABLE KEYS */;
-INSERT INTO `Items` VALUES (1,'Titanic','DVD',2011,1,100),(2,'Nissan Sentra','Car',2007,1,3),(3,'Gamecube','Game',2001,1,3),(4,'Scott Pilgrim','DVD',2010,0,2),(5,'Inception','DVD',2010,0,10),(6,'GTAV','Game',2014,1,10);
+INSERT INTO `Items` VALUES (1,'Titanic','DVD',2011,1,100,'This is a description'),(2,'Nissan Sentra','Car',2007,1,3,NULL),(3,'Gamecube','Game',2001,1,3,NULL),(4,'Scott Pilgrim','DVD',2010,0,2,NULL),(5,'Inception','DVD',2010,0,10,NULL),(6,'GTAV','Game',2014,1,10,NULL),(7,'Nexus 5','phone',2013,0,0,''),(8,'Nexus 6P','Phone',2015,0,0,'Ma phoooonneeee');
 /*!40000 ALTER TABLE `Items` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -215,8 +270,32 @@ CREATE TABLE `ItemsImages` (
 
 LOCK TABLES `ItemsImages` WRITE;
 /*!40000 ALTER TABLE `ItemsImages` DISABLE KEYS */;
-INSERT INTO `ItemsImages` VALUES (1,'http://ecx.images-amazon.com/images/I/51d17yMqhVL.jpg'),(6,'http://media.rockstargames.com/rockstargames/img/global/news/upload/actual_1364906194.jpg');
+INSERT INTO `ItemsImages` VALUES (1,'http://ecx.images-amazon.com/images/I/51d17yMqhVL.jpg'),(6,'http://media.rockstargames.com/rockstargames/img/global/news/upload/actual_1364906194.jpg'),(7,'/static/images/5751eb3b-e382-4010-86ab-b2a45e5bea93.png'),(8,'/static/images/3170496a-f070-4384-9c14-ad6db846851c.jpg');
 /*!40000 ALTER TABLE `ItemsImages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PermanentSessions`
+--
+
+DROP TABLE IF EXISTS `PermanentSessions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `PermanentSessions` (
+  `sessionKey` varchar(32) DEFAULT NULL,
+  `userID` int(11) NOT NULL DEFAULT '0',
+  `type` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`userID`,`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PermanentSessions`
+--
+
+LOCK TABLES `PermanentSessions` WRITE;
+/*!40000 ALTER TABLE `PermanentSessions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `PermanentSessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -292,7 +371,7 @@ CREATE TABLE `Searches` (
 
 LOCK TABLES `Searches` WRITE;
 /*!40000 ALTER TABLE `Searches` DISABLE KEYS */;
-INSERT INTO `Searches` VALUES (2,2,1),(3,4,2);
+INSERT INTO `Searches` VALUES (2,2,1),(3,2,2),(3,4,2),(7,1,9),(7,2,3),(7,3,9);
 /*!40000 ALTER TABLE `Searches` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -319,7 +398,7 @@ CREATE TABLE `Users` (
 
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES ('atticus_finch','qwIL39doGCEfo',0,2),('david_smith','qwIL39doGCEfo',1,1),('david_warren','qwIL39doGCEfo',1,2),('haixia_du','qwIL39doGCEfo',0,4),('john_smith','qwIL39doGCEfo',0,1),('kyle_karl','qwIL39doGCEfo',1,3),('shiyong_lu','qwIL39doGCEfo',0,3);
+INSERT INTO `Users` VALUES ('adibalwani','qw75ElNTVyllI',0,7),('atticus_finch','qwIL39doGCEfo',0,2),('david_smith','qwIL39doGCEfo',1,1),('david_warren','qwIL39doGCEfo',1,2),('haixia_du','qwIL39doGCEfo',0,4),('hjhj','qwCR/a4B.Y1ZM',0,9),('john_smith','qwIL39doGCEfo',0,1),('kyle_karl','qwIL39doGCEfo',1,3),('shiyong_lu','qwIL39doGCEfo',0,3);
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -338,9 +417,9 @@ CREATE TABLE `Wins` (
   PRIMARY KEY (`auctionID`),
   KEY `customerID` (`customerID`),
   KEY `bidID` (`bidID`),
-  CONSTRAINT `Wins_ibfk_4` FOREIGN KEY (`bidID`) REFERENCES `Bids` (`id`) ON DELETE CASCADE,
   CONSTRAINT `Wins_ibfk_2` FOREIGN KEY (`customerID`) REFERENCES `Customers` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `Wins_ibfk_3` FOREIGN KEY (`auctionID`) REFERENCES `Auctions` (`id`) ON DELETE NO ACTION
+  CONSTRAINT `Wins_ibfk_3` FOREIGN KEY (`auctionID`) REFERENCES `Auctions` (`id`) ON DELETE NO ACTION,
+  CONSTRAINT `Wins_ibfk_4` FOREIGN KEY (`bidID`) REFERENCES `Bids` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -447,4 +526,4 @@ USE `305`;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-17 18:03:13
+-- Dump completed on 2015-11-29 17:27:45
