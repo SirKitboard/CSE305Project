@@ -65,6 +65,7 @@ def main(global_config, **settings):
     config.add_route('apiGetOpenAuctions', 'api/auctions/open', request_method='GET')
     config.add_route('apiSearchAuction', 'api/auctions/search')
     config.add_route('apiGetAuction', 'api/auctions/{id}', request_method='GET')
+    config.add_route('apiAddAuction', 'api/auctions', request_method='POST')
 
     # Generators
     config.add_route('apisalesReport', 'api/generate/salesReport', request_method='GET')
@@ -76,7 +77,8 @@ def main(global_config, **settings):
     config.add_route('apirevenueReport', 'api/generate/revenueReport', request_method='GET')
 
     # Views
-    config.add_route('addItem', '/items/add', request_method='GET')
+    config.add_route('addItem', 'items/add', request_method='GET')
+    config.add_route('createAuction', 'auctions/add', request_method='GET')
     config.add_route('items', 'item/{id}', request_method='GET')
     config.add_route('auctionSearch', 'auctions/search/{id}', request_method='GET')
     config.add_route('auctions', 'auction/{id}', request_method='GET')

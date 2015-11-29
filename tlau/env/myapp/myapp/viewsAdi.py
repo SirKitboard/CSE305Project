@@ -21,3 +21,12 @@ def addItem(request):
 	if('currentUser' in request.session):
 		values["currentUser"] = request.session['currentUser']
 	return values
+
+@view_config(route_name='createAuction', renderer='myapp:templates/createAuction.mako')
+def createAuction(request):
+	values = {
+		'currentUser' : None,
+	}
+	if('currentUser' in request.session):
+		values["currentUser"] = request.session['currentUser']
+	return values

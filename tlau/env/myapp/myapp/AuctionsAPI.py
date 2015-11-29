@@ -3,6 +3,7 @@ from pyramid.response import Response
 from datetime import datetime
 from decimal import Decimal
 from myapp import Authorizer
+from random import randint
 
 import pyramid.httpexceptions as exc
 
@@ -136,3 +137,51 @@ def apiAuctionSearch(request):
         return Response("Something went wrong: {}".format(err), status=500)
 
     return searchResults
+
+# Add a customer
+@view_config(route_name='apiAddAuction', renderer='json')
+def addAuction(request):
+    Authorizer.authorizeCustomer(request)
+
+    requiredKeys = ['itemID', 'sellerID', 'closingTime', 'openingBid', 'reserve', 'increment']
+    postVars = request.POST
+    acceptedKeys = []
+
+    for key in requiredKeys:
+        if(key in postVars):
+            acceptedKeys.append(postVars[key])
+        else:
+            print(key)
+            raise exc.HTTPBadRequest()
+
+    # print(postVars['password'])
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        employees = []
+
+        query = "SELECT id FROM Employees WHERE type = 1"
+
+        cursor.execute(query)
+
+        for row in cursor:
+            employees.append(row['id'])
+
+        acceptedKeys.append(employees[randint(0,len(employees)-1)])
+
+        query = ("INSERT INTO Auctions(itemID, sellerID, openingTime, closingTime, openingBid, reserve, increment, employeeID)\
+                 VALUES (%s,  %s,  NOW(),  %s,  %s,  %s,  %s, %s);")
+
+        cursor.execute(query, tuple(acceptedKeys))
+
+        cursor.close()
+
+        cnx.commit()
+        cnx.close()
+    except mysql.connector.Error as err:
+        cursor.close()
+        cnx.close()
+        return Response("Something went wrong: {}".format(err))
+
+    raise exc.HTTPOk()
