@@ -4,7 +4,7 @@ var AuctionSearch = React.createClass ({
 			auctions : null,
 			item: null,
 			loading: 0
-		}	
+		}
 	},
 
 	componentDidMount : function() {
@@ -14,9 +14,11 @@ var AuctionSearch = React.createClass ({
 			method: 'GET',
 			data: {
 				itemID: window.itemID
-
 			},
 			success : function(response) {
+				_.each(response, function(auction) {
+					auction.currentBid = (auction.currentBid < auction.openingBid ? auction.openingBid : auction.currentBid)
+				});
 				self.setState({
 					auctions : response,
 					loading : self.state.loading + 1
@@ -35,7 +37,7 @@ var AuctionSearch = React.createClass ({
 					item : response,
 					loading : self.state.loading + 1
 				});
-				
+
 			}
 		});
 	},
@@ -76,7 +78,7 @@ var AuctionSearch = React.createClass ({
 	                                        <div className="card-image">
 	                                            <img src={imageURL}/>
 	                                            <span className="card-title">{self.state.item.name} <br/>
-	                                            	  $ {auction.currentBid} 
+	                                            	  $ {auction.currentBid}
 	                                            </span>
 	                                        </div>
 
@@ -86,11 +88,11 @@ var AuctionSearch = React.createClass ({
 
 	                                        <div className="card-action"  >
 
-	                                            <a href="#">View<i className="material-icons">remove_red_eye</i></a> 
+	                                            <a href={"/auction/"+auction.id}>View<i className="material-icons">remove_red_eye</i></a>
 	                                            <a href="#">Bid <i className="material-icons">attach_money</i></a>
 
-	                                            
-	                                        </div>   
+
+	                                        </div>
 
 	                                    </div>
                                     </div>

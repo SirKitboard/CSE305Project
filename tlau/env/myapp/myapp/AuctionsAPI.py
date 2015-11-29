@@ -78,7 +78,7 @@ def bidHistory(request):
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
-        query = ("SELECT * FROM Bids LEFT JOIN (SELECT firstName, lastName, id FROM Customers) AS CustomerInfo ON Bids.customerID = CustomerInfo.id WHERE Bids.auctionID = %s ORDER BY Bids.time ASC")
+        query = ("SELECT * FROM BidLogs LEFT JOIN (SELECT firstName, lastName, id FROM Customers) AS CustomerInfo ON BidLogs.customerID = CustomerInfo.id WHERE BidLogs.auctionID = %s ORDER BY BidLogs.id ASC")
 
         cursor.execute(query, tuple(str(auctionID)))
 
@@ -90,8 +90,6 @@ def bidHistory(request):
                 'amount': str(row['amount']),
                 'customerID': row['customerID'],
                 'auctionID': row['auctionID'],
-                'maxBid': str(row['maxBid']),
-                'itemID': row['itemID'],
                 'name': row['firstName'] + " " + row['lastName']
             })
 
@@ -208,7 +206,7 @@ def apiAddBid(request):
 
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
-        cursor = cnx.cursor(dictionary=True)
+        cursor = cnx.cursor(dictionary=True, buffered=True)
 
         query = "SELECT COUNT(*) as count, itemID, increment, openingBid, sellerID FROM Auctions WHERE id = %s AND closingTime > NOW()"
 
@@ -233,9 +231,23 @@ def apiAddBid(request):
         if(postVars['value'] < row['openingBid']):
             raise exc.HTTPForbidden()
 
-        query = "INSERT INTO Bids(itemID, customerID, maxBid, amount, time, auctionID) VALUES (%s, %s, %s, %s, NOW(), %s)"
+        # Check if bid already exists
+        query = "SELECT * FROM Bids WHERE customerID = %s AND auctionID = %s"
 
-        cursor.execute(query, tuple([str(itemID), str(customer['id']), postVars['maxBid'], postVars['value'], auctionID]))
+        cursor.execute(query, tuple([customer['id'], auctionID]))
+        print('rowcount', cursor.rowcount)
+        if(cursor.rowcount > 0):
+            row = cursor.fetchone()
+            query = "UPDATE Bids SET amount = %s, maxBid = %s WHERE id = %s"
+            cursor.execute(query, tuple([postVars['value'], postVars['maxBid'], row['id']]))
+
+        else:
+            query = "INSERT INTO Bids(itemID, customerID, maxBid, amount, time, auctionID) VALUES (%s, %s, %s, %s, NOW(), %s)"
+            cursor.execute(query, tuple([str(itemID), str(customer['id']), postVars['maxBid'], postVars['value'], auctionID]))
+
+        query = "INSERT INTO BidLogs (amount, customerID, auctionID, time) VALUES (%s, %s, %s, NOW())"
+
+        cursor.execute(query, tuple([postVars['value'], customer['id'], auctionID]))
 
         query = "SELECT * from Bids WHERE auctionID = %s"
 
@@ -253,6 +265,8 @@ def apiAddBid(request):
             bids.append(bid)
 
         changed = True
+
+        currentMaxBid = 0
 
         while(changed):
             changed = False
@@ -281,17 +295,23 @@ def apiAddBid(request):
 
         for bid in bids:
             if 'changed' in bid:
-                query = "INSERT INTO Bids(itemID, customerID, maxBid, amount, time, auctionID) VALUES (%s, %s, %s, %s, NOW(), %s)"
-                time.sleep(1)
-                cursor.execute(query, tuple([str(itemID), str(bid['customerID']), bid['maxBid'], bid['amount'], str(auctionID)]))
+                # print('wut')
+                query = "UPDATE Bids SET amount = %s, time = NOW() WHERE id = %s"
+                cursor.execute(query, tuple([bid['amount'], bid['id']]))
+                # print('HIIII')
+                query = "INSERT INTO BidLogs (customerID, amount, time, auctionID) VALUES (%s, %s, NOW(), %s)"
+                cursor.execute(query, tuple([bid['customerID'], str(bid['amount']), auctionID]))
+
+        query = "UPDATE Auctions SET currentBid = %s WHERE id = %s"
+        cursor.execute(query, tuple([str(currentMaxBid), auctionID]))
 
         cursor.close()
-
+        print('COMMITTING')
         cnx.commit()
         cnx.close()
     except mysql.connector.Error as err:
         cursor.close()
         cnx.close()
-        return Response("Something went wrong: {}".format(err))
+        return Response("Something went wrong: {}".format(err), 500)
 
     raise exc.HTTPOk()
