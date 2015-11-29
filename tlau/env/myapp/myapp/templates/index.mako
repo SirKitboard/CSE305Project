@@ -3,13 +3,8 @@
 <%def name="head()"></%def>
 <%def name="body()">
 <div class="container">
-    <div class="row">
-        <div class="col s12">
-            <h1>Hot Items</h1>
-            <div class="itemContainer" id="hotItems">
+    <div class="itemContainer" id="hotItems">
 
-            </div>
-        </div>
     </div>
     <div class="fixed-action-btn">
         <a class="btn-floating btn-large red">

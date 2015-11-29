@@ -1,24 +1,43 @@
 var HotItems = React.createClass({
     getInitialState: function() {
         return {
-            auctions : [],
-            loading : true,
+            hotItems : [],
+            suggestedItems : [],
+            loading : 0,
         }
     },
     componentDidMount: function() {
         var self = this;
         $.ajax({
-            url : 'api/auctions/open',
+            url : 'api/items/hot',
             success: function(response) {
                 self.setState({
-                    auctions : response,
-                    loading : false
+                    hotItems : response,
+                    loading : self.state.loading+1
+                });
+            },
+            error : function() {
+                console.log('ERRRROR')
+                self.setState({
+                    hotItems : [],
+                    loading : self.state.loading+1
+                })
+            }
+        });
+        $.ajax({
+            url : 'api/items/suggestions',
+            success: function(response) {
+                self.setState({
+                    suggestedItems : response,
+                    loading : self.state.loading + 1
                 });
                 self.fetchThumnails();
             },
             error : function() {
+                console.log('ERRRROR')
                 self.setState({
-                    auctions : [],
+                    suggestedItems : [],
+                    loading : self.state.loading + 1
                 })
             }
         })
@@ -39,8 +58,8 @@ var HotItems = React.createClass({
         });
     },
     render: function() {
-        // console.log('render');
-        if(this.state.loading) {
+        console.log(this.state.loading)
+        if(this.state.loading < 2) {
             return (
                 <div>
                 <h5>Loading..</h5>
@@ -51,39 +70,74 @@ var HotItems = React.createClass({
             )
         }
         else {
-            if(this.state.auctions.length == 0) {
-                return (<h3>No Trending Auctions</h3>)
+            var suggestedItems = <h5>Search for items to get better suggestions!</h5>
+            var hotItems = <h5>No hot items :(</h5>;
+            if(this.state.suggestedItems.length > 0) {
+                suggestedItems = _.map(this.state.hotItems, function(auction) {
+                    var imageURL = "http://placehold.it/300x300"
+                    if(auction.thumbnails) {
+                        imageURL = auction.thumbnails[0]
+                    }
+                    return (
+                        <div className="col s12 m4 l3">
+                        <div className="card small">
+                            <div className="card-image">
+                                <img src={imageURL}/>
+                                <span className="card-title">{auction.name}</span>
+                            </div>
+                            </div>
+                            <div className="card-content">
+                                <p>{auction.description}</p>
+                            </div>
+                            <div className="card-action">
+                                <a href="#">View</a>
+                            </div>
+                        </div>
+                    )
+                })
             }
-            else {
-                return (
-                    <div>
-                        {
-                            _.map(this.state.auctions, function(auction) {
-                                var imageURL = "http://placehold.it/300x300"
-                                if(auction.thumbnails) {
-                                    imageURL = auction.thumbnails[0]
-                                }
-                                return (
-                                    <div className="col s12 m4 l3">
-                                    <div className="card small">
-                                        <div className="card-image">
-                                            <img src={imageURL}/>
-                                            <span className="card-title">{auction.name}</span>
-                                        </div>
-                                        </div>
-                                        <div className="card-content">
-                                            <p>{auction.description}</p>
-                                        </div>
-                                        <div className="card-action">
-                                            <a href="#">View</a>
-                                        </div>
-                                    </div>
-                                )
-                            })
-                        }
+            if(this.state.hotItems.length > 0) {
+                hotItems = _.map(this.state.hotItems, function(auction) {
+                    var imageURL = "http://placehold.it/300x300"
+                    if(auction.thumbnails) {
+                        imageURL = auction.thumbnails[0]
+                    }
+                    return (
+                        <div className="col s12 m4 l3">
+                        <div className="card small">
+                            <div className="card-image">
+                                <img src={imageURL}/>
+                                <span className="card-title">{auction.name}</span>
+                            </div>
+                            </div>
+                            <div className="card-content">
+                                <p>{auction.description}</p>
+                            </div>
+                            <div className="card-action">
+                                <a href="#">View</a>
+                            </div>
+                        </div>
+                    )
+                })
+            }
+            return (
+                <div>
+                    <div className="row">
+                        <div className="col s12">
+                            <h3>Hot Items</h3>
+                                <div className="row">
+                                {hotItems}
+                                </div>
+                        </div>
                     </div>
-                )
-            }
+                    <div className="row">
+                        <div className="col s12">
+                            <h3>Suggested Items</h3>
+                            {suggestedItems}
+                        </div>
+                    </div>
+                </div>
+            )
         }
     }
 });
