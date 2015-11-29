@@ -32,7 +32,7 @@ var Profile = React.createClass({
                             <div className="col s4"><i className="profileIcon material-icons">account_circle</i></div>
                             <div className="col s8">
                                 <h4>Hi {window.currentUser.firstName}</h4>
-                                <h5>You're looking great today! </h5>
+                                <h5>You are looking great today! </h5>
                                 <a className="modal-trigger waves-effect waves-light btn" href="#modalUpdate">Update Profile</a> <span style={{marginLeft:'5px', fontSize:'20px'}} className="amber-text text-lighten-1">{window.currentUser.rating}<i className="material-icons">star</i></span>
                             </div>
                         </div>

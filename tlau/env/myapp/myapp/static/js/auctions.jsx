@@ -22,6 +22,11 @@ var Auction = React.createClass({
 			}
 		});
 	},
+	componentDidUpdate : function(prevProps, prevState) {
+		if(prevState.loading == 2 && this.state.loading == 3) {
+			$('.modal-trigger').leanModal();
+		}
+	},
 	getItemInfo : function(itemID) {
 		var self = this;
 		$.ajax({
@@ -112,7 +117,7 @@ var Auction = React.createClass({
 								<div className="col amber-text text-lighten-1"> <i className="material-icons">star</i><span id="rating">{this.state.seller.rating}</span></div>
 							</div>
 							<p id= "Reserve"></p>
-							<span className="amber-text text-lighten-1"> <i className="material-icons">restore</i> See Bid History</span>
+							 <a className="modal-trigger" href="#modalTable"><i className="material-icons">restore</i> See Bid History</a>
 						</div>
 						<div> Description:  <span id="description">{this.state.item.description}</span> </div>
 
@@ -129,4 +134,10 @@ var auction = <Auction/>
 ReactDOM.render(
   auction,
   document.getElementById('auctionContainer')
+);
+
+var bidHistory = <BidHistory/>
+ReactDOM.render(
+  bidHistory,
+  document.getElementById('bidHistoryContainer')
 );

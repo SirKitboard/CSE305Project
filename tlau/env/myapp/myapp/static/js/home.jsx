@@ -64,10 +64,12 @@ var HotItems = React.createClass({
                                     imageURL = auction.thumbnails[0]
                                 }
                                 return (
+                                    <div className="col s12 m4 l3">
                                     <div className="card small">
                                         <div className="card-image">
                                             <img src={imageURL}/>
                                             <span className="card-title">{auction.name}</span>
+                                        </div>
                                         </div>
                                         <div className="card-content">
                                             <p>{auction.description}</p>

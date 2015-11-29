@@ -71,13 +71,14 @@ def getAuction(request):
 
 @view_config(route_name='apibidHistory', renderer='json')
 def bidHistory(request):
+    auctionID = request.matchdict['id']
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
-        query = ("SELECT * FROM Bids")
+        query = ("SELECT * FROM Bids LEFT JOIN (SELECT firstName, lastName, id FROM Customers) AS CustomerInfo ON Bids.customerID = CustomerInfo.id WHERE Bids.auctionID = %s ORDER BY Bids.time ASC")
 
-        cursor.execute(query)
+        cursor.execute(query, tuple(str(auctionID)))
 
         history = []
         for row in cursor:
@@ -88,7 +89,8 @@ def bidHistory(request):
                 'customerID': row['customerID'],
                 'auctionID': row['auctionID'],
                 'maxBid': str(row['maxBid']),
-                'itemID': row['itemID']
+                'itemID': row['itemID'],
+                'name': row['firstName'] + " " + row['lastName']
             })
 
         cursor.close()
@@ -100,6 +102,7 @@ def bidHistory(request):
         raise exc.HTTPNoContent()
 
     return history
+
 
 @view_config(route_name="apiSearchAuction", renderer='json')
 def apiAuctionSearch(request):
