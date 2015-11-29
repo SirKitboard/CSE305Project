@@ -13,6 +13,9 @@ var Auction = React.createClass({
 			url: '/api/auctions/'+auctionID,
 			method: 'GET',
 			success : function(response) {
+				if(response.currentBid < response.openingBid){
+					response.currentBid = response.openingBid
+				};
 				self.setState({
 					auction : response,
 					loading : self.state.loading + 1

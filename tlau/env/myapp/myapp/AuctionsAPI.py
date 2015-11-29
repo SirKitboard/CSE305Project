@@ -4,6 +4,7 @@ from datetime import datetime
 from decimal import Decimal
 from myapp import Authorizer
 from random import randint
+import time
 
 import pyramid.httpexceptions as exc
 
@@ -174,6 +175,96 @@ def addAuction(request):
                  VALUES (%s,  %s,  NOW(),  %s,  %s,  %s,  %s, %s);")
 
         cursor.execute(query, tuple(acceptedKeys))
+
+        cursor.close()
+
+        cnx.commit()
+        cnx.close()
+    except mysql.connector.Error as err:
+        cursor.close()
+        cnx.close()
+        return Response("Something went wrong: {}".format(err))
+
+    raise exc.HTTPOk()
+
+# config.add_route('apiAddBid', renderer='json')
+@view_config(route_name='apiAddBid', renderer='json')
+def apiAddBid(request):
+    Authorizer.authorizeCustomer(request)
+    auctionID = request.matchdict['id']
+
+    customer = request.session['currentUser']
+
+    requiredKeys = ['value', 'maxBid']
+    postVars = request.POST
+    acceptedKeys = []
+
+    for key in requiredKeys:
+        if(key in postVars):
+            acceptedKeys.append(postVars[key])
+        else:
+            print(key)
+            raise exc.HTTPBadRequest()
+
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        query = "SELECT COUNT(*) as count, itemID, increment FROM Auctions WHERE id = %s AND closingTime > NOW()"
+
+        cursor.execute(query, tuple(str(auctionID)))
+
+        row = cursor.fetchone()
+        auctionCount = row['count']
+
+        if auctionCount == 0:
+            cursor.close()
+            cnx.close()
+            raise exc.HTTPBadRequest()
+
+        itemID = row['itemID']
+        increment = row['increment']
+
+        query = "INSERT INTO Bids(itemID, customerID, maxBid, amount, time, auctionID) VALUES (%s, %s, %s, %s, NOW(), %s)"
+
+        cursor.execute(query, tuple([str(itemID), str(customer['id']), postVars['maxBid'], postVars['value'], auctionID]))
+
+        query = "SELECT * from Bids WHERE auctionID = %s"
+
+        cursor.execute(query, tuple(str(auctionID)))
+
+        bids = []
+
+        for row in cursor:
+            bid = {}
+            for key in row:
+                if(isinstance(row[key], datetime)):
+                    bid[key] = row[key].isoformat()
+                else:
+                    bid[key] = row[key]
+            bids.append(bid)
+
+        changed = True
+
+        while(changed):
+            changed = False
+            currentMaxBid = max([bid['amount'] for bid in bids])
+            print(currentMaxBid)
+            for bid in bids:
+                print('\n')
+                print(bid['amount'])
+                print(increment)
+                if((bid['amount'] + increment) <= bid['maxBid'] and bid['amount'] <= currentMaxBid):
+                    bid['changed'] = True
+                    changed=True
+                    bid['amount'] = bid['amount'] + increment
+
+        for bid in bids:
+            if 'changed' in bid:
+                query = "INSERT INTO Bids(itemID, customerID, maxBid, amount, time, auctionID) VALUES (%s, %s, %s, %s, NOW(), %s)"
+                time.sleep(1)
+                cursor.execute(query, tuple([str(itemID), str(bid['customerID']), bid['maxBid'], bid['amount'], str(auctionID)]))
+
 
         cursor.close()
 

@@ -66,14 +66,13 @@ def main(global_config, **settings):
     config.add_route('apiSearchAuction', 'api/auctions/search')
     config.add_route('apiGetAuction', 'api/auctions/{id}', request_method='GET')
     config.add_route('apiAddAuction', 'api/auctions', request_method='POST')
+    config.add_route('apiAddBid', 'api/auctions/{id}/bid', request_method='POST')
+    config.add_route('apibidHistory', 'api/auction/{id}/bids', request_method='GET')
 
     # Generators
     config.add_route('apisalesReport', 'api/generate/salesReport', request_method='GET')
     config.add_route('apireceipt', 'api/generate/receipt', request_method='GET')
     config.add_route('apimailingList', 'api/generate/mailingList', request_method='GET')
-
-    # Bid Routes
-    config.add_route('apibidHistory', 'api/auction/{id}/bids', request_method='GET')
     config.add_route('apirevenueReport', 'api/generate/revenueReport', request_method='GET')
 
     # Views
