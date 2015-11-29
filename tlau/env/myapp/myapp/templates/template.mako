@@ -6,6 +6,18 @@
     <meta name="description" content="Home Page">
     <meta name="author" content="Team ¯\_(ツ)_/¯">
     <link rel="shortcut icon" href="${request.static_url('myapp:static/pyramid-16x16.png')}">
+% if currentUser == None:
+    <script>
+        window.currentUser = null;
+    </script>
+% else:
+    <script>
+        window.currentUser = "${currentUser}".replace(/&#39;/g,"\"");
+        window.currentUser = JSON.parse(window.currentUser);
+        console.log(window.currentUser)
+    </script>
+% endif
+
 
     <title>${self.title()}</title>
 
@@ -25,6 +37,7 @@
     <script src="${request.static_url('myapp:static/js/react/react.js')}"></script>
     <script src="${request.static_url('myapp:static/js/react/react-dom.js')}"></script>
     <script src="${request.static_url('myapp:static/js/react/browser.min.js')}"></script>
+
     ${self.head()}
 </head>
 
@@ -36,17 +49,9 @@
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
 % if currentUser == None:
                     <li><a class="modal-trigger sign-in" href="#modalLogin">Why not sign in? <i class="tiny material-icons">person_add</i></a></li>
-                    <script>
-                        window.currentUser = null;
-                    </script>
 % else:
                     <li><a href="/profile">Hi ${currentUser['firstName']}</a></li>
                     <li><a id="logout" class="logout">Logout<i class="tiny material-icons">power_settings_new</i></a></li>
-                    <script>
-                    window.currentUser = "${currentUser}".replace(/&#39;/g,"\"");
-                    window.currentUser = JSON.parse(window.currentUser);
-                    console.log(window.currentUser)
-                    </script>
 % endif
                 </ul>
             </div>

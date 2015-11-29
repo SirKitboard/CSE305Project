@@ -2,6 +2,7 @@
 from pyramid.view import view_config
 from pyramid.renderers import render
 from pyramid.response import Response
+from myapp import Authorizer
 
 
 @view_config(route_name='signup', renderer='myapp:templates/signup.mako')
@@ -24,6 +25,16 @@ def addItem(request):
 
 @view_config(route_name='createAuction', renderer='myapp:templates/createAuction.mako')
 def createAuction(request):
+	values = {
+		'currentUser' : None,
+	}
+	if('currentUser' in request.session):
+		values["currentUser"] = request.session['currentUser']
+	return values
+
+@view_config(route_name='managerDashboard', renderer='myapp:templates/managerDashboard.mako')
+def managerDashboard(request):
+	Authorizer.authorizeManager(request)
 	values = {
 		'currentUser' : None,
 	}

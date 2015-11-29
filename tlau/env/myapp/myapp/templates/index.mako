@@ -1,6 +1,15 @@
 <%inherit file="myapp:templates/template.mako" />
 <%def name="title()">Home</%def>
-<%def name="head()"></%def>
+<%def name="head()">
+<script>
+if(window.currentUser && window.currentUser.type ==1){
+    if(window.currentUser.employeeType == 0) {
+        window.location.href = "/manager/dashboard"
+    } else {
+        window.location.href = "/employee/dashboard"
+    }
+}
+</script></%def>
 <%def name="body()">
 <div class="container">
     <div class="itemContainer" id="hotItems">
