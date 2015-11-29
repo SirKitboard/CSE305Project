@@ -93,6 +93,14 @@ var Auction = React.createClass({
 				var url = this.state.item.images[0];
 				image = <ImageScroller images={this.state.item.images}/>
 			}
+			var bidButton = <a className="modal-trigger btn waves-effect waves-light col s12 m2 green z-depth-2" href="#modalBid" type ="bidButton"> Bid </a>
+			if(!window.currentUser) {
+				bidButton = <a className="modal-trigger btn waves-effect waves-light col s12 m2 green z-depth-2" href="#modalBid" type ="bidButton" disabled> Bid </a>
+			}
+			else if(window.currentUser.id == this.state.auction.sellerID) {
+				bidButton = "";
+			}
+
 			return (
 				<div>
 				<h1 className="black-text" id="name">{this.state.item.name}</h1>
@@ -111,7 +119,7 @@ var Auction = React.createClass({
 						<div className="bold">
 							<div className="row">
 								<div id="currentBid" className="col s12 m8"> Current Price: {this.state.auction.currentBid}</div>
-								<button className="btn waves-effect waves-light col s12 m2 green z-depth-2" type ="bidButton"> Bid </button>
+								{bidButton}
 							</div>
 							<div> <i className="material-icons">hourglass_full</i>Closes at: <span id= "closingTime">{new Date(this.state.auction.closingTime).toLocaleDateString("en-US", options)}</span></div>
 
@@ -143,4 +151,10 @@ var bidHistory = <BidHistory/>
 ReactDOM.render(
   bidHistory,
   document.getElementById('bidHistoryContainer')
+);
+
+var placeBid = <PlaceBid/>
+ReactDOM.render(
+   placeBid,
+   document.getElementById('placeBidContainer')
 );

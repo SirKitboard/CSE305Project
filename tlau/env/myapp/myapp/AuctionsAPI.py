@@ -227,6 +227,9 @@ def apiAddBid(request):
         if(customer['id'] < row['sellerID']):
             raise exc.HTTPForbidden()
 
+        postVars['value'] = Decimal(postVars['value'])
+        postVars['maxBid'] = Decimal(postVars['maxBid'])
+
         if(postVars['value'] < row['openingBid']):
             raise exc.HTTPForbidden()
 
@@ -254,22 +257,33 @@ def apiAddBid(request):
         while(changed):
             changed = False
             currentMaxBid = max([bid['amount'] for bid in bids])
-            print(currentMaxBid)
-            for bid in bids:
-                print('\n')
-                print(bid['amount'])
-                print(increment)
-                if((bid['amount'] + increment) <= bid['maxBid'] and bid['amount'] <= currentMaxBid):
-                    bid['changed'] = True
-                    changed=True
-                    bid['amount'] = bid['amount'] + increment
+            numOccurences = [bid['amount'] for bid in bids].count(currentMaxBid)
+            print(numOccurences)
+            # print(currentMaxBid)
+            if(numOccurences == 1):
+                for bid in bids:
+                    print('\n')
+                    print(bid['amount'])
+                    print(increment)
+                    if((bid['amount'] + increment) <= bid['maxBid'] and bid['amount'] < currentMaxBid):
+                        bid['changed'] = True
+                        changed = True
+                        bid['amount'] = bid['amount'] + increment
+            else:
+                for bid in bids:
+                    print('\n')
+                    print(bid['amount'])
+                    print(increment)
+                    if((bid['amount'] + increment) <= bid['maxBid'] and bid['amount'] <= currentMaxBid):
+                        bid['changed'] = True
+                        changed=True
+                        bid['amount'] = bid['amount'] + increment
 
         for bid in bids:
             if 'changed' in bid:
                 query = "INSERT INTO Bids(itemID, customerID, maxBid, amount, time, auctionID) VALUES (%s, %s, %s, %s, NOW(), %s)"
                 time.sleep(1)
                 cursor.execute(query, tuple([str(itemID), str(bid['customerID']), bid['maxBid'], bid['amount'], str(auctionID)]))
-
 
         cursor.close()
 
