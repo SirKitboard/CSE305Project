@@ -95,11 +95,33 @@ def getItem(request):
             urls.append(row['url'])
         item['images'] = urls
 
+        if 'currentUser' in request.session:
+            customer = request.session['currentUser']
+            cursor.close()
+            cursor = cnx.cursor(dictionary=True, buffered=True)
+            if customer['type'] == 0:
+                query = "SELECT * from Searches WHERE customerID = %s AND itemID = %s"
+                cursor.execute(query, tuple([str(customer['id']), str(item['id'])]))
+                numRows = cursor.rowcount
+                print(numRows)
+                if numRows > 0:
+                    frequency = cursor.fetchone()['frequency']
+                    query = "UPDATE Searches SET frequency = %s WHERE customerID = %s AND itemID = %s"
+                    cursor.execute(query, tuple([frequency+1, customer['id'], item['id']]))
+                else:
+                    for row in cursor:
+                        print('hi')
+                    query = "INSERT INTO Searches (frequency, customerID, itemID) VALUES (1, %s, %s)"
+                    cursor.execute(query, tuple([str(customer['id']), str(item['id'])]))
+                    print('something')
+
         cursor.close()
+        cnx.commit()
         cnx.close()
 
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err), status=500)
+
 
     return item
 
@@ -279,10 +301,11 @@ def itemSuggestions(request):
         AND Items.name NOT IN (
             SELECT name FROM Items WHERE id IN (
                 SELECT itemID FROM Auctions WHERE id IN (
-                    SELECT auctionID FROM Bids
+                    SELECT auctionID FROM Bids WHERE customerID = %s
                     )
                 )
             )
+        LIMIT 5
         """
 
     suggestedItems = []
@@ -290,7 +313,7 @@ def itemSuggestions(request):
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
-        cursor.execute(query, tuple(str(customerID)))
+        cursor.execute(query, tuple([str(customerID), str(customerID)]))
 
         for row in cursor:
             item = {}

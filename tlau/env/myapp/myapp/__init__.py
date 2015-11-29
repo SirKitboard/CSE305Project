@@ -26,7 +26,7 @@ def main(global_config, **settings):
     config.add_route('apiallItems', 'api/items', request_method='GET')
     config.add_route('apisearch', 'api/items/search', request_method='GET')
     config.add_route('apiitemSuggestions', 'api/items/suggestions', request_method='GET')
-    config.add_route('apiHotItems', 'api/items/hot', request_method='POST')
+    config.add_route('apiHotItems', 'api/items/hot', request_method='GET')
     config.add_route('apigetItem', 'api/items/{id}', request_method='GET')
     config.add_route('apigetItemThumbnails', 'api/items/{id}/thumbnails', request_method='GET')
     config.add_route('apiaddItem', 'api/items', request_method='POST')
@@ -34,6 +34,7 @@ def main(global_config, **settings):
     config.add_route('apihello', '/hello')
     config.add_route('apideleteItem', 'api/items/{id}', request_method='DELETE')
     config.add_route('apisold', 'api/items/sold', request_method='POST')
+    # config.add_route('apiItemSearched', 'api/items/{id}/searched')
     # config.add_route('apisessionTest', '/ses')
 
     # File routes

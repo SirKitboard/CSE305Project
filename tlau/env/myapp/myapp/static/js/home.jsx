@@ -59,7 +59,7 @@ var HotItems = React.createClass({
     },
     render: function() {
         console.log(this.state.loading)
-        if(this.state.loading < 2) {
+        if(this.state.loading < 1) {
             return (
                 <div>
                 <h5>Loading..</h5>
@@ -73,49 +73,50 @@ var HotItems = React.createClass({
             var suggestedItems = <h5>Search for items to get better suggestions!</h5>
             var hotItems = <h5>No hot items :(</h5>;
             if(this.state.suggestedItems.length > 0) {
-                suggestedItems = _.map(this.state.hotItems, function(auction) {
+                suggestedItems = _.map(this.state.suggestedItems, function(item) {
                     var imageURL = "http://placehold.it/300x300"
-                    if(auction.thumbnails) {
-                        imageURL = auction.thumbnails[0]
+                    if(item.images.length > 0) {
+                        imageURL = item.images[0]
                     }
                     return (
-                        <div className="col s12 m4 l3">
+                        <div className="col s12 m4 l2">
                         <div className="card small">
                             <div className="card-image">
                                 <img src={imageURL}/>
-                                <span className="card-title">{auction.name}</span>
-                            </div>
+                                <span className="card-title">{item.name}</span>
                             </div>
                             <div className="card-content">
-                                <p>{auction.description}</p>
+                                <p>{item.description}</p>
                             </div>
                             <div className="card-action">
                                 <a href="#">View</a>
                             </div>
                         </div>
+                        </div>
                     )
                 })
             }
             if(this.state.hotItems.length > 0) {
-                hotItems = _.map(this.state.hotItems, function(auction) {
+                hotItems = _.map(this.state.hotItems, function(item) {
                     var imageURL = "http://placehold.it/300x300"
-                    if(auction.thumbnails) {
-                        imageURL = auction.thumbnails[0]
+                    if(item.images.length > 0) {
+                        imageURL = item.images[0]
                     }
+                    var link = "/item/"+item.id;
                     return (
-                        <div className="col s12 m4 l3">
+                        <div className="col s12 m4 l2">
                         <div className="card small">
                             <div className="card-image">
                                 <img src={imageURL}/>
-                                <span className="card-title">{auction.name}</span>
-                            </div>
+                                <span className="card-title">{item.name}</span>
                             </div>
                             <div className="card-content">
-                                <p>{auction.description}</p>
+                                <p>{item.description}</p>
                             </div>
                             <div className="card-action">
-                                <a href="#">View</a>
+                                <a href={link}>View</a>
                             </div>
+                        </div>
                         </div>
                     )
                 })
