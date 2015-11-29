@@ -210,7 +210,7 @@ def apiAddBid(request):
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
-        query = "SELECT COUNT(*) as count, itemID, increment FROM Auctions WHERE id = %s AND closingTime > NOW()"
+        query = "SELECT COUNT(*) as count, itemID, increment, openingBid, sellerID FROM Auctions WHERE id = %s AND closingTime > NOW()"
 
         cursor.execute(query, tuple(str(auctionID)))
 
@@ -224,6 +224,11 @@ def apiAddBid(request):
 
         itemID = row['itemID']
         increment = row['increment']
+        if(customer['id'] < row['sellerID']):
+            raise exc.HTTPForbidden()
+
+        if(postVars['value'] < row['openingBid']):
+            raise exc.HTTPForbidden()
 
         query = "INSERT INTO Bids(itemID, customerID, maxBid, amount, time, auctionID) VALUES (%s, %s, %s, %s, NOW(), %s)"
 
