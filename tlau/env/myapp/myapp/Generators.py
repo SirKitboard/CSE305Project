@@ -72,18 +72,23 @@ def revenueReport(request):
     getVars = request.GET
 
     query = "SELECT ItemName, SUM(Amount) AS Revenue, COUNT(Amount) AS CopiesSold FROM Sales_Report WHERE "
+    secondQuery = "SELECT ItemName, SUM(Amount) AS Revenue, COUNT(Amount) AS CopiesSold FROM Sales_Report WHERE MONTH(time) = MONTH(NOW()) AND YEAR(time) = YEAR(NOW()) AND "
     value = None
     if 'employeeID' in getVars and 'customerID' not in getVars:
         query = query + "monitorID = %s GROUP BY ItemName"
+        secondQuery = secondQuery + "monitorID = %s GROUP BY ItemName"
         value = getVars['employeeID']
     elif 'employeeID' not in getVars and 'customerID' in getVars:
         query = query + "customerID = %s GROUP BY ItemName"
+        secondQuery = secondQuery + "customerID = %s GROUP BY ItemName"
         value = getVars['customerID']
     else:
         raise exc.HTTPBadRequest()
 
-    report = []
 
+    report = {}
+    totalReport = []
+    monthReport = []
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
@@ -91,15 +96,32 @@ def revenueReport(request):
         cursor.execute(query, tuple(str(value)))
 
         for row in cursor:
-            reportValues = {}
+            totalReportValues = {}
             for key in row:
                 if(isinstance(row[key], datetime)):
-                    reportValues[key] = row[key].isoformat()
+                    totalReportValues[key] = row[key].isoformat()
                 elif(isinstance(row[key], Decimal)):
-                    reportValues[key] = str(row[key])
+                    totalReportValues[key] = str(row[key])
                 else:
-                    reportValues[key] = row[key]
-            report.append(reportValues)
+                    totalReportValues[key] = row[key]
+            totalReport.append(totalReportValues)
+        report['total'] = totalReport
+
+
+        cursor.execute(secondQuery, tuple(str(value)))
+
+        for row in cursor:
+            monthReportValues = {}
+            for key in row:
+                if(isinstance(row[key], datetime)):
+                    monthReportValues[key] = row[key].isoformat()
+                elif(isinstance(row[key], Decimal)):
+                    monthReportValues[key] = str(row[key])
+                else:
+                    monthReportValues[key] = row[key]
+            monthReport.append(monthReportValues)
+        report['month'] = monthReport
+
         cursor.close()
         cnx.close()
     except mysql.connector.Error as err:
