@@ -1,6 +1,7 @@
 #pylint: disable=C,F
 from pyramid.view import view_config
 from pyramid.response import Response
+import crypt
 
 import pyramid.httpexceptions as exc
 
@@ -95,14 +96,23 @@ def addEmployee(request):
     Authorizer.authorizeManager(request)
 
     requiredKeys = ['ssn', 'lastName', 'firstName', 'address', 'city', 'state', 'zipCode', 'telephone', 'startDate', 'hourlyRate', 'type']
+    requiredUserKeys = ['username','password']
     postVars = request.POST
     acceptedKeys = []
+    accepteduserKeys = []
 
     for key in requiredKeys:
         if(key in postVars):
             acceptedKeys.append(postVars[key])
         else:
             raise exc.HTTPBadRequest()
+
+    for key in requiredUserKeys:
+        if(key not in postVars):
+            raise exc.HTTPBadRequest()
+
+    salt = 'qwerty'
+    postVars['password'] = crypt.crypt(postVars['password'], salt)
 
     query = ("INSERT INTO Employees(ssn, lastName, firstName, address, city, state, zipCode, telephone, startDate, hourlyRate, type)\
              VALUES (%s,  %s,  %s,  %s,  %s,  %s,  %s, %s, %s, %s, %s);")
@@ -112,6 +122,10 @@ def addEmployee(request):
         cursor = cnx.cursor()
 
         cursor.execute(query, tuple(acceptedKeys))
+
+        query = ("INSERT INTO Users(username, password, type, id) VALUES (%s, %s, 1, LAST_INSERT_ID())")
+
+        cursor.execute(query, tuple([postVars['username'], postVars['password']]))
 
         cursor.close()
 
