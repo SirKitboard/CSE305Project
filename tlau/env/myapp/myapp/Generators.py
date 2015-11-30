@@ -71,8 +71,8 @@ def revenueReport(request):
 
     getVars = request.GET
 
-    query = "SELECT ItemName, SUM(Amount) AS Revenue, COUNT(Amount) AS CopiesSold FROM Sales_Report WHERE "
-    secondQuery = "SELECT ItemName, SUM(Amount) AS Revenue, COUNT(Amount) AS CopiesSold FROM Sales_Report WHERE MONTH(time) = MONTH(NOW()) AND YEAR(time) = YEAR(NOW()) AND "
+    query = "SELECT ItemName, SUM(Amount) AS revenue, COUNT(Amount) AS copiesSold FROM Sales_Report WHERE "
+    secondQuery = "SELECT ItemName, SUM(Amount) AS revenue, COUNT(Amount) AS copiesSold FROM Sales_Report WHERE MONTH(time) = MONTH(NOW()) AND YEAR(time) = YEAR(NOW()) AND "
     value = None
     if 'employeeID' in getVars and 'customerID' not in getVars:
         query = query + "monitorID = %s GROUP BY ItemName"
@@ -128,6 +128,75 @@ def revenueReport(request):
         return Response("Something went wrong: {}".format(err), status=500)
 
     return report
+
+@view_config(route_name='apiRevenueStats', renderer='JSON')
+def apiRevenueStats(request):
+    Authorizer.authorizeManager(request)
+
+    getVars = request.GET
+
+    query1 = "SELECT SUM(Amount) AS revenue, COUNT(Amount) AS copiesSold, Items.* FROM Sales_Report LEFT JOIN Items on Items.id = Sales_Report.itemID GROUP BY itemID ORDER BY revenue DESC LIMIT 1"
+    query2 = "SELECT SUM(Amount) AS revenue, COUNT(Amount) AS copiesSold, Customers.* FROM Sales_Report LEFT JOIN Customers on Customers.id = Sales_Report.sellerID GROUP BY customerID ORDER BY revenue DESC LIMIT 1;"
+    query3 = "SELECT SUM(Amount) AS revenue, COUNT(Amount) AS copiesSold, Employees.* FROM Sales_Report LEFT JOIN Employees on Employees.id = Sales_Report.monitorID GROUP BY monitorID ORDER BY revenue DESC LIMIT 1;"
+
+    stats = {}
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        cursor.execute(query1)
+        row = cursor.fetchone()
+        stat = {}
+        for key in row:
+            if(isinstance(row[key], datetime)):
+                stat[key] = row[key].isoformat()
+            elif(isinstance(row[key], Decimal)):
+                stat[key] = str(row[key])
+            else:
+                stat[key] = row[key]
+
+        stats['item'] = stat
+
+        query1 = "SELECT * FROM ItemsImages WHERE itemID = %s"
+        cursor.execute(query1, tuple(str(stat['itemID'])))
+        images = []
+        for row in cursor:
+            images.append(row['url'])
+        stat['item']['images'] = images
+
+        cursor.execute(query2)
+        row = cursor.fetchone()
+        stat = {}
+        for key in row:
+            if(isinstance(row[key], datetime)):
+                stat[key] = row[key].isoformat()
+            elif(isinstance(row[key], Decimal)):
+                stat[key] = str(row[key])
+            else:
+                stat[key] = row[key]
+
+        stats['customer'] = stat
+
+        cursor.execute(query2)
+        row = cursor.fetchone()
+        stat = {}
+        for key in row:
+            if(isinstance(row[key], datetime)):
+                stat[key] = row[key].isoformat()
+            elif(isinstance(row[key], Decimal)):
+                stat[key] = str(row[key])
+            else:
+                stat[key] = row[key]
+
+        stats['employee'] = stat
+
+        cursor.close()
+        cnx.close()
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
+
+    return stats
+
 
 # -----------------------------------------------------------------------------------------------------------------------------
 
