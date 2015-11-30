@@ -105,18 +105,18 @@ var HotItems = React.createClass({
                     var link = "/item/"+item.id;
                     return (
                         <div className="col s12 m4 l2">
-                        <div className="card small">
-                            <div className="card-image">
-                                <img src={imageURL}/>
-                                <span className="card-title">{item.name}</span>
+                            <div className="card small">
+                                <div className="card-image">
+                                    <img src={imageURL}/>
+                                    <span className="card-title">{item.name}</span>
+                                </div>
+                                <div className="card-content">
+                                    <p>{item.description}</p>
+                                </div>
+                                <div className="card-action">
+                                    <a href={link}>View</a>
+                                </div>
                             </div>
-                            <div className="card-content">
-                                <p>{item.description}</p>
-                            </div>
-                            <div className="card-action">
-                                <a href={link}>View</a>
-                            </div>
-                        </div>
                         </div>
                     )
                 })
