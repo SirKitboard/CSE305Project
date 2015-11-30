@@ -27,6 +27,8 @@ def allEmployees(request):
                 'type': employee['type'],
                 'id': employee['id'],
                 'name': employee['firstName'] + " " + employee['lastName'],
+                'firstName' : employee['firstName'],
+                'lastName' : employee['lastName'],
                 'address': employee['address'],
                 'city': employee['city'],
                 'state': employee['state'],
@@ -68,6 +70,8 @@ def getEmployee(request):
                 'type': employee['type'],
                 'id': employee['id'],
                 'name': employee['firstName'] + " " + employee['lastName'],
+                'firstName' : employee['firstName'],
+                'lastName' : employee['lastName'],
                 'address': employee['address'],
                 'city': employee['city'],
                 'state': employee['state'],
@@ -105,6 +109,7 @@ def addEmployee(request):
         if(key in postVars):
             acceptedKeys.append(postVars[key])
         else:
+            print(key)
             raise exc.HTTPBadRequest()
 
     for key in requiredUserKeys:
@@ -132,7 +137,7 @@ def addEmployee(request):
         cnx.commit()
         cnx.close()
     except mysql.connector.Error as err:
-        return Response("Something went wrong: {}".format(err))
+        return Response("Something went wrong: {}".format(err), 500)
 
     raise exc.HTTPOk()
 
