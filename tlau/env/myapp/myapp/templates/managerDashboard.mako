@@ -15,10 +15,10 @@
         <div class="indicator white" style="z-index:1"></div>
       </ul>
     </div>
-    <div id="employeesTab" class="col s12 container"></div>
-    <div id="salesTab" class="col s12">Test 2</div>
-    <div id="itemsTab" class="col s12 container">Test 3</div>
-    <div id="revenueTab" class="col s12">Test 4</div>
+    <div id="employeesTab" class="container"></div>
+    <div id="salesTab" class="">Test 2</div>
+    <div id="itemsTab" class="container">Test 3</div>
+    <div id="revenueTab" class="">Test 4</div>
     </div>
     </div>
 </%def>

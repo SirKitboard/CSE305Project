@@ -38,12 +38,14 @@ getInitialState : function() {
     	return(
     	
 		<div> 	 
-		    <div className= "col s12 m4 l3">
+			<div className="row">
+		    <div className= "col s12 offset-m7 m4 offset-l8 l3">
 		        <div className="input-field">
+		        	<i className="material-icons prefix">search</i>
 		          <input onChange={this.filteredItems}id="search" type="search" required></input>
-		          <label htmlFor="search"><i className="material-icons">search</i></label>
-		          <i className="material-icons">close</i>
+		          <label htmlFor="search">Search</label>
 		        </div>  
+		    </div>
 		    </div>
 
 		   <div> All Items </div>
