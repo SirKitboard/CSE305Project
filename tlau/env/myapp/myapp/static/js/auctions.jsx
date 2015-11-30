@@ -93,19 +93,19 @@ var Auction = React.createClass({
 				var url = this.state.item.images[0];
 				image = <ImageScroller images={this.state.item.images}/>
 			}
-			var bidButton = <a className="modal-trigger btn waves-effect waves-light green z-depth-2" href="#modalBid" type ="bidButton"> Bid </a>
-			
+			var bidButton = <a className="modal-trigger btn waves-effect waves-light green z-depth-1" href="#modalBid" type ="bidButton"> Bid </a>
+
 			if(new Date(this.state.auction.closingTime)<new Date()){
 				bidButton = <button className="modal-trigger btn waves-effect waves-light green z-depth-2" href="#modalBid" type ="bidButton" disabled> Closed </button>
 			}
 			else if(!window.currentUser) {
 				bidButton = <button className="modal-trigger btn waves-effect waves-light green z-depth-2" href="#modalBid" type ="bidButton" disabled> Bid </button>
 			}
-			
+
 			else if(window.currentUser.id == this.state.auction.sellerID) {
 				bidButton = "";
 			}
-			
+
 
 			return (
 				<div>

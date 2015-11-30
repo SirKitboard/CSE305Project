@@ -4,7 +4,7 @@
 <link href="${request.static_url('myapp:static/css/managerDashboard.css')}" rel="stylesheet">
 </%def>
 <%def name="body()">
-    <div style="margin-top:10px;"class="container"
+    <div style="margin-top:10px;" class="container">
     <div class="row">
     <div id="navBar" class="col s12">
       <ul class="tabs z-depth-1">
