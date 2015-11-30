@@ -17,7 +17,7 @@
     </div>
     <div id="employeesTab" class="col s12 container"></div>
     <div id="salesTab" class="col s12">Test 2</div>
-    <div id="itemsTab" class="col s12">Test 3</div>
+    <div id="itemsTab" class="col s12 container">Test 3</div>
     <div id="revenueTab" class="col s12">Test 4</div>
     </div>
     </div>
@@ -25,4 +25,5 @@
 <%def name="scripts()">
 <script type="text/babel" src="${request.static_url('myapp:static/js/managerDashboard/sales.jsx')}"></script>
 <script type="text/babel" src="${request.static_url('myapp:static/js/managerDashboard/employees.jsx')}"></script>
+<script type="text/babel" src="${request.static_url('myapp:static/js/managerDashboard/items.jsx')}"></script>
 </%def>
