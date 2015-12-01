@@ -2,6 +2,7 @@
 from pyramid.view import view_config
 from pyramid.response import Response
 from datetime import datetime
+from datetime import date
 from decimal import Decimal
 from myapp import Authorizer
 
@@ -129,7 +130,7 @@ def revenueReport(request):
 
     return report
 
-@view_config(route_name='apiRevenueStats', renderer='JSON')
+@view_config(route_name='apiRevenueStats', renderer='json')
 def apiRevenueStats(request):
     Authorizer.authorizeManager(request)
 
@@ -158,11 +159,11 @@ def apiRevenueStats(request):
         stats['item'] = stat
 
         query1 = "SELECT * FROM ItemsImages WHERE itemID = %s"
-        cursor.execute(query1, tuple(str(stat['itemID'])))
+        cursor.execute(query1, tuple(str(stat['id'])))
         images = []
         for row in cursor:
             images.append(row['url'])
-        stat['item']['images'] = images
+        stats['item']['images'] = images
 
         cursor.execute(query2)
         row = cursor.fetchone()
@@ -177,11 +178,13 @@ def apiRevenueStats(request):
 
         stats['customer'] = stat
 
-        cursor.execute(query2)
+        cursor.execute(query3)
         row = cursor.fetchone()
         stat = {}
         for key in row:
             if(isinstance(row[key], datetime)):
+                stat[key] = row[key].isoformat()
+            if(isinstance(row[key], date)):
                 stat[key] = row[key].isoformat()
             elif(isinstance(row[key], Decimal)):
                 stat[key] = str(row[key])

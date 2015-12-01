@@ -154,10 +154,8 @@ var Sales = React.createClass({
 	},
     render: function() {
     	return(
-	    	<div className="container">
-				<div className="row">
-					<MonthFilter style={{marginTop:'20px'}}/>
-				</div>
+	    	<div className="">
+				<MonthFilter style={{marginTop:'20px'}}/>		
 	    	</div>
 		)
 	}

@@ -76,6 +76,7 @@ def main(global_config, **settings):
     config.add_route('apireceipt', 'api/generate/receipt', request_method='GET')
     config.add_route('apimailingList', 'api/generate/mailingList', request_method='GET')
     config.add_route('apirevenueReport', 'api/generate/revenueReport', request_method='GET')
+    config.add_route('apiRevenueStats', 'api/generate/revenueStats', request_method='GET')
 
     # Views
     config.add_route('addItem', 'items/add', request_method='GET')

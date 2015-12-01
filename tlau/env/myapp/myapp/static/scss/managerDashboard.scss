@@ -21,3 +21,25 @@
         }
     }
 }
+
+#revenueTab {
+    td, tr, th {
+        text-align: center;
+    }
+
+    .selected {
+        background-color: #26a69a !important;
+    }
+
+    tr:hover {
+        background-color: #e3e3e9 !important;
+    }
+
+    .revenueValues {
+        font-size:25px;
+        .value {
+            font-size : 35px;
+            color: $tloa-green;
+        }
+    }
+}

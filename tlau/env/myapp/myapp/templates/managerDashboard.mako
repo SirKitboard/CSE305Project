@@ -16,9 +16,9 @@
       </ul>
     </div>
     <div id="employeesTab" class="container"></div>
-    <div id="salesTab" class="">Test 2</div>
+    <div id="salesTab" class="container">Test 2</div>
     <div id="itemsTab" class="container">Test 3</div>
-    <div id="revenueTab" class="">Test 4</div>
+    <div id="revenueTab" class="container">Test 4</div>
     </div>
     </div>
 </%def>
@@ -26,4 +26,5 @@
 <script type="text/babel" src="${request.static_url('myapp:static/js/managerDashboard/sales.jsx')}"></script>
 <script type="text/babel" src="${request.static_url('myapp:static/js/managerDashboard/employees.jsx')}"></script>
 <script type="text/babel" src="${request.static_url('myapp:static/js/managerDashboard/items.jsx')}"></script>
+<script type="text/babel" src="${request.static_url('myapp:static/js/managerDashboard/revenue.jsx')}"></script>
 </%def>
