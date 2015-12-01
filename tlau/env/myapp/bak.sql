@@ -137,7 +137,7 @@ CREATE TABLE `Bids` (
   CONSTRAINT `Bids_Auctions_ID_fk` FOREIGN KEY (`auctionID`) REFERENCES `Auctions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `Bids_Customers_ID_fk` FOREIGN KEY (`customerID`) REFERENCES `Customers` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `Bids_ibfk_3` FOREIGN KEY (`itemID`) REFERENCES `Items` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,7 +207,7 @@ CREATE TABLE `Employees` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`),
   UNIQUE KEY `ssn` (`ssn`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -216,7 +216,7 @@ CREATE TABLE `Employees` (
 
 LOCK TABLES `Employees` WRITE;
 /*!40000 ALTER TABLE `Employees` DISABLE KEYS */;
-INSERT INTO `Employees` VALUES ('123-45-6789','Smith','David','123 College Road','Stony Brook','NY',11790,'(516)215-2345','1998-11-01',60.00,0,1),('789-12-3456','Warren','David','456 Sunken Street','Stony Brook','NY',11794,'(516) 632-9987','1994-02-02',50.00,1,2),('781-14-3126','Karl','Kyle','123 Broad Street','Bell','NY',11241,'(516) 212-1234','2003-10-07',50.00,1,3);
+INSERT INTO `Employees` VALUES ('123-45-6789','Smith','David','123 College Road','Stony Brook','NY',11790,'(516)215-2345','1998-11-01',60.00,0,1),('(516) 632-99','Warren','Dave','456 Sunken Street','Stony Brook','NY',11794,'(516) 632-9987','1994-02-02',50.00,1,2),('(516) 212-12','Fowler','Kyle','123 Broad Street','Bell','NY',11241,'(516) 212-1234','2003-10-07',50.00,1,3),('123123123','Balwani','Aditya','asd','asd','asd',12312,'123','2015-11-01',123.00,1,7);
 /*!40000 ALTER TABLE `Employees` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -343,7 +343,9 @@ SET character_set_client = utf8;
   `email` tinyint NOT NULL,
   `itemName` tinyint NOT NULL,
   `itemType` tinyint NOT NULL,
-  `monitorName` tinyint NOT NULL
+  `monitorName` tinyint NOT NULL,
+  `auctionID` tinyint NOT NULL,
+  `sellerID` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
@@ -371,7 +373,7 @@ CREATE TABLE `Searches` (
 
 LOCK TABLES `Searches` WRITE;
 /*!40000 ALTER TABLE `Searches` DISABLE KEYS */;
-INSERT INTO `Searches` VALUES (2,2,1),(3,2,2),(3,4,2),(7,1,9),(7,2,3),(7,3,9);
+INSERT INTO `Searches` VALUES (1,6,2),(2,2,1),(3,2,2),(3,4,2),(7,1,9),(7,2,3),(7,3,9);
 /*!40000 ALTER TABLE `Searches` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -387,8 +389,8 @@ CREATE TABLE `Users` (
   `password` varchar(32) DEFAULT NULL,
   `type` int(11) DEFAULT NULL,
   `id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`username`),
-  UNIQUE KEY `type` (`type`,`id`)
+  UNIQUE KEY `type` (`type`,`id`),
+  UNIQUE KEY `Users_username_type_uindex` (`username`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -398,7 +400,7 @@ CREATE TABLE `Users` (
 
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES ('adibalwani','qw75ElNTVyllI',0,7),('atticus_finch','qwIL39doGCEfo',0,2),('david_smith','qwIL39doGCEfo',1,1),('david_warren','qwIL39doGCEfo',1,2),('haixia_du','qwIL39doGCEfo',0,4),('hjhj','qwCR/a4B.Y1ZM',0,9),('john_smith','qwIL39doGCEfo',0,1),('kyle_karl','qwIL39doGCEfo',1,3),('shiyong_lu','qwIL39doGCEfo',0,3);
+INSERT INTO `Users` VALUES ('adibalwani','qw75ElNTVyllI',0,7),('atticus_finch','qwIL39doGCEfo',0,2),('david_smith','qwIL39doGCEfo',1,1),('david_warren','qwIL39doGCEfo',1,2),('haixia_du','qwIL39doGCEfo',0,4),('hjhj','qwCR/a4B.Y1ZM',0,9),('john_smith','qwIL39doGCEfo',0,1),('kyle_karl','qwIL39doGCEfo',1,3),('shiyong_lu','qwIL39doGCEfo',0,3),('adibalwani','qw75ElNTVyllI',1,7);
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -493,7 +495,7 @@ USE `305`;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `Sales_Report` AS select `Items`.`id` AS `itemID`,`Bids`.`id` AS `bidID`,`Customers`.`id` AS `customerID`,`Employees`.`id` AS `monitorID`,`Wins`.`Time` AS `time`,concat(`Customers`.`lastName`,' ',`Customers`.`firstName`) AS `boughtBy`,`Bids`.`amount` AS `amount`,`Customers`.`email` AS `email`,`Items`.`name` AS `itemName`,`Items`.`type` AS `itemType`,concat(`Employees`.`firstName`,' ',`Employees`.`lastName`) AS `monitorName` from (((((`Wins` join `Bids`) join `Customers`) join `Items`) join `Employees`) join `Auctions`) where ((`Wins`.`bidID` = `Bids`.`id`) and (`Bids`.`customerID` = `Customers`.`id`) and (`Bids`.`itemID` = `Items`.`id`) and (`Bids`.`auctionID` = `Auctions`.`id`) and (`Auctions`.`employeeID` = `Employees`.`id`)) */;
+/*!50001 VIEW `Sales_Report` AS select `Items`.`id` AS `itemID`,`Bids`.`id` AS `bidID`,`Customers`.`id` AS `customerID`,`Employees`.`id` AS `monitorID`,`Wins`.`Time` AS `time`,concat(`Customers`.`firstName`,' ',`Customers`.`lastName`) AS `boughtBy`,`Bids`.`amount` AS `amount`,`Customers`.`email` AS `email`,`Items`.`name` AS `itemName`,`Items`.`type` AS `itemType`,concat(`Employees`.`firstName`,' ',`Employees`.`lastName`) AS `monitorName`,`Auctions`.`id` AS `auctionID`,`Auctions`.`sellerID` AS `sellerID` from (((((`Wins` join `Bids`) join `Customers`) join `Items`) join `Employees`) join `Auctions`) where ((`Wins`.`bidID` = `Bids`.`id`) and (`Bids`.`customerID` = `Customers`.`id`) and (`Bids`.`itemID` = `Items`.`id`) and (`Bids`.`auctionID` = `Auctions`.`id`) and (`Auctions`.`employeeID` = `Employees`.`id`)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -526,4 +528,4 @@ USE `305`;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-29 17:27:45
+-- Dump completed on 2015-12-01 16:36:58
