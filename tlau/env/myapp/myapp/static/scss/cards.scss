@@ -5,10 +5,17 @@
   .card-image {
     width: 250px;
     height: 141px;
+
+    .card-title {
+      font-family: "HammersmithOne", "Helvetica", sans-serif;
+      color: black;
+      padding: 10px;
+    }
   }
 
   .card-content {
     padding: 10px;
+    font-family: "Roboto", "Helvetica", sans-serif;
   }
 
   .card-action {
