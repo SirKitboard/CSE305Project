@@ -1,6 +1,7 @@
 #pylint: disable=C,F
 from pyramid.view import view_config
 from pyramid.response import Response
+import crypt
 
 import pyramid.httpexceptions as exc
 
@@ -8,7 +9,7 @@ import mysql.connector
 from myapp import Authorizer
 
 
-@view_config(route_name='allEmployees', renderer='json')
+@view_config(route_name='apiallEmployees', renderer='json')
 def allEmployees(request):
     Authorizer.authorizeManager(request)
 
@@ -26,6 +27,8 @@ def allEmployees(request):
                 'type': employee['type'],
                 'id': employee['id'],
                 'name': employee['firstName'] + " " + employee['lastName'],
+                'firstName' : employee['firstName'],
+                'lastName' : employee['lastName'],
                 'address': employee['address'],
                 'city': employee['city'],
                 'state': employee['state'],
@@ -47,7 +50,7 @@ def allEmployees(request):
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------------
-@view_config(route_name='getEmployee', renderer='json')
+@view_config(route_name='apigetEmployee', renderer='json')
 def getEmployee(request):
     Authorizer.authorizeManager(request)
 
@@ -67,6 +70,8 @@ def getEmployee(request):
                 'type': employee['type'],
                 'id': employee['id'],
                 'name': employee['firstName'] + " " + employee['lastName'],
+                'firstName' : employee['firstName'],
+                'lastName' : employee['lastName'],
                 'address': employee['address'],
                 'city': employee['city'],
                 'state': employee['state'],
@@ -90,19 +95,29 @@ def getEmployee(request):
 # --------------------------------------------------------------------------------------------------------------------------------------------
 
 
-@view_config(route_name='addEmployee', renderer='json')
+@view_config(route_name='apiaddEmployee', renderer='json')
 def addEmployee(request):
     Authorizer.authorizeManager(request)
 
     requiredKeys = ['ssn', 'lastName', 'firstName', 'address', 'city', 'state', 'zipCode', 'telephone', 'startDate', 'hourlyRate', 'type']
+    requiredUserKeys = ['username','password']
     postVars = request.POST
     acceptedKeys = []
+    accepteduserKeys = []
 
     for key in requiredKeys:
         if(key in postVars):
             acceptedKeys.append(postVars[key])
         else:
+            print(key)
             raise exc.HTTPBadRequest()
+
+    for key in requiredUserKeys:
+        if(key not in postVars):
+            raise exc.HTTPBadRequest()
+
+    salt = 'qwerty'
+    postVars['password'] = crypt.crypt(postVars['password'], salt)
 
     query = ("INSERT INTO Employees(ssn, lastName, firstName, address, city, state, zipCode, telephone, startDate, hourlyRate, type)\
              VALUES (%s,  %s,  %s,  %s,  %s,  %s,  %s, %s, %s, %s, %s);")
@@ -113,18 +128,22 @@ def addEmployee(request):
 
         cursor.execute(query, tuple(acceptedKeys))
 
+        query = ("INSERT INTO Users(username, password, type, id) VALUES (%s, %s, 1, LAST_INSERT_ID())")
+
+        cursor.execute(query, tuple([postVars['username'], postVars['password']]))
+
         cursor.close()
 
         cnx.commit()
         cnx.close()
     except mysql.connector.Error as err:
-        return Response("Something went wrong: {}".format(err))
+        return Response("Something went wrong: {}".format(err), 500)
 
     raise exc.HTTPOk()
 
 # --------------------------------------------------------------------------------------------------------------------------------------------
 
-@view_config(route_name='deleteEmployee')
+@view_config(route_name='apideleteEmployee')
 def deleteEmployee(request):
     Authorizer.authorizeManager(request)
 
@@ -150,7 +169,7 @@ def deleteEmployee(request):
 
 # --------------------------------------------------------------------------------------------------------------------------------------------
 
-@view_config(route_name='updateEmployee')
+@view_config(route_name='apiupdateEmployee')
 def updateEmployee(request):
     Authorizer.authorizeManager(request)
 

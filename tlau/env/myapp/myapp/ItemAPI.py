@@ -10,7 +10,7 @@ import pyramid.httpexceptions as exc
 import mysql.connector
 
 
-@view_config(route_name='allItems', renderer='json')
+@view_config(route_name='apiallItems', renderer='json')
 def allItems(request):
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
@@ -21,14 +21,15 @@ def allItems(request):
         cursor.execute(query)
 
         items = []
-        for (ID, Name, Type, ManufactureYear, CopiesSold, Stock) in cursor:
+        for (ID, Name, Type, ManufactureYear, CopiesSold, Stock, Description) in cursor:
             items.append({
                 'id': ID,
                 'name': Name,
                 'type': Type,
                 'manufactureYear': ManufactureYear,
                 'copiesSold': CopiesSold,
-                'stock': Stock
+                'stock': Stock,
+                'description' : Description
             })
 
         cursor.close()
@@ -54,7 +55,7 @@ def allItems(request):
     return items
 
 
-@view_config(route_name='getItem', renderer='json')
+@view_config(route_name='apigetItem', renderer='json')
 def getItem(request):
     itemID = request.matchdict['id']
 
@@ -68,14 +69,15 @@ def getItem(request):
 
         cursor.execute(query)
 
-        for (ID, Name, Type, ManufactureYear, CopiesSold, Stock) in cursor:
+        for (ID, Name, Type, ManufactureYear, CopiesSold, Stock, Description) in cursor:
             item = {
                 'id': ID,
                 'name': Name,
                 'type': Type,
                 'manufactureYear': ManufactureYear,
                 'copiesSold': CopiesSold,
-                'stock': Stock
+                'stock': Stock,
+                'description' : Description
             }
 
         if(item is None):
@@ -93,16 +95,38 @@ def getItem(request):
             urls.append(row['url'])
         item['images'] = urls
 
+        if 'currentUser' in request.session:
+            customer = request.session['currentUser']
+            cursor.close()
+            cursor = cnx.cursor(dictionary=True, buffered=True)
+            if customer['type'] == 0:
+                query = "SELECT * from Searches WHERE customerID = %s AND itemID = %s"
+                cursor.execute(query, tuple([str(customer['id']), str(item['id'])]))
+                numRows = cursor.rowcount
+                print(numRows)
+                if numRows > 0:
+                    frequency = cursor.fetchone()['frequency']
+                    query = "UPDATE Searches SET frequency = %s WHERE customerID = %s AND itemID = %s"
+                    cursor.execute(query, tuple([frequency+1, customer['id'], item['id']]))
+                else:
+                    for row in cursor:
+                        print('hi')
+                    query = "INSERT INTO Searches (frequency, customerID, itemID) VALUES (1, %s, %s)"
+                    cursor.execute(query, tuple([str(customer['id']), str(item['id'])]))
+                    print('something')
+
         cursor.close()
+        cnx.commit()
         cnx.close()
 
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err), status=500)
 
+
     return item
 
 
-@view_config(route_name='getItemThumbnails', renderer='json')
+@view_config(route_name='apigetItemThumbnails', renderer='json')
 def getItemThumbnails(request):
     itemID = request.matchdict['id']
 
@@ -118,14 +142,15 @@ def getItemThumbnails(request):
 
         cursor.execute(query)
 
-        for (ID, Name, Type, ManufactureYear, CopiesSold, Stock) in cursor:
+        for (ID, Name, Type, ManufactureYear, CopiesSold, Stock, Description) in cursor:
             item = {
                 'id': ID,
                 'name': Name,
                 'type': Type,
                 'manufactureYear': ManufactureYear,
                 'copiesSold': CopiesSold,
-                'stock': Stock
+                'stock': Stock,
+                'description' : Description
             }
 
         cursor.close()
@@ -152,9 +177,9 @@ def getItemThumbnails(request):
     return urls
 
 
-@view_config(route_name='addItem', renderer='json', request_method='POST')
+@view_config(route_name='apiaddItem', renderer='json', request_method='POST')
 def addItem(request):
-    requiredKeys = ['name', 'type', 'manufactureYear', 'stock']
+    requiredKeys = ['name', 'type', 'manufactureYear', 'description']
     postVars = request.POST
     acceptedValues = []
 
@@ -164,13 +189,30 @@ def addItem(request):
         else:
             raise exc.HTTPBadRequest()
 
-    query = ("INSERT INTO Items (name, type, manufactureYear, stock) VALUES (%s, %s, %s, %s)")
+    query = ("INSERT INTO Items (name, type, manufactureYear, description) VALUES (%s, %s, %s, %s)")
+
+    item = {}
 
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
         cursor.execute(query, tuple(acceptedValues))
+
+        query = ("SELECT * FROM Items WHERE ID = LAST_INSERT_ID()")
+
+        cursor.execute(query)
+
+        for (ID, Name, Type, ManufactureYear, CopiesSold, Stock, Description) in cursor:
+            item = {
+                'id': ID,
+                'name': Name,
+                'type': Type,
+                'manufactureYear': ManufactureYear,
+                'copiesSold': CopiesSold,
+                'stock': Stock,
+                'description' : Description
+            }
 
         cursor.close()
 
@@ -179,10 +221,10 @@ def addItem(request):
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err), status=500)
 
-    raise exc.HTTPOk()
+    return item
 
 
-@view_config(route_name='updateItem')
+@view_config(route_name='apiupdateItem')
 def updateItem(request):
     postVars = request.POST
     validKeys = ['name', 'type', 'manufactureYear', 'stock']
@@ -215,7 +257,7 @@ def updateItem(request):
     raise exc.HTTPOk()
 
 
-@view_config(route_name= 'deleteItem')
+@view_config(route_name='apideleteItem')
 def deleteItem(request):
     query= "DELETE FROM Items WHERE id= %s"
 
@@ -236,7 +278,7 @@ def deleteItem(request):
     raise exc.HTTPOk()
 
 
-@view_config(route_name='itemSuggestions', renderer='json')
+@view_config(route_name='apiitemSuggestions', renderer='json')
 def itemSuggestions(request):
     Authorizer.authorizeCustomer(request)
 
@@ -259,10 +301,11 @@ def itemSuggestions(request):
         AND Items.name NOT IN (
             SELECT name FROM Items WHERE id IN (
                 SELECT itemID FROM Auctions WHERE id IN (
-                    SELECT auctionID FROM Bids
+                    SELECT auctionID FROM Bids WHERE customerID = %s
                     )
                 )
             )
+        LIMIT 5
         """
 
     suggestedItems = []
@@ -270,7 +313,7 @@ def itemSuggestions(request):
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
-        cursor.execute(query, tuple(str(customerID)))
+        cursor.execute(query, tuple([str(customerID), str(customerID)]))
 
         for row in cursor:
             item = {}
@@ -283,6 +326,14 @@ def itemSuggestions(request):
                     item[key] = row[key]
             suggestedItems.append(item)
 
+        for item in suggestedItems:
+            query = ("SELECT url FROM ItemsImages WHERE itemID = %s")
+            cursor.execute(query, tuple(str(item['id'])))
+            urls = []
+            for row in cursor:
+                urls.append(row['url'])
+            item['images'] = urls
+
         cursor.close()
         cnx.close()
     except mysql.connector.Error as err:
@@ -292,31 +343,28 @@ def itemSuggestions(request):
 
 
 #  Items available by type or keyword
-@view_config(route_name='search', renderer='json')
+@view_config(route_name='apisearch', renderer='json')
 def search(request):
     getVars = request.GET
 
     query = """
           SELECT *
-          FROM Auctions
-          WHERE itemID IN(
-            SELECT id
-            FROM Items
-            WHERE
+          FROM Items
+          WHERE
          """
 
     items = []
     validValues = []
 
     if 'type' in getVars and 'keyword' in getVars:
-        query = query + ' Type = %s AND Name LIKE %s' + ');'
+        query = query + ' Type = %s AND Name LIKE %s' + ';'
         validValues.append(getVars['type'])
         validValues.append('%' + getVars['keyword'] + '%')
     elif 'type' in getVars:
-        query = query + ' Type = %s' + ');'
+        query = query + ' Type = %s' + ';'
         validValues.append(getVars['type'])
     elif 'keyword' in getVars:
-        query = query + ' Name LIKE %s' + ');'
+        query = query + ' Name LIKE %s' + ';'
         validValues.append('%' + getVars['keyword'] + '%')
 
     try:
@@ -336,6 +384,17 @@ def search(request):
                     searches[key] = row[key]
             items.append(searches)
 
+        for item in items:
+            query = ("SELECT url FROM ItemsImages WHERE itemID = %s")
+            cursor.execute(query, tuple(str(item['id'])))
+            urls = []
+            for row in cursor:
+                urls.append(row['url'])
+            item['images'] = urls
+
+        cursor.close()
+        cnx.close()
+
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err), status=500)
 
@@ -343,7 +402,7 @@ def search(request):
 
 
 # Record a sale
-@view_config(route_name='sold', renderer='json')
+@view_config(route_name='apisold', renderer='json')
 def sold(request):
     Authorizer.authorizeEmployee(request)
 
@@ -396,3 +455,42 @@ def sold(request):
         return Response("Something went wrong: {}".format(err), status=500)
 
     raise exc.HTTPOk()
+
+@view_config(route_name='apiHotItems', renderer='json')
+def apiHotItems(request):
+    query = """
+        SELECT * FROM Items LEFT JOIN ( Select itemID, SUM(frequency) as frq FROM Searches GROUP BY itemID) AS Search on Items.id = Search.itemID ORDER BY (Search.frq) DESC LIMIT 5
+        """
+
+    hotItems = []
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        cursor.execute(query)
+
+        for row in cursor:
+            item = {}
+            for key in row:
+                if(isinstance(row[key], datetime)):
+                    item[key] = row[key].isoformat()
+                elif(isinstance(row[key], Decimal)):
+                    item[key] = str(row[key])
+                else:
+                    item[key] = row[key]
+            hotItems.append(item)
+
+        for item in hotItems:
+            query = ("SELECT url FROM ItemsImages WHERE itemID = %s")
+            cursor.execute(query, tuple(str(item['id'])))
+            urls = []
+            for row in cursor:
+                urls.append(row['url'])
+            item['images'] = urls
+
+        cursor.close()
+        cnx.close()
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
+
+    return hotItems

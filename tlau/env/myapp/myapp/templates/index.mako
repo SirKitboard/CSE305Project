@@ -1,23 +1,19 @@
 <%inherit file="myapp:templates/template.mako" />
-<%def name="title()">Index</%def>
-
+<%def name="title()">Home</%def>
+<%def name="head()">
+<script>
+if(window.currentUser && window.currentUser.type ==1){
+    if(window.currentUser.employeeType == 0) {
+        window.location.href = "/manager/dashboard"
+    } else {
+        window.location.href = "/employee/dashboard"
+    }
+}
+</script></%def>
 <%def name="body()">
-    <div class="row">
-        <div class="col s12">
-            <h1>Hot Items</h1>
-            <div class="card">
-                <div class="card-image">
-                    <span class="card-title">Card Title</span>
-                </div>
-                <div class="card-content">
-                    <p>I am a very simple card. I am good at containing small bits of information.
-                        I am convenient because I require little markup to use effectively.</p>
-                </div>
-                <div class="card-action">
-                    <a href="#">This is a link</a>
-                </div>
-            </div>
-        </div>
+<div class="container">
+    <div class="itemContainer" id="hotItems">
+
     </div>
     <div class="fixed-action-btn">
         <a class="btn-floating btn-large red">
@@ -30,5 +26,8 @@
             <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
         </ul>
     </div>
-
+</div>
+</%def>
+<%def name="scripts()">
+<script type="text/babel" src="${request.static_url('myapp:static/js/home.jsx')}"></script>
 </%def>

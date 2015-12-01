@@ -4,6 +4,7 @@ from pyramid.response import Response
 from datetime import datetime
 from decimal import Decimal
 from myapp import Authorizer
+import crypt
 
 import pyramid.httpexceptions as exc
 
@@ -11,7 +12,7 @@ import mysql.connector
 
 
 # Get a list of all the customers
-@view_config(route_name='allCustomers', renderer='json')
+@view_config(route_name='apiallCustomers', renderer='json')
 def allCustomers(request):
     Authorizer.authorizeEmployee(request)
 
@@ -52,9 +53,9 @@ def allCustomers(request):
 
 
 # Get a List of a specific Customer by ID
-@view_config(route_name='getCustomer', renderer='json')
+@view_config(route_name='apigetCustomer', renderer='json')
 def getCustomer(request):
-    Authorizer.authorizeEmployee(request)
+    # Authorizer.authorizeEmployee(request)
 
     customerID = request.matchdict['id']
 
@@ -94,29 +95,96 @@ def getCustomer(request):
     return customer
 
 
-# Add a customer
-@view_config(route_name='addCustomer', renderer='json')
-def addCustomer(request):
-    Authorizer.authorizeEmployee(request)
+# Get a List of a specific Customer by ID
+@view_config(route_name='apiCustomerStats', renderer='json')
+def customerStats(request):
+    customerID = request.matchdict['id']
 
-    requiredKeys = ['lastName', 'firstName', 'address', 'city', 'state', 'zipCode', 'telephone', 'email', 'creditCardNumber']
+    responseDict = {}
+
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        query = ("SELECT SUM(currentBid) as stat FROM Auctions WHERE sellerID = %s AND finished='1'")
+
+        cursor.execute(query, tuple(str(customerID)))
+
+        responseDict["moneyMade"] = (str(cursor.fetchone()['stat']))
+
+        query = ("SELECT SUM(Auctions.currentBid) as stat FROM Auctions, Wins WHERE Auctions.id = Wins.auctionID AND Wins.customerID = %s")
+
+        cursor.execute(query, tuple(str(customerID)))
+
+        responseDict["moneySpent"] = (str(cursor.fetchone()['stat']))
+
+        query = ("SELECT COUNT(*) as stat FROM Auctions WHERE Auctions.sellerID = %s AND Auctions.finished='0'")
+
+        cursor.execute(query, tuple(str(customerID)))
+
+        responseDict["activeAuctions"] = (str(cursor.fetchone()['stat']))
+
+        query = ("SELECT COUNT(DISTINCT(Auctions.id)) as stat FROM Auctions, Bids WHERE Bids.auctionID = Auctions.id AND Bids.customerID = %s AND Auctions.finished='0'")
+
+        cursor.execute(query, tuple(str(customerID)))
+
+        responseDict["activeBids"] = (str(cursor.fetchone()['stat']))
+
+        # for row in cursor:
+        #     statsRow = {}
+        #     for key in row:
+        #         if(isinstance(row[key], datetime)):
+        #             statsRow[key] = row[key].isoformat()
+        #         elif(isinstance(row[key], Decimal)):
+        #             statsRow[key] = str(row[key])
+        #         else:
+        #             statsRow[key] = row[key]
+        #     responseDict.append(statsRow)
+        cursor.close()
+        cnx.close()
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
+
+    return responseDict
+
+
+# Add a customer
+@view_config(route_name='apiaddCustomer', renderer='json')
+def addCustomer(request):
+    Authorizer.authorizeCustomer(request)
+
+    requiredCustomerKeys = ['lastName', 'firstName', 'address', 'city', 'state', 'zipCode', 'telephone', 'email', 'creditCardNumber']
+    requiredUserKeys = ['username', 'password']
     postVars = request.POST
     acceptedKeys = []
 
-    for key in requiredKeys:
+    for key in requiredCustomerKeys:
         if(key in postVars):
             acceptedKeys.append(postVars[key])
         else:
+            print(key)
+            raise exc.HTTPBadRequest()
+
+    for key in requiredUserKeys:
+        if(key not in postVars):
+            print(key)
             raise exc.HTTPBadRequest()
 
     query = ("INSERT INTO Customers(lastName, firstName, address, city, state, zipCode, telephone, email, creditCardNumber)\
              VALUES (%s,  %s,  %s,  %s,  %s,  %s,  %s, %s, %s);")
 
+    salt = 'qwerty'
+    postVars['password'] = crypt.crypt(postVars['password'], salt)
+    # print(postVars['password'])
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
         cursor.execute(query, tuple(acceptedKeys))
+
+        query = ("INSERT INTO Users(username, password, type, id) VALUES (%s, %s, 0, LAST_INSERT_ID())")
+
+        cursor.execute(query, tuple([postVars['username'], postVars['password']]))
 
         cursor.close()
 
@@ -129,7 +197,7 @@ def addCustomer(request):
 
 
 # Delete a customer
-@view_config(route_name='deleteCustomer')
+@view_config(route_name='apideleteCustomer')
 def deleteCustomer(request):
     Authorizer.authorizeEmployee(request)
 
@@ -153,9 +221,9 @@ def deleteCustomer(request):
 
 
 # Update a customer
-@view_config(route_name='updateCustomer')
+@view_config(route_name='apiupdateCustomer')
 def updateCustomer(request):
-    Authorizer.authorizeEmployee(request)
+    Authorizer.authorizeCustomer(request)
 
     postVars = request.POST
     validKeys = ['lastName', 'firstName', 'address', 'city', 'state', 'zipCode', 'telephone', 'email', 'creditCardNumber']
@@ -184,12 +252,12 @@ def updateCustomer(request):
         cnx.close()
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err))
-
+    Authorizer.refreshSession(request)
     raise exc.HTTPOk()
 
 
 # Get the sell history of a customer
-@view_config(route_name='sellHistory', renderer='json')
+@view_config(route_name='apisellHistory', renderer='json')
 def sellHistory(request):
     sellerID = request.matchdict['id']
     history = []
@@ -222,7 +290,7 @@ def sellHistory(request):
 
 # -----------------------------------------------------------------------------------------------------------------------------
 
-@view_config(route_name='auctionHistory', renderer='json')
+@view_config(route_name='apiauctionHistory', renderer='json')
 def auctionHistory(request):
     sellerID = request.matchdict['id']
     history = []

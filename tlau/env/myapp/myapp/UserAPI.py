@@ -7,7 +7,7 @@ import crypt
 import mysql.connector
 
 
-@view_config(route_name='login', renderer='json')
+@view_config(route_name='apilogin', renderer='json')
 def login(request):
     requiredKeys = ['username', 'password', 'type']
     postVars = request.POST
@@ -50,6 +50,8 @@ def login(request):
                     'type': 0,
                     'id': row['id'],
                     'name': row['firstName'] + " " + row['lastName'],
+                    'firstName': row['firstName'],
+                    'lastName': row['lastName'],
                     'address': row['address'],
                     'city': row['city'],
                     'state': row['state'],
@@ -58,7 +60,8 @@ def login(request):
                     'email': row['email'],
                     'itemsSold': row['itemsSold'],
                     'itemsPurchased': row['itemsPurchased'],
-                    'rating': row['rating']
+                    'rating': row['rating'],
+                    'creditCardNumber' : row['creditCardNumber']
                 }
                 session['currentUser'] = user
         else:
@@ -70,6 +73,8 @@ def login(request):
                     'type': 1,
                     'id': row['id'],
                     'name': row['firstName'] + " " + row['lastName'],
+                    'firstName': row['firstName'],
+                    'lastName': row['lastName'],
                     'address': row['address'],
                     'city': row['city'],
                     'state': row['state'],
@@ -92,7 +97,7 @@ def login(request):
     raise exc.HTTPOk()
 
 
-@view_config(route_name='logout')
+@view_config(route_name='apilogout')
 def logout(request):
     session = request.session
 
@@ -103,7 +108,7 @@ def logout(request):
         raise exc.HTTPOk()
 
 
-@view_config(route_name='currentUser', renderer='json')
+@view_config(route_name='apicurrentUser', renderer='json')
 def currentUser(request):
     session = request.session
     if 'currentUser' in session:

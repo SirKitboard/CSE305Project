@@ -2,6 +2,7 @@
 from pyramid.view import view_config
 from pyramid.response import Response
 from datetime import datetime
+from datetime import date
 from decimal import Decimal
 from myapp import Authorizer
 
@@ -10,7 +11,7 @@ import pyramid.httpexceptions as exc
 import mysql.connector
 
 
-@view_config(route_name='salesReport', renderer='json')
+@view_config(route_name='apisalesReport', renderer='json')
 def salesReport(request):
     Authorizer.authorizeManager(request)
 
@@ -65,25 +66,30 @@ def salesReport(request):
 # --------------------------------------------------------------------------------------------------------------------------------------------
 
 
-@view_config(route_name='revenueReport', renderer='json')
+@view_config(route_name='apirevenueReport', renderer='json')
 def revenueReport(request):
     Authorizer.authorizeManager(request)
 
     getVars = request.GET
 
-    query = "SELECT ItemName, SUM(Amount) AS Revenue, COUNT(Amount) AS CopiesSold FROM Sales_Report WHERE "
+    query = "SELECT ItemName, SUM(Amount) AS revenue, COUNT(Amount) AS copiesSold FROM Sales_Report WHERE "
+    secondQuery = "SELECT ItemName, SUM(Amount) AS revenue, COUNT(Amount) AS copiesSold FROM Sales_Report WHERE MONTH(time) = MONTH(NOW()) AND YEAR(time) = YEAR(NOW()) AND "
     value = None
     if 'employeeID' in getVars and 'customerID' not in getVars:
         query = query + "monitorID = %s GROUP BY ItemName"
+        secondQuery = secondQuery + "monitorID = %s GROUP BY ItemName"
         value = getVars['employeeID']
     elif 'employeeID' not in getVars and 'customerID' in getVars:
         query = query + "customerID = %s GROUP BY ItemName"
+        secondQuery = secondQuery + "customerID = %s GROUP BY ItemName"
         value = getVars['customerID']
     else:
         raise exc.HTTPBadRequest()
 
-    report = []
 
+    report = {}
+    totalReport = []
+    monthReport = []
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
@@ -91,15 +97,32 @@ def revenueReport(request):
         cursor.execute(query, tuple(str(value)))
 
         for row in cursor:
-            reportValues = {}
+            totalReportValues = {}
             for key in row:
                 if(isinstance(row[key], datetime)):
-                    reportValues[key] = row[key].isoformat()
+                    totalReportValues[key] = row[key].isoformat()
                 elif(isinstance(row[key], Decimal)):
-                    reportValues[key] = str(row[key])
+                    totalReportValues[key] = str(row[key])
                 else:
-                    reportValues[key] = row[key]
-            report.append(reportValues)
+                    totalReportValues[key] = row[key]
+            totalReport.append(totalReportValues)
+        report['total'] = totalReport
+
+
+        cursor.execute(secondQuery, tuple(str(value)))
+
+        for row in cursor:
+            monthReportValues = {}
+            for key in row:
+                if(isinstance(row[key], datetime)):
+                    monthReportValues[key] = row[key].isoformat()
+                elif(isinstance(row[key], Decimal)):
+                    monthReportValues[key] = str(row[key])
+                else:
+                    monthReportValues[key] = row[key]
+            monthReport.append(monthReportValues)
+        report['month'] = monthReport
+
         cursor.close()
         cnx.close()
     except mysql.connector.Error as err:
@@ -107,10 +130,81 @@ def revenueReport(request):
 
     return report
 
+@view_config(route_name='apiRevenueStats', renderer='json')
+def apiRevenueStats(request):
+    Authorizer.authorizeManager(request)
+
+    getVars = request.GET
+
+    query1 = "SELECT SUM(Amount) AS revenue, COUNT(Amount) AS copiesSold, Items.* FROM Sales_Report LEFT JOIN Items on Items.id = Sales_Report.itemID GROUP BY itemID ORDER BY revenue DESC LIMIT 1"
+    query2 = "SELECT SUM(Amount) AS revenue, COUNT(Amount) AS copiesSold, Customers.* FROM Sales_Report LEFT JOIN Customers on Customers.id = Sales_Report.sellerID GROUP BY customerID ORDER BY revenue DESC LIMIT 1;"
+    query3 = "SELECT SUM(Amount) AS revenue, COUNT(Amount) AS copiesSold, Employees.* FROM Sales_Report LEFT JOIN Employees on Employees.id = Sales_Report.monitorID GROUP BY monitorID ORDER BY revenue DESC LIMIT 1;"
+
+    stats = {}
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        cursor.execute(query1)
+        row = cursor.fetchone()
+        stat = {}
+        for key in row:
+            if(isinstance(row[key], datetime)):
+                stat[key] = row[key].isoformat()
+            elif(isinstance(row[key], Decimal)):
+                stat[key] = str(row[key])
+            else:
+                stat[key] = row[key]
+
+        stats['item'] = stat
+
+        query1 = "SELECT * FROM ItemsImages WHERE itemID = %s"
+        cursor.execute(query1, tuple(str(stat['id'])))
+        images = []
+        for row in cursor:
+            images.append(row['url'])
+        stats['item']['images'] = images
+
+        cursor.execute(query2)
+        row = cursor.fetchone()
+        stat = {}
+        for key in row:
+            if(isinstance(row[key], datetime)):
+                stat[key] = row[key].isoformat()
+            elif(isinstance(row[key], Decimal)):
+                stat[key] = str(row[key])
+            else:
+                stat[key] = row[key]
+
+        stats['customer'] = stat
+
+        cursor.execute(query3)
+        row = cursor.fetchone()
+        stat = {}
+        for key in row:
+            if(isinstance(row[key], datetime)):
+                stat[key] = row[key].isoformat()
+            if(isinstance(row[key], date)):
+                stat[key] = row[key].isoformat()
+            elif(isinstance(row[key], Decimal)):
+                stat[key] = str(row[key])
+            else:
+                stat[key] = row[key]
+
+        stats['employee'] = stat
+
+        cursor.close()
+        cnx.close()
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
+
+    return stats
+
+
 # -----------------------------------------------------------------------------------------------------------------------------
 
 
-@view_config(route_name='receipt', renderer='json')
+@view_config(route_name='apireceipt', renderer='json')
 def receipt(request):
     Authorizer.authorizeCustomer(request)
 
@@ -148,7 +242,7 @@ def receipt(request):
 
 # -----------------------------------------------------------------------------------------------------------------------------
 
-@view_config(route_name='mailingList', renderer='json')
+@view_config(route_name='apimailingList', renderer='json')
 def mailingList(request):
     Authorizer.authorizeEmployee(request)
 

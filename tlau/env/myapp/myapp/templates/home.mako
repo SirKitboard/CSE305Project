@@ -52,7 +52,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="${request.static_url('myapp:static/js/jquery-2.1.4.min.js')}"></script>
-    <script src="${request.static_url('myapp:static/js/materialize/materialize.min.js')}"></script>
+    <script src="${request.static_url('myapp:static/js/materialize/materialize.js')}"></script>
     <script src="${request.static_url('myapp:static/js/home.js')}"></script>
   </body>
 </html>
