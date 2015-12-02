@@ -29,6 +29,8 @@ def allCustomers(request):
             items.append({
                 'id': customer['id'],
                 'name': customer['firstName'] + customer['lastName'],
+                'firstName': customer['firstName'], 
+                'lastName': customer['lastName'],
                 'address': customer['address'],
                 'city': customer['city'],
                 'state': customer['state'],
