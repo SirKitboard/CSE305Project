@@ -62,7 +62,6 @@ def apiAuctionWin(request):
         query = "UPDATE Auctions SET finished=1 WHERE id = %s"
         cursor.execute(query,tuple(str(auctionID)))
 
-
         # query = "SELECT COUNT(*) as count, amount, id, customerID FROM Bids where auctionID = 1 ORDER BY amount DESC LIMIT 1"
         query = "SELECT COUNT(*) as count FROM Bids where auctionID = %s"
         cursor.execute(query,tuple(str(auctionID)))
