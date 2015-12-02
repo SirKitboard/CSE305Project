@@ -56,27 +56,27 @@ var Item = React.createClass({
 				image = <ImageScroller images={this.state.item.images}/>
 			}
 			return (
-				<div>
-				<h1 className="black-text" id="name">{this.state.item.name}</h1>
-
-
-				<div className="row grey-text text-darken-2" style={{marginBottom:'5px'}}>
-
-					<div className="col s6 m3"> Product Type: <span id="type">{this.state.item.type}</span> </div>
-					<div className="col s6 m3"> Manufacture Year: <span id="manufactureYear">{this.state.item.manufactureYear}</span></div>
-				</div>
-
-
-				<div className ="row">
-					{image}
-					<div className="col s12 m6">
-						<div className="bold">
-							<div> Description:  <span id="description">{this.state.item.description}</span> </div>
-
-							<button onClick= {this.getAuctionSearch} className  = "btn waves-effect waves-light  light-blue darken-2" type="seeMoreButton">See More Auctions for this Item </button>
+				<div className="single-item z-depth-2">
+					<h1 className="item-name" id="name">{this.state.item.name}</h1>
+					<div className="row grey-text text-darken-2">
+						<div className="col s6 m3">
+							Product Type: <span id="type">{this.state.item.type}</span>
+						</div>
+						<div className="col s6 m3">
+							Manufacture Year: <span id="manufactureYear">{this.state.item.manufactureYear}</span>
 						</div>
 					</div>
-				</div>
+					<div className ="row">
+						{image}
+						<div className="col s12 m6">
+							<div className="bold">
+								<div>
+									Description:  <span id="description">{this.state.item.description}</span>
+								</div>
+								<button onClick= {this.getAuctionSearch} className  = "btn waves-effect waves-light  light-blue darken-2" type="seeMoreButton">See More Auctions for this Item </button>
+							</div>
+						</div>
+					</div>
 				</div>
 			)
 		}

@@ -24,13 +24,13 @@ window.ImageScroller = React.createClass({
 
 	render : function(){
 		return (
-			<div className = "col s12 m4 l3">
-				<div className= "row">
-				<img className = "col s12" id="thumbnail" src={this.props.images[this.state.currentIndex]}/>
+			<div className="col s12 m4 l3 image-scroller">
+				<div className="row">
+					<img className="col s12" id="thumbnail" src={this.props.images[this.state.currentIndex]}/>
 				</div>
-				<div className = "row">
-				<button onClick = {this.previousImage} className="btn waves-effect waves-light col s6 z-depth-2" type ="bidButton"><i className="material-icons">arrow_back</i></button>
-				<button onClick = {this.nextImage} className="btn waves-effect waves-light col s6 z-depth-2" type ="bidButton"><i className="material-icons">arrow_forward</i></button>
+				<div className="row arrows">
+				<button onClick={this.previousImage} className="btn btn-left waves-effect waves-light col s3 z-depth-1" type ="bidButton"><i className="material-icons">arrow_back</i></button>
+				<button onClick = {this.nextImage} className="btn btn-right waves-effect waves-light col s3 z-depth-1" type ="bidButton"><i className="material-icons">arrow_forward</i></button>
 				</div>
 			</div>
 

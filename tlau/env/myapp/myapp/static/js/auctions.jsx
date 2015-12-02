@@ -109,57 +109,72 @@ var Auction = React.createClass({
 
 			return (
 				<div>
-				<h1 className="black-text" id="name">{this.state.item.name}</h1>
-
-
-				<div className="row grey-text text-darken-2" style={{marginBottom:'5px'}}>
-
-					<div className="col s6 m3"> Product Type: <span id="type">{this.state.item.type}</span> </div>
-					<div className="col s6 m3"> Manufacture Year: <span id="manufactureYear">{this.state.item.manufactureYear}</span></div>
-				</div>
-
-
-				<div className ="row">
-					{image}
-					<div className="col s12 m6">
-						<div className="bold">
-							<div className="row">
-								<div id="currentBid" className="col s12 m8"> Current Price: {this.state.auction.currentBid}</div>
-								{bidButton}
-							</div>
-							<div> <i className="material-icons">hourglass_full</i>Closes at: <span id= "closingTime">{new Date(this.state.auction.closingTime).toLocaleDateString("en-US", options)}</span></div>
-
-							<div className="row">
-								<div className="col"> <i className="material-icons">create</i> Posted by: <span  className= "green-text" id= "sellerName">{this.state.seller.name}</span></div>
-								<div className="col amber-text text-lighten-1"> <i className="material-icons">star</i><span id="rating">{this.state.seller.rating}</span></div>
-							</div>
-							<p id= "Reserve"></p>
-							 <a className="modal-trigger" href="#modalTable"><i className="material-icons">restore</i> See Bid History</a>
+					<h1 className="black-text" id="name">{this.state.item.name}</h1>
+					<div className="row grey-text text-darken-2" style={{marginBottom:'5px'}}>
+						<div className="col s6 m3">
+							Product Type: <span id="type">{this.state.item.type}</span>
 						</div>
-						<div> Description:  <span id="description">{this.state.item.description}</span> </div>
-
-						<button onClick= {this.getAuctionSearch} className  = "btn waves-effect waves-light  light-blue darken-2" type="seeMoreButton">See More Auctions for this Item </button>
+						<div className="col s6 m3">
+							Manufacture Year: <span id="manufactureYear">{this.state.item.manufactureYear}</span>
+						</div>
 					</div>
-				</div>
+					<div className ="row">
+						{image}
+						<div className="col s12 m6">
+							<div className="bold">
+								<div className="row">
+									<div id="currentBid" className="col s12 m8">
+										Current Price: {this.state.auction.currentBid}
+									</div>
+									{bidButton}
+								</div>
+								<div>
+									<i className="material-icons">hourglass_full</i>
+									Closes at:
+									<span id= "closingTime">
+										{new Date(this.state.auction.closingTime).toLocaleDateString("en-US", options)}
+									</span>
+								</div>
+								<div className="row">
+									<div className="col">
+										<i className="material-icons">create</i>
+										Posted by:
+										<span className= "green-text" id= "sellerName">{this.state.seller.name}</span>
+									</div>
+									<div className="col amber-text text-lighten-1">
+										<i className="material-icons">star</i>
+										<span id="rating">{this.state.seller.rating}</span></div>
+								</div>
+								<p id= "Reserve"></p>
+								 <a className="modal-trigger" href="#modalTable">
+									 <i className="material-icons">restore</i> See Bid History
+								 </a>
+							</div>
+							<div>
+								Description: <span id="description">{this.state.item.description}</span>
+							</div>
+							<button onClick={this.getAuctionSearch} className  = "btn waves-effect waves-light  light-blue darken-2" type="seeMoreButton">See More Auctions for this Item </button>
+						</div>
+					</div>
 				</div>
 			)
 		}
 	}
 });
 
-var auction = <Auction/>
+var auction = <Auction/>;
 ReactDOM.render(
   auction,
   document.getElementById('auctionContainer')
 );
 
-var bidHistory = <BidHistory/>
+var bidHistory = <BidHistory/>;
 ReactDOM.render(
   bidHistory,
   document.getElementById('bidHistoryContainer')
 );
 
-var placeBid = <PlaceBid/>
+var placeBid = <PlaceBid/>;
 ReactDOM.render(
    placeBid,
    document.getElementById('placeBidContainer')

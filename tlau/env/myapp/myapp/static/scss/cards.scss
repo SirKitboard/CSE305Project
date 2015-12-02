@@ -1,25 +1,24 @@
 .card{
 
-
   .card-image {
 
-    .card-image {
-
       .card-title {
-        font-family: "HammersmithOne", "Helvetica", sans-serif;
+        font-family: "Roboto", "Helvetica", sans-serif;
+        font-weight: bold;
         color: white;
-        padding: 10px;
-      }
-    }
+        padding-left: 10px;
 
-    .card-content {
-      padding: 10px;
-      font-family: "Roboto", "Helvetica", sans-serif;
-    }
-
-    .card-action {
-      padding: 10px;
     }
   }
+
+  .card-content {
+    font-family: "Roboto", "Helvetica", sans-serif;
+    padding-left: 10px;
+  }
+
+  .card-action {
+    padding-left: 10px;
+  }
+
 }
 

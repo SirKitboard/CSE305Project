@@ -1,13 +1,21 @@
 @import "variables.scss";
 
+body, html {
+  height: 100%;
+  width: 100%;
+}
+
 @font-face {
   font-family: "HammersmithOne", "Helvetica", sans-serif;
-  src: url("../font/Hammersmith.ttf");
+  src: url("../font/hammersmith/Hammersmith.ttf"),
+       url("../font/hammersmith/Hammersmith.woff");
 }
 
 @font-face {
   font-family: "Pacifico", "Times New Roman", Serif;
-  src: url("../font/Pacifico.ttf");
+  src: url("../font/pacifico/Pacifico.ttf"),
+       url("../font/pacifico/Pacifico.woff"),
+       url("../font/pacifico/Pacifico.woff2");
 }
 
 @font-face {
@@ -31,6 +39,10 @@
 h1 {
   font-family: "HammersmithOne", "Helvetica", sans-serif;
   font-size: 48px;
+}
+
+h3 {
+  font-family: "HammersmithOne", "Helvetica", sans-serif;
 }
 
 .login-wrapper {
@@ -76,3 +88,4 @@ h1 {
 @import "navbar.scss";
 @import "cards.scss";
 @import "fab.scss";
+@import "imageScroller.scss";

@@ -98,7 +98,7 @@ var HotItems = React.createClass({
             }
             if(this.state.hotItems.length > 0) {
                 hotItems = _.map(this.state.hotItems, function(item) {
-                    var imageURL = "http://placehold.it/300x300"
+                    var imageURL = "http://placehold.it/300x300";
                     if(item.images.length > 0) {
                         imageURL = item.images[0]
                     }
@@ -125,7 +125,7 @@ var HotItems = React.createClass({
                 <div>
                     <div className="row">
                         <div className="col s12">
-                            <h3>Hot Items</h3>
+                            <h3>Hot Items <i className="material-icons">whatshot</i></h3>
                                 <div className="row">
                                 {hotItems}
                                 </div>
@@ -133,7 +133,7 @@ var HotItems = React.createClass({
                     </div>
                     <div className="row">
                         <div className="col s12">
-                            <h3>Suggested Items</h3>
+                            <h3>Items For You <i className="material-icons">favorite</i></h3>
                             {suggestedItems}
                         </div>
                     </div>
