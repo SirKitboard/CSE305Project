@@ -249,6 +249,7 @@ var AddEditEmployee = React.createClass({
                             <input defaultValue={this.state.hourlyRate} type="number" step="0.01" min="0" ref="hourlyRate" id="hourlyRate" className="validate"/>
                             <label className={classActive} htmlFor="hourlyRate">Hourly Rate</label>
                         </div>
+                        {startDateDiv}
                     </div>
                     {userDiv}
                     {passwordDiv}
