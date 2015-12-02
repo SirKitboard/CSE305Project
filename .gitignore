@@ -8,3 +8,4 @@ tlau/env/myapp/build
 tlau/env/myapp/myapp.egg-info
 vagrant
 __pycache__/
+.pyc
