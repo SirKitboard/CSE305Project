@@ -32,14 +32,21 @@ var Profile = React.createClass({
         // console.log('render');
         if(window.currentUser.type==0) {
             return (
-                <div>
+                <div className="profile-card z-depth-2">
                     <div className="profileAndStats row">
-                        <div className="col s12 m6 row">
-                            <div className="col s4"><i className="profileIcon material-icons">account_circle</i></div>
-                            <div className="col s8">
-                                <h4>Hi {window.currentUser.firstName}</h4>
+                        <div className="col s12 m6 row profile">
+                            <div className="col s4 profileIcon">
+                                <i className=" material-icons">account_circle</i>
+                            </div>
+                            <div className="col s8 greeting">
+                                <h4>Hi {window.currentUser.firstName},</h4>
                                 <h5>You are looking great today! </h5>
-                                <a className="modal-trigger waves-effect waves-light btn" onClick={this.openCustomerEditor}>Update Profile</a> <span style={{marginLeft:'5px', fontSize:'20px'}} className="amber-text text-lighten-1">{window.currentUser.rating}<i className="material-icons">star</i></span>
+                                <div className="button-rating">
+                                    <a className="modal-trigger waves-effect waves-light btn" onClick={this.openCustomerEditor}>Update Profile</a>
+                                    <span className="amber-text text-lighten-1 rating">
+                                        {window.currentUser.rating}<i className="material-icons">star</i>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div className="col s12 m6 right-align">
@@ -63,7 +70,7 @@ var Profile = React.createClass({
         }
     }
 });
-var profile = <Profile/>
+var profile = <Profile/>;
 ReactDOM.render(
   profile,
   document.getElementById('profileContainer')

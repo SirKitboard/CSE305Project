@@ -33,6 +33,11 @@ nav {
         font-family: "Roboto", "Arial", sans-serif;
 
         li {
+
+          .material-icons {
+            vertical-align: baseline;
+          }
+
           a:hover {
             color: black;
           }

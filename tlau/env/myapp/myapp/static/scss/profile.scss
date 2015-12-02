@@ -1,6 +1,39 @@
 #profileContainer {
     margin-top: 30px;
-    .profileIcon {
-        font-size:150px;
+
+    .profile-card {
+        padding: 20px 10px;
+
+        .profile {
+            display: flex;
+            align-content: center;
+
+            .profileIcon {
+                font-size: 150px;
+                text-align: center;
+                display: flex;
+            }
+
+            .greeting {
+                display: flex;
+                flex-flow: column;
+                justify-content: center;
+
+                h4, h5 {
+                    font-family: "HammersmithOne", "Helvetica", sans-serif;
+                    margin: 5px;
+                }
+
+                .button-rating {
+
+                    .rating {
+                        margin-left: 20px;
+                        font-size: 24px;
+                        vertical-align: middle;
+                    }
+                }
+            }
+
+        }
     }
 }
