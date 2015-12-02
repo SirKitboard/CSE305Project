@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.44, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.46, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: 305
 -- ------------------------------------------------------
--- Server version	5.5.44-0ubuntu0.14.04.1
+-- Server version	5.5.46-0ubuntu0.14.04.2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -181,7 +181,7 @@ CREATE TABLE `Customers` (
 
 LOCK TABLES `Customers` WRITE;
 /*!40000 ALTER TABLE `Customers` DISABLE KEYS */;
-INSERT INTO `Customers` VALUES (1,'Smith','John','789 Peace Blvd','Los Angeles','CA',12345,'(412) 443-4321','shlu@ic.sunysb.edu','2345-6789-2345-6789',3,0,3),(2,'Finch','Atticus',' Happy 987','Stony Brook','NY',11790,'516 111 11111','finch@gmail.com','1111-1111-1111-1111',0,1,3),(3,'Lu','Shiyong','123 Success Street','Stony Brook','NY',11790,'(516) 632-8959','shiyong@cs.sunysb.edu','1234-5678-1234-5678',0,1,3),(4,'Du','Haixia','456 Fortune Road','Stony Brook','NY',11790,'(516) 632-4360','dhaixia@cs.sunysb.edu','5678-1234-5678-1234',0,1,3),(7,'Balwani','Adi','asdasdasd','asdasd','ny',12312,'6314494337','Adibalwani@gmail.com','1234123412341234',0,0,3),(9,'hjkhkj','hjfkds','kfdjah','hjkh','hjk',11590,'12345678865','menasyhalaa@gmail.com','123456789012',0,0,3);
+INSERT INTO `Customers` VALUES (1,'Smithy','John','789 Peace Blvd','Los Angeles','CA',12345,'(412) 443-4321','shlu@ic.sunysb.edu','2345-6789-2345-6789',3,0,3),(2,'Finch','Atticus',' Happy 987','Stony Brook','NY',11790,'516 111 11111','finch@gmail.com','1111-1111-1111-1111',0,1,3),(3,'Lu','Shiyong','123 Success Street','Stony Brook','NY',11790,'(516) 632-8959','shiyong@cs.sunysb.edu','1234-5678-1234-5678',0,1,3),(4,'Du','Haixia','456 Fortune Road','Stony Brook','NY',11790,'(516) 632-4360','dhaixia@cs.sunysb.edu','5678-1234-5678-1234',0,1,3),(7,'Balwani','Adi','asdasdasd','asdasd','ny',12312,'6314494337','Adibalwani@gmail.com','1234123412341234',0,0,3),(9,'hjkhkj','hjfkds','kfdjah','hjkh','hjk',11590,'12345678865','menasyhalaa@gmail.com','123456789012',0,0,3);
 /*!40000 ALTER TABLE `Customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,6 +272,58 @@ LOCK TABLES `ItemsImages` WRITE;
 /*!40000 ALTER TABLE `ItemsImages` DISABLE KEYS */;
 INSERT INTO `ItemsImages` VALUES (1,'http://ecx.images-amazon.com/images/I/51d17yMqhVL.jpg'),(6,'http://media.rockstargames.com/rockstargames/img/global/news/upload/actual_1364906194.jpg'),(7,'/static/images/5751eb3b-e382-4010-86ab-b2a45e5bea93.png'),(8,'/static/images/3170496a-f070-4384-9c14-ad6db846851c.jpg');
 /*!40000 ALTER TABLE `ItemsImages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `MailingLists`
+--
+
+DROP TABLE IF EXISTS `MailingLists`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `MailingLists` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `MailingLists`
+--
+
+LOCK TABLES `MailingLists` WRITE;
+/*!40000 ALTER TABLE `MailingLists` DISABLE KEYS */;
+INSERT INTO `MailingLists` VALUES (1,'List1',2);
+/*!40000 ALTER TABLE `MailingLists` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `MailingListsMappings`
+--
+
+DROP TABLE IF EXISTS `MailingListsMappings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `MailingListsMappings` (
+  `listID` int(11) NOT NULL DEFAULT '0',
+  `customerID` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`listID`,`customerID`),
+  KEY `customerID` (`customerID`),
+  CONSTRAINT `MailingListsMappings_ibfk_1` FOREIGN KEY (`listID`) REFERENCES `MailingLists` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `MailingListsMappings_ibfk_2` FOREIGN KEY (`customerID`) REFERENCES `Customers` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `MailingListsMappings`
+--
+
+LOCK TABLES `MailingListsMappings` WRITE;
+/*!40000 ALTER TABLE `MailingListsMappings` DISABLE KEYS */;
+INSERT INTO `MailingListsMappings` VALUES (1,1),(1,2),(1,3),(1,4);
+/*!40000 ALTER TABLE `MailingListsMappings` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -436,6 +488,32 @@ INSERT INTO `Wins` VALUES (6,'2008-12-08 13:00:00',2,1),(1,'2015-08-08 09:00:00'
 UNLOCK TABLES;
 
 --
+-- Temporary table structure for view `receipt`
+--
+
+DROP TABLE IF EXISTS `receipt`;
+/*!50001 DROP VIEW IF EXISTS `receipt`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `receipt` (
+  `id` tinyint NOT NULL,
+  `lastName` tinyint NOT NULL,
+  `firstName` tinyint NOT NULL,
+  `address` tinyint NOT NULL,
+  `city` tinyint NOT NULL,
+  `state` tinyint NOT NULL,
+  `zipCode` tinyint NOT NULL,
+  `telephone` tinyint NOT NULL,
+  `email` tinyint NOT NULL,
+  `creditCardNumber` tinyint NOT NULL,
+  `name` tinyint NOT NULL,
+  `Time` tinyint NOT NULL,
+  `auctionID` tinyint NOT NULL,
+  `currentBid` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary table structure for view `view_employees`
 --
 
@@ -501,6 +579,25 @@ USE `305`;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
+-- Final view structure for view `receipt`
+--
+
+/*!50001 DROP TABLE IF EXISTS `receipt`*/;
+/*!50001 DROP VIEW IF EXISTS `receipt`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = latin1 */;
+/*!50001 SET character_set_results     = latin1 */;
+/*!50001 SET collation_connection      = latin1_swedish_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `receipt` AS (select `C`.`id` AS `id`,`C`.`lastName` AS `lastName`,`C`.`firstName` AS `firstName`,`C`.`address` AS `address`,`C`.`city` AS `city`,`C`.`state` AS `state`,`C`.`zipCode` AS `zipCode`,`C`.`telephone` AS `telephone`,`C`.`email` AS `email`,`C`.`creditCardNumber` AS `creditCardNumber`,`I`.`name` AS `name`,`W`.`Time` AS `Time`,`W`.`auctionID` AS `auctionID`,`A`.`currentBid` AS `currentBid` from (((`Customers` `C` join `Items` `I`) join `Wins` `W`) join `Auctions` `A`) where ((`W`.`customerID` = `C`.`id`) and (`W`.`auctionID` = `A`.`id`) and (`A`.`itemID` = `I`.`id`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `view_employees`
 --
 
@@ -528,4 +625,4 @@ USE `305`;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-01 16:36:58
+-- Dump completed on 2015-12-02 17:21:41
