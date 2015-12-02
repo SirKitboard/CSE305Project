@@ -24,6 +24,6 @@
 <script type="text/babel" src="${request.static_url('myapp:static/js/customerEdit.jsx')}"></script>
 <script type="text/babel" src="${request.static_url('myapp:static/js/employeeDashboard/customers.jsx')}"></script>
 <script type="text/babel" src="${request.static_url('myapp:static/js/employeeDashboard/sales.jsx')}"></script>
-
+<script type="text/babel" src="${request.static_url('myapp:static/js/employeeDashboard/mailingList.jsx')}"></script>
 
 </%def>

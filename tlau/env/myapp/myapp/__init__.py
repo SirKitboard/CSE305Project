@@ -73,6 +73,13 @@ def main(global_config, **settings):
     config.add_route('apiAddBid', 'api/auctions/{id}/bid', request_method='POST')
     config.add_route('apibidHistory', 'api/auction/{id}/bids', request_method='GET')
 
+    # Mailing List Routes
+    config.add_route('apiAllMailingLists', 'api/mailingLists', request_method='GET')
+    config.add_route('apiAddMailingList', 'api/mailingLists', request_method='POST')
+    config.add_route('apiGetMailingList', 'api/mailingLists/{id}', request_method='GET')
+    config.add_route('apiAddCustomerToList', 'api/mailingLists/{id}', request_method='PUT')
+    config.add_route('apiDeleteCustomerFromList', 'api/mailingLists/{id}', request_method='DELETE')
+
     # Generators
     config.add_route('apisalesReport', 'api/generate/salesReport', request_method='GET')
     config.add_route('apireceipt', 'api/generate/receipt', request_method='GET')
