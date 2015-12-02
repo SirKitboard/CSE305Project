@@ -18,6 +18,6 @@ Vagrant.configure(2) do |config|
 		web.vm.network :forwarded_port, guest: 443, host: 4430
 		web.vm.network :forwarded_port, guest: 6543, host: 5000
 
-		web.vm.synced_folder "../tlau/env/myapp", "/app/env/myapp", owner: "vagrant", group: "www-data", mount_options: ["dmode=775,fmode=664"]
+		web.vm.synced_folder "../tlau/env/myapp", "/tlau/env/myapp", owner: "vagrant", group: "www-data", mount_options: ["dmode=775,fmode=664"]
 	end
 end
