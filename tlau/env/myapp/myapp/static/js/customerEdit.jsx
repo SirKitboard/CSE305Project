@@ -33,8 +33,15 @@ window.CustomerEditor = React.createClass({
     },
     render: function() {
         return (
-            <div className="modal-content container">
-                <div style={{textAlign:'center'}}>
+            <div className="modal-content container edit-customer">
+                <div>
+                    <div className="row">
+                        <h4>Update your profile</h4>
+                    </div>
+
+                    <div className="row">
+                        <span className="contact header">Contact Info <i className="material-icons">info_outline</i> </span>
+                    </div>
                     <div className="row">
                         <div className="input-field col s12 m6">
                             <input ref="first_name" id="first_name" type="text" className="validate" defaultValue={this.props.customer.firstName}/>
@@ -56,6 +63,9 @@ window.CustomerEditor = React.createClass({
                             <input ref="phone" id="phone" type="tel" className="validate" defaultValue={this.props.customer.telephone}/>
                             <label className="active" htmlFor="phone">Phone</label>
                         </div>
+                    </div>
+                    <div className="row">
+                        <span className="address header">Address <i className="material-icons">home</i> </span>
                     </div>
                     <div className="row">
                         <div className="input-field col s12">
@@ -80,16 +90,26 @@ window.CustomerEditor = React.createClass({
                         </div>
                     </div>
                     <div className="row">
+                        <span className="payment header">Payment <i className="material-icons">payment</i> </span>
+                    </div>
+                    <div className="row">
                         <div className="input-field col s12">
                             <input ref="creditCardNumber" id="ccn" type="text" className="validate" defaultValue={this.props.customer.creditCardNumber}/>
                             <label className="active" htmlFor="creditCardNumber">Credit Card Number</label>
                         </div>
                     </div>
-                    <button onClick={this.handleUpdate} className="btn waves-effect waves-light" id='login' type="submit" name="action">Submit
-                      <i className="material-icons right">send</i>
-                    </button>
-                    <button onClick={this.close} className="btn waves-effect waves-light" id='login' type="submit" name="action">Close
-                    </button>
+                    <div className="row">
+                        <button onClick={this.handleUpdate} className="btn waves-effect waves-light send"
+                                id='login' type="submit" name="action">
+                          <span>Submit</span>
+                          <i className="material-icons right">send</i>
+                        </button>
+                            <button onClick={this.close} className="btn waves-effect waves-light"
+                                id='login' type="submit" name="action">
+                            <span>Close</span>
+                            <i className="material-icons right">clear</i>
+                        </button>
+                    </div>
                 </div>
             </div>
         )
