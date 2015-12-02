@@ -70,6 +70,7 @@ def main(global_config, **settings):
     config.add_route('apiAddAuction', 'api/auctions', request_method='POST')
     config.add_route('apiAddBid', 'api/auctions/{id}/bid', request_method='POST')
     config.add_route('apibidHistory', 'api/auction/{id}/bids', request_method='GET')
+    config.add_route('apiAuctionsUnapproved', 'api/auctions/unapproved', request_method='GET')
 
     # Generators
     config.add_route('apisalesReport', 'api/generate/salesReport', request_method='GET')
