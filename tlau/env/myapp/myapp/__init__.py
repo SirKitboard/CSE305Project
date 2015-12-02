@@ -1,6 +1,7 @@
 # pylint: disable=C,F
 from pyramid.config import Configurator
 import os
+import mimetypes
 
 from pyramid.session import SignedCookieSessionFactory
 my_session_factory = SignedCookieSessionFactory('itsaseekreet')
@@ -10,6 +11,7 @@ def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
     here = os.path.abspath(os.path.dirname(__file__))
+    # mimetypes.add_type('application/x-font-woff', '.woff')
     settings['mako.directories'] = os.path.join(here, 'templates')
     config = Configurator(settings=settings)
     config.include('pyramid_mako')

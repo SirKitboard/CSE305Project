@@ -19,6 +19,30 @@ var CreateMailingList = React.createClass({
             }
         })
     },
+    filterCustomers : function(e) {
+        var value = e.target.value;
+        var filteredCustomers = _.filter(this.state.customers, function(customer) {
+            return customer.name.toLowerCase().indexOf(value.toLowerCase()) > -1
+        });
+        this.setState({
+            filteredCustomers : filteredCustomers
+        })
+    },
+    save : function() {
+        var params = {
+            name : ReactDOM.findDOMNode(this.refs.name).value,
+            customers : this.state.selectedIDs
+        }
+        var self = this;
+        $.ajax({
+            url : '/api/mailingLists',
+            method : 'POST',
+            data : params,
+            success : function(response) {
+                self.props.onSubmit();
+            }
+        })
+    },
     addCustomer : function(e) {
         var target = e.target;
         if(target.tagName != 'DIV') {
@@ -61,8 +85,12 @@ var CreateMailingList = React.createClass({
             <div>
                 <div className="modal-content">
                     <div className="row">
-                        <div className="input-field col s12 offset-m6 m6">
-                            <input onChange={this.filteredCustomers} ref="search" id="search" type="text" className="validate"/>
+                        <div className="input-field col s12 m4">
+                            <input ref="name" id="name" type="text" className="validate"/>
+                            <label htmlFor="name">Name</label>
+                        </div>
+                        <div className="input-field col s12 offset-m4 m4">
+                            <input onChange={this.filterCustomers} ref="search" id="search" type="text" className="validate"/>
                             <label htmlFor="search">Search..</label>
                         </div>
                     </div>
@@ -73,14 +101,14 @@ var CreateMailingList = React.createClass({
                                 // console.log(self.state.selectedIDs.indexOf(customer.id));
                                 if(self.state.selectedIDs.indexOf(customer.id) > -1) {
                                     return (
-                                        <div style={{margin:'10px'}} data-id={customer.id} onClick={self.removeCustomer} className="chip teal lighten-2 waves-effect">
+                                        <div style={{margin:'8px'}} data-id={customer.id} onClick={self.removeCustomer} className="chip teal lighten-2 waves-effect">
                                             <img src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg" alt="Contact Person"/>
                                             {customer.name}
                                         </div>
                                     )
                                 } else {
                                     return (
-                                        <div style={{margin:'5px'}} data-id={customer.id} onClick={self.addCustomer} className="chip waves-effect">
+                                        <div style={{margin:'8px'}} data-id={customer.id} onClick={self.addCustomer} className="chip waves-effect">
                                             <img src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg" alt="Contact Person"/>
                                             {customer.name}
                                         </div>
@@ -94,7 +122,7 @@ var CreateMailingList = React.createClass({
                     <button onClick={this.close} style={{margin:'0 5px'}} className="btn waves-effect waves-light" id='login' type="submit" name="action">
                         Close
                     </button>
-                    <button  onClick={this.updateEmployee} style={{margin:'0 5px'}} className="btn waves-effect waves-light" id='login' type="submit" name="action">Submit
+                    <button  onClick={this.save} style={{margin:'0 5px'}} className="btn waves-effect waves-light" id='login' type="submit" name="action">Submit
                         <i className="material-icons right">send</i>
                     </button>
                 </div>
@@ -112,6 +140,9 @@ var Sales = React.createClass({
         }
     },
       componentDidMount : function() {
+        this.reloadLists();
+    },
+    reloadLists : function(){
         var self = this;
         $.ajax({
             url: '/api/mailingLists',
@@ -164,7 +195,7 @@ var Sales = React.createClass({
                     })
                 }
                 <div id="modalCreateMailingList"className="modal modal-fixed-footer">
-                    <CreateMailingList/>
+                    <CreateMailingList onSubmit={this.reloadLists}/>
                 </div>
                 <div className="fixed-action-btn">
                     <a onClick={this.openAddModal} className="btn-floating btn-large green">

@@ -27,13 +27,15 @@ def apiAllMailingLists(request):
                 'name' : row['name']
             })
 
-        query = "SELECT C.* from MailingListsMappings LEFT JOIN (SELECT id, firstName, lastName, email FROM Customers) as C ON C.id = MailingListsMappings.customerID and MailingListsMappings.listID = %s"
+        query = "SELECT C.* from MailingListsMappings JOIN (SELECT id, firstName, lastName, email FROM Customers) as C ON C.id = MailingListsMappings.customerID and MailingListsMappings.listID = %s"
 
         for mailingList in mailingLists:
             cursor.execute(query, tuple([str(mailingList['id'])]))
             customers = []
             for row in cursor:
+                print(row)
                 customers.append({
+                    'id' : row['id'],
                     'name' : row['firstName'] + " " + row['lastName'],
                     'email' : row['email']
                 })
@@ -72,6 +74,7 @@ def apiGetMailingList(request):
         customers = []
         for row in cursor:
             customers.append({
+                'id' : row['id'],
                 'name' : row['firstName'] + " " + row['lastName'],
                 'email' : row['email']
             })
@@ -89,6 +92,7 @@ def apiGetMailingList(request):
 def apiAddMailingList(request):
     Authorizer.authorizeEmployee(request)
     postVars = request.POST
+    print(postVars)
     if 'name' not in postVars:
         raise exc.HTTPBadRequest()
 
@@ -97,13 +101,16 @@ def apiAddMailingList(request):
         cursor = cnx.cursor(dictionary=True)
 
         query = "INSERT INTO MailingLists(name, createdBy) VALUES(%s, %s)"
-        cursor.execute(query, tuple([postVars['name'], Authorizer.getCurrentUser()['id']]))
+        cursor.execute(query, tuple([postVars['name'], Authorizer.getCurrentUser(request)['id']]))
 
-        if 'customers' in postVars:
+        if 'customers[]' in postVars:
+            # postVars.getall('customers[]')
             query = "SELECT LAST_INSERT_ID() as id"
             cursor.execute(query)
             mailingListID = cursor.fetchone()['id']
-            for customerID in postVars['customers']:
+            print (mailingListID)
+            for customerID in postVars.getall('customers[]'):
+                print(customerID)
                 query = "SELECT COUNT(*) as count FROM Customers where id = %s"
                 cursor.execute(query, tuple([str(customerID)]))
                 count = cursor.fetchone()['count']
@@ -114,11 +121,13 @@ def apiAddMailingList(request):
                     raise exc.HTTPBadRequest()
 
         cursor.close()
+        cnx.commit()
         cnx.close()
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err), status=500)
 
-    return mailingLists
+    raise exc.HTTPOk()
+    # return mailingLists
 
 @view_config(route_name='apiAddCustomerToList', renderer='json')
 def apiAddCustomerToList(request):
@@ -149,6 +158,7 @@ def apiAddCustomerToList(request):
             raise exc.HTTPBadRequest()
 
         cursor.close()
+        cnx.commit()
         cnx.close()
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err), status=500)
@@ -184,6 +194,7 @@ def apiDeleteCustomerFromList(request):
             raise exc.HTTPBadRequest()
 
         cursor.close()
+        cnx.commit()
         cnx.close()
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err), status=500)

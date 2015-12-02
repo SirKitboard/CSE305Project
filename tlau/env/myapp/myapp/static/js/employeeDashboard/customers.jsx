@@ -63,7 +63,7 @@ var Customers = React.createClass({
         if(this.state.openEditModal){
             if(this.state.selectedCustomer) {
                 editModal = (<CustomerEditor customer={this.state.selectedCustomer} onClose={this.closeModal}/>)
-            }     
+            }
         }
         return (
             <div className="row">
@@ -82,7 +82,7 @@ var Customers = React.createClass({
                                     <span className="bold">Items Sold: </span> {customer.itemsSold}<br/>
                                     <span className="bold">Items Bought: </span> {customer.itemsPurchased}<br/>
                                     <span className="bold">Rating: </span> {customer.rating}<br/>
-                                    
+
                                 </div>
                                 <div className="card-action">
                                     <a href="#" data-id={customer.id} onClick={self.editCustomer}>Edit</a>
@@ -94,11 +94,6 @@ var Customers = React.createClass({
             }
             <div id="modalEditCustomer" className="modal">
                 {editModal}
-            </div>
-            <div className="fixed-action-btn">
-                <a onClick={this.openAddModal} className="btn-floating btn-large green">
-                    <i className="large material-icons">add</i>
-                </a>
             </div>
             </div>
         )
