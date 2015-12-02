@@ -1,6 +1,12 @@
 Totally Legit Online Auctions
 ===============================
 
+Sample Credentials:
+--------------------
+1. Customer : john_smith, password
+2. Employees : david_warren, password
+3. Manager : david_smith, password
+
 To update database:
 --------------------
 1. Go to myapp directory in the vagrant server app/env/myapp
