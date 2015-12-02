@@ -86,18 +86,18 @@ def apiAuctionWin(request):
         query = "UPDATE Items\
                  SET CopiesSold = CopiesSold + 1, Stock=Stock-1\
                  WHERE ID=%s"
-        cursor.execute(query, tuple(str(auction['itemID'])))
-
+        cursor.execute(query, tuple([str(auction['itemID'])]))
+        print('itemUpdated')
         query= "UPDATE Customers\
                 SET ItemsSold=ItemsSold+1\
                 WHERE ID = %s"
-        cursor.execute(query, tuple(str(auction['sellerID'])))
-
+        cursor.execute(query, tuple([str(auction['sellerID'])]))
+        print('seller')
         query= "UPDATE Customers\
                 SET ItemsPurchased=ItemsPurchased+1\
                 WHERE ID = %s"
-        cursor.execute(query, tuple(str(bid['customerID'])))
-
+        cursor.execute(query, tuple([str(bid['customerID'])]))
+        print('customer')
         cursor.close()
         cnx.commit()
         cnx.close()
