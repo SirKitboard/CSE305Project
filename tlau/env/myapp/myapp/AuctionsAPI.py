@@ -75,6 +75,10 @@ def apiAuctionWin(request):
         cursor.execute(query,tuple(str(auctionID)))
         bid = cursor.fetchone()
 
+        if(bid['amount'] < auction['reserve']):
+            raise exc.HTTPOk()
+            return {}
+
         query = "INSERT INTO Wins (bidID, time, customerID, auctionID)\
                     VALUES (%s, NOW(), %s, %s);"
         cursor.execute(query, tuple([bid['id'], bid['customerID'], auction['id']]))
