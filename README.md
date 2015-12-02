@@ -3,7 +3,7 @@ Totally Legit Online Auctions
 
 To update database:
 --------------------
-1. Go to myapp directory
+1. Go to myapp directory in the vagrant server app/env/myapp
 2. Run `mysql --user=root --password=SmolkaSucks69 < bak.sql`
 
 To run:
@@ -20,6 +20,7 @@ To sync/update:
 3. Go to myapp folder
 4. Run `python setup.py develop`
 5. Run `pserve development.ini`
+6. View on port 5000 of localhost
 
 To check error logs:
 ---------------------

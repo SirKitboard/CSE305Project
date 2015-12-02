@@ -6,12 +6,6 @@
 <%def name="body()">
     <div id="profileContainer" class="container">
     </div>
-    <div id="modalUpdate" class="modal">
-        <div class="modal-content container">
-            <div id="updateContainer"></div>
-        </div>
-    </div>
-
 </%def>
 <%def name="scripts()">
 <script type="text/babel" src="${request.static_url('myapp:static/js/customerEdit.jsx')}"></script>

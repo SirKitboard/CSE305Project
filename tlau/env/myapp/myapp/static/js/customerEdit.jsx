@@ -28,62 +28,69 @@ window.CustomerEditor = React.createClass({
             }
         });
     },
+    close : function() {
+        this.props.onClose();
+    },
     render: function() {
         return (
-            <div style={{textAlign:'center'}}>
-                <div className="row">
-                    <div className="input-field col s12 m6">
-                        <input ref="first_name" id="first_name" type="text" className="validate" defaultValue={this.props.customer.firstName}/>
-                        <label className="active" htmlFor="first_name">First Name</label>
+            <div className="modal-content container">
+                <div style={{textAlign:'center'}}>
+                    <div className="row">
+                        <div className="input-field col s12 m6">
+                            <input ref="first_name" id="first_name" type="text" className="validate" defaultValue={this.props.customer.firstName}/>
+                            <label className="active" htmlFor="first_name">First Name</label>
+                        </div>
+                        <div className="input-field col s12 m6">
+                            <input ref="last_name" id="last_name" type="text" className="validate" defaultValue={this.props.customer.lastName}/>
+                            <label className="active" htmlFor="last_name">Last Name</label>
+                        </div>
                     </div>
-                    <div className="input-field col s12 m6">
-                        <input ref="last_name" id="last_name" type="text" className="validate" defaultValue={this.props.customer.lastName}/>
-                        <label className="active" htmlFor="last_name">Last Name</label>
+                    <div className="row">
+                        <div className="input-field col s12">
+                            <input ref="email" id="email" type="email" className="validate" defaultValue={this.props.customer.email}/>
+                            <label className="active" htmlFor="email">Email</label>
+                        </div>
                     </div>
+                    <div className="row">
+                        <div className="input-field col s12">
+                            <input ref="phone" id="phone" type="tel" className="validate" defaultValue={this.props.customer.telephone}/>
+                            <label className="active" htmlFor="phone">Phone</label>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="input-field col s12">
+                            <input ref="address" id="address" type="text" className="validate" defaultValue={this.props.customer.address}/>
+                            <label className="active" htmlFor="address">Address</label>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="input-field col s12">
+                            <input ref="city" id="city" type="text" className="validate" defaultValue={this.props.customer.city}/>
+                            <label className="active" htmlFor="city">City</label>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="input-field col s12 m6">
+                            <input ref="state" id="state" type="text" className="validate" defaultValue={this.props.customer.state}/>
+                            <label className="active" htmlFor="state">State</label>
+                        </div>
+                        <div className="input-field col s12 m6">
+                            <input ref='zipCode' id="zipcode" type="number" className="validate" defaultValue={this.props.customer.zipCode}/>
+                            <label className="active" htmlFor="zipCode">ZipCode</label>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="input-field col s12">
+                            <input ref="creditCardNumber" id="ccn" type="text" className="validate" defaultValue={this.props.customer.creditCardNumber}/>
+                            <label className="active" htmlFor="creditCardNumber">Credit Card Number</label>
+                        </div>
+                    </div>
+                    <button onClick={this.handleUpdate} className="btn waves-effect waves-light" id='login' type="submit" name="action">Submit
+                      <i className="material-icons right">send</i>
+                    </button>
+                    <button onClick={this.close} className="btn waves-effect waves-light" id='login' type="submit" name="action">Close
+                    </button>
                 </div>
-                <div className="row">
-                    <div className="input-field col s12">
-                        <input ref="email" id="email" type="email" className="validate" defaultValue={this.props.customer.email}/>
-                        <label className="active" htmlFor="email">Email</label>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="input-field col s12">
-                        <input ref="phone" id="phone" type="tel" className="validate" defaultValue={this.props.customer.telephone}/>
-                        <label className="active" htmlFor="phone">Phone</label>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="input-field col s12">
-                        <input ref="address" id="address" type="text" className="validate" defaultValue={this.props.customer.address}/>
-                        <label className="active" htmlFor="address">Address</label>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="input-field col s12">
-                        <input ref="city" id="city" type="text" className="validate" defaultValue={this.props.customer.city}/>
-                        <label className="active" htmlFor="city">City</label>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="input-field col s12 m6">
-                        <input ref="state" id="state" type="text" className="validate" defaultValue={this.props.customer.state}/>
-                        <label className="active" htmlFor="state">State</label>
-                    </div>
-                    <div className="input-field col s12 m6">
-                        <input ref='zipCode' id="zipcode" type="number" className="validate" defaultValue={this.props.customer.zipCode}/>
-                        <label className="active" htmlFor="zipCode">ZipCode</label>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="input-field col s12">
-                        <input ref="creditCardNumber" id="ccn" type="text" className="validate" defaultValue={this.props.customer.creditCardNumber}/>
-                        <label className="active" htmlFor="creditCardNumber">Credit Card Number</label>
-                    </div>
-                </div>
-                <button onClick={this.handleUpdate} className="btn waves-effect waves-light" id='login' type="submit" name="action">Submit
-                  <i className="material-icons right">send</i>
-                </button>
             </div>
         )
     }

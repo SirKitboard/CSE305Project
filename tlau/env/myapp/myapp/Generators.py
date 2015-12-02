@@ -75,14 +75,18 @@ def revenueReport(request):
     query = "SELECT ItemName, SUM(Amount) AS revenue, COUNT(Amount) AS copiesSold FROM Sales_Report WHERE "
     secondQuery = "SELECT ItemName, SUM(Amount) AS revenue, COUNT(Amount) AS copiesSold FROM Sales_Report WHERE MONTH(time) = MONTH(NOW()) AND YEAR(time) = YEAR(NOW()) AND "
     value = None
-    if 'employeeID' in getVars and 'customerID' not in getVars:
+    if 'employeeID' in getVars and 'customerID' not in getVars and 'itemID' not in getVars:
         query = query + "monitorID = %s GROUP BY ItemName"
         secondQuery = secondQuery + "monitorID = %s GROUP BY ItemName"
         value = getVars['employeeID']
-    elif 'employeeID' not in getVars and 'customerID' in getVars:
+    elif 'employeeID' not in getVars and 'customerID' in getVars and 'itemID' not in getVars:
         query = query + "customerID = %s GROUP BY ItemName"
         secondQuery = secondQuery + "customerID = %s GROUP BY ItemName"
         value = getVars['customerID']
+    elif 'employeeID' not in getVars and 'customerID' not in getVars and 'itemID' in getVars:
+        query = query + "itemID = %s"
+        secondQuery = secondQuery + "itemID = %s"
+        value = getVars['itemID']
     else:
         raise exc.HTTPBadRequest()
 

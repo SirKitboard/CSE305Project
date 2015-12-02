@@ -64,12 +64,14 @@ def main(global_config, **settings):
     config.add_route('apiauctionHistory', 'api/customers/{id}/auctionHistory', request_method='GET')
 
     # Auctions Routes
+    config.add_route('apiAuctionWin', 'api/auctions/{id}/win', request_method='POST')
     config.add_route('apiGetOpenAuctions', 'api/auctions/open', request_method='GET')
     config.add_route('apiSearchAuction', 'api/auctions/search')
     config.add_route('apiGetAuction', 'api/auctions/{id}', request_method='GET')
     config.add_route('apiAddAuction', 'api/auctions', request_method='POST')
     config.add_route('apiAddBid', 'api/auctions/{id}/bid', request_method='POST')
     config.add_route('apibidHistory', 'api/auction/{id}/bids', request_method='GET')
+    config.add_route('apiAuctionsUnapproved', 'api/auctions/unapproved', request_method='GET')
 
     # Generators
     config.add_route('apisalesReport', 'api/generate/salesReport', request_method='GET')
@@ -88,6 +90,7 @@ def main(global_config, **settings):
     config.add_route('signup', 'signup', request_method='GET')
     config.add_route('itemSearch', 'items/search', request_method='GET')
     config.add_route('managerDashboard', 'manager/dashboard', request_method='GET')
+    config.add_route('employeeDashboard', 'employee/dashboard', request_method='GET')
 
     config.scan()
     return config.make_wsgi_app()

@@ -20,7 +20,13 @@ var Profile = React.createClass({
             }
         });
 
-        $('.modal-trigger').leanModal();
+        // $('.modal-trigger').leanModal();
+    },
+    openCustomerEditor : function() {
+        $("#modalUpdate").openModal();
+    },
+    closeCustomerEditor : function() {
+        $("#modalUpdate").closeModal();
     },
     render: function() {
         // console.log('render');
@@ -33,7 +39,7 @@ var Profile = React.createClass({
                             <div className="col s8">
                                 <h4>Hi {window.currentUser.firstName}</h4>
                                 <h5>You are looking great today! </h5>
-                                <a className="modal-trigger waves-effect waves-light btn" href="#modalUpdate">Update Profile</a> <span style={{marginLeft:'5px', fontSize:'20px'}} className="amber-text text-lighten-1">{window.currentUser.rating}<i className="material-icons">star</i></span>
+                                <a className="modal-trigger waves-effect waves-light btn" onClick={this.openCustomerEditor}>Update Profile</a> <span style={{marginLeft:'5px', fontSize:'20px'}} className="amber-text text-lighten-1">{window.currentUser.rating}<i className="material-icons">star</i></span>
                             </div>
                         </div>
                         <div className="col s12 m6 right-align">
@@ -45,6 +51,9 @@ var Profile = React.createClass({
                             You've currently have <span className="bold green-text">{window.currentUser.activeAuctions}</span> Auctions<br/>
                             You've currently have <span className="bold green-text">{window.currentUser.activeBids}</span> Bids<br/>
                         </div>
+                    </div>
+                    <div id="modalUpdate" className="modal">
+                        <CustomerEditor onClose={this.closeCustomerEditor} customer={window.currentUser}/>
                     </div>
                 </div>
             )
@@ -58,8 +67,4 @@ var profile = <Profile/>
 ReactDOM.render(
   profile,
   document.getElementById('profileContainer')
-);
-ReactDOM.render(
-  <CustomerEditor customer={window.currentUser}/>,
-  document.getElementById('updateContainer')
 );

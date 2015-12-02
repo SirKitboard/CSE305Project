@@ -1,54 +1,3 @@
-// var Revenue = React.createClass({
-// 	getInitialState : function() {
-// 		return {
-// 			selectedCustomer : null,
-// 			customerSalesInfo : []
-// 		}
-// 	},
-// 	componentDidMount : function() {
-//
-// 	},
-// 	render : function() {
-// 		var selectedCustomer = (
-//             <div onClick={this.openItemPicker}className="card-panel grey lighten-5 z-depth-1">
-//               <div className="row valign-wrapper">
-//                 <div className="col s2">
-//                   <img src="http://placehold.it/100x100" alt="" className="circle responsive-img"/>
-//                 </div>
-//                 <div className="col s10">
-//                   <span className="black-text">
-//                     Click here to choose Customer
-//                   </span>
-//                 </div>
-//               </div>
-//             </div>
-//         )
-//         if(this.state.selectedCustomer != null) {
-//             var image = <img src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg" style={{height:'100px', width:'100px'}} className="circle responsive-img"/>
-//             selectedCustomer = (
-// 				<div className="card-panel grey lighten-5 z-depth-1">
-//             		<div className="row valign-wrapper">
-//                 		<div className="col s2">
-//             	  			{image}
-//         				</div>
-// 	                	<div className="col s10">
-// 		                	<span className="black-text">
-// 		                    	{this.state.itemPicked.name}
-// 		                	</span>
-// 	                	</div>
-//               		</div>
-//             	</div>
-// 			)
-//     	}
-//
-// 		return (
-// 			<div>
-// 				{selectedCustomer}
-// 			</div>
-// 		)
-// 	}
-// });
-
 var CustomerPicker = React.createClass({
     getInitialState : function() {
         return {
@@ -173,6 +122,7 @@ var RevenueTab = React.createClass({
     getInitialState : function(){
         return {
             selectedCustomer : null,
+            selectedItem : null,
             currentFilter : 0,
             revenueInfo : [],
             revenueStats : null
@@ -199,6 +149,7 @@ var RevenueTab = React.createClass({
     setCustomerFilter : function(customer) {
         this.setState({
             selectedCustomer : customer,
+            selectedItem : item,
             currentFilter : 1
         });
         var self = this;
@@ -222,6 +173,39 @@ var RevenueTab = React.createClass({
     closeCustomerPicker : function() {
         $("#modalCustomerPicker").closeModal();
     },
+    getItemName: function() {
+        if(this.state.selectedItem) {
+            return this.state.selectedItem.name;
+        }
+        return "";
+    },
+    setItemFilter : function(item) {
+        this.setState({
+            selectedItem : item,
+            selectedCustomer : null,
+            currentFilter : 2
+        });
+        var self = this;
+        $.ajax({
+            url : '/api/generate/revenueReport',
+            data : {
+                itemID : item.id,
+            },
+            method : 'GET',
+            success : function(response){
+                self.setState({
+                    revenueInfo : response
+                })
+            }
+        })
+        this.closeItemPicker();
+    },
+    pickItem : function() {
+        $("#modalItemPicker").openModal();
+    },
+    closeItemPicker : function() {
+        $("#modalItemPicker").closeModal();
+    },
     render : function() {
         var revenueInfo = "";
         if(this.state.currentFilter == 1) {
@@ -230,12 +214,12 @@ var RevenueTab = React.createClass({
             var monthBought = 0;
             var monthValue = 0.0;
             _.each(this.state.revenueInfo.total, function(row) {
-                totalBought+=row.CopiesSold;
-                totalValue+= (row.Revenue / 10);
+                totalBought+=row.copiesSold;
+                totalValue+= (row.revenue / 10);
             });
             _.each(this.state.revenueInfo.month, function(row) {
-                monthBought+=row.CopiesSold;
-                monthValue+= (row.Revenue / 10);
+                monthBought+=row.copiesSold;
+                monthValue+= (row.revenue / 10);
             });
             revenueInfo = (
                 <div style={{marginTop:'20px', padding:'5px'}} className="z-depth-1">
@@ -253,18 +237,55 @@ var RevenueTab = React.createClass({
                             </div>
                             <div className="row revenueValues">
                                 <div className="col s12 m6">
-                                    <span className="value">{totalValue}</span> Total Revenue
+                                    <span className="value">${totalValue}</span> Total Revenue
                                 </div>
                                 <div className="col s12 m6">
-                                    <span className="value">{monthValue}</span> Revenue this month
+                                    <span className="value">${monthValue}</span> Revenue this month
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             )
-        } else if (this.state.filterState == 2) {
-
+        } else if (this.state.currentFilter == 2) {
+            var totalBought = 0;
+            var totalValue = 0.0;
+            var monthBought = 0;
+            var monthValue = 0.0;
+            _.each(this.state.revenueInfo.total, function(row) {
+                totalBought+=row.copiesSold;
+                totalValue+= (row.revenue / 10);
+            });
+            _.each(this.state.revenueInfo.month, function(row) {
+                monthBought+=row.copiesSold;
+                monthValue+= (row.revenue / 10);
+            });
+            revenueInfo = (
+                <div style={{marginTop:'20px', padding:'5px'}} className="z-depth-1">
+                    <h5>Customer you chose</h5>
+                    <div className="row">
+                        <div className="col s12 m2"><img className="responsive-img circle" style={{width:'100px', height:'90px'}} src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/></div>
+                        <div className="col s12 m10">
+                            <div className="row revenueValues">
+                                <div className="col s12 m6">
+                                    <span className="value">{totalBought}</span> Total Sold
+                                </div>
+                                <div className="col s12 m6">
+                                    <span className="value">{monthBought}</span> sold this month
+                                </div>
+                            </div>
+                            <div className="row revenueValues">
+                                <div className="col s12 m6">
+                                    <span className="value">${totalValue}</span> Total Revenue
+                                </div>
+                                <div className="col s12 m6">
+                                    <span className="value">${monthValue}</span> Revenue this month
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
         }
         var revenueStats = "";
         if(this.state.revenueStats) {
@@ -316,16 +337,22 @@ var RevenueTab = React.createClass({
         return (
             <div>
                 <div className="row">
-                    <div style={{marginTop:'30px'}}className="col bold">See revenue of : </div>
                     <div className="input-field col">
                         <input id="customer" type="text" onClick={this.pickCustomer} className="validate" value={this.getCustomerName()}/>
                         <label htmlFor="customer" className={this.state.selectedCustomer ? "active" : ""}>Customer</label>
+                    </div>
+                    <div className="input-field col">
+                        <input id="item" type="text" onClick={this.pickItem} className="validate" value={this.getItemName()}/>
+                        <label htmlFor="item" className={this.state.selectedItem ? "active" : ""}>Item</label>
                     </div>
                 </div>
                 {revenueInfo}
                 {revenueStats}
                 <div id="modalCustomerPicker" className="modal modal-fixed-footer">
                     <CustomerPicker onClose={this.closeCustomerPicker} onSubmit={this.setCustomerFilter}/>
+                </div>
+                <div id="modalItemPicker" className="modal modal-fixed-footer">
+                    <ItemPicker onClose={this.closeItemPicker} onSubmit={this.setItemFilter}/>
                 </div>
             </div>
         )

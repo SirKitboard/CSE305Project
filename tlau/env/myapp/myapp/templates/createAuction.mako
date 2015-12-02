@@ -8,5 +8,6 @@
     </div>
 </%def>
 <%def name="scripts()">
+<script type="text/babel" src="${request.static_url('myapp:static/js/selectItem.jsx')}"></script>
 <script type="text/babel" src="${request.static_url('myapp:static/js/createAuction.jsx')}"></script>
 </%def>
