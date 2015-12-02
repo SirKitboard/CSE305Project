@@ -40,6 +40,71 @@ def openAuctions(request):
     return auctions
 
 
+@view_config(route_name='apiAuctionWin', renderer='json')
+def apiAuctionWin(request):
+    Authorizer.authorizeEmployee(request)
+    auctionID = request.matchdict['id']
+
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        query = "SELECT * from Auctions where id = %s"
+        cursor.execute(query,tuple(str(auctionID)))
+        auction = cursor.fetchone()
+
+        if(auction['finished'] == 1):
+            raise exc.HTTPBadRequest()
+        elif(auction['closingTime'] > datetime.now()):
+            raise exc.HTTPBadRequest()
+
+        query = "UPDATE Auctions SET finished=1 WHERE id = %s"
+        cursor.execute(query,tuple(str(auctionID)))
+
+
+        # query = "SELECT COUNT(*) as count, amount, id, customerID FROM Bids where auctionID = 1 ORDER BY amount DESC LIMIT 1"
+        query = "SELECT COUNT(*) as count FROM Bids where auctionID = %s"
+        cursor.execute(query,tuple(str(auctionID)))
+        bid = cursor.fetchone()
+
+        if(bid['count'] == 0):
+            raise exc.HTTPOk()
+            return {}
+
+        query = "SELECT amount, id, customerID FROM Bids WHERE auctionID = %s ORDER BY amount DESC LIMIT 1"
+        cursor.execute(query,tuple(str(auctionID)))
+        bid = cursor.fetchone()
+
+        query = "INSERT INTO Wins (bidID, time, customerID, auctionID)\
+                    VALUES (%s, NOW(), %s, %s);"
+        cursor.execute(query, tuple([bid['id'], bid['customerID'], auction['id']]))
+
+        query = "UPDATE Items\
+                 SET CopiesSold = CopiesSold + 1, Stock=Stock-1\
+                 WHERE ID=%s"
+        cursor.execute(query, tuple(str(auction['itemID'])))
+
+        query= "UPDATE Customers\
+                SET ItemsSold=ItemsSold+1\
+                WHERE ID = %s"
+        cursor.execute(query, tuple(str(auction['sellerID'])))
+
+        query= "UPDATE Customers\
+                SET ItemsPurchased=ItemsPurchased+1\
+                WHERE ID = %s"
+        cursor.execute(query, tuple(str(bid['customerID'])))
+
+        cursor.close()
+        cnx.commit()
+        cnx.close()
+    except mysql.connect.Error as err:
+        cnx.commit()
+        cnx.close()
+        return Reponse("Something went wrong: {}".format(err), status=500)
+
+    raise exc.HTTPOk()
+
+
 @view_config(route_name='apiGetAuction', renderer='json')
 def getAuction(request):
     auctionID = request.matchdict['id']
