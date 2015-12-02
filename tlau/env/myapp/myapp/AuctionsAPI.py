@@ -10,6 +10,7 @@ import pyramid.httpexceptions as exc
 
 import mysql.connector
 
+
 @view_config(route_name='apiGetOpenAuctions', renderer='json')
 def openAuctions(request):
     auctions = []
@@ -113,7 +114,7 @@ def apiAuctionSearch(request):
 
     searchResults = []
 
-    try :
+    try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
@@ -136,6 +137,7 @@ def apiAuctionSearch(request):
         return Response("Something went wrong: {}".format(err), status=500)
 
     return searchResults
+
 
 # Add a customer
 @view_config(route_name='apiAddAuction', renderer='json')
@@ -184,6 +186,7 @@ def addAuction(request):
         return Response("Something went wrong: {}".format(err))
 
     raise exc.HTTPOk()
+
 
 # config.add_route('apiAddBid', renderer='json')
 @view_config(route_name='apiAddBid', renderer='json')
@@ -315,3 +318,60 @@ def apiAddBid(request):
         return Response("Something went wrong: {}".format(err), 500)
 
     raise exc.HTTPOk()
+
+
+@view_config(route_name='apiAuctionsUnapproved', renderer='json')
+def apiAuctionsUnapproved(request):
+    Authorizer.authorizeEmployee(request)
+    auctions = []
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        query = ("SELECT * FROM Auctions where closingTime<NOW() AND finished=0")
+
+        cursor.execute(query)
+
+        for row in cursor:
+            auctionInfo = {}
+            for key in row:
+                if(isinstance(row[key], datetime)):
+                    auctionInfo[key] = row[key].isoformat()
+                elif(isinstance(row[key], Decimal)):
+                    auctionInfo[key] = str(row[key])
+                else:
+                    auctionInfo[key] = row[key]
+            auctions.append(auctionInfo)
+
+        for auction in auctions:
+            # query = ("SELECT COUNT(*) as count, amount, id, customerID FROM Bids where auctionID = %s ORDER BY amount DESC LIMIT 1")
+            query = "SELECT COUNT(*) as count FROM Bids where auctionID = %s"
+            cursor.execute(query, tuple(str(auction["id"])))
+
+            bid = cursor.fetchone()
+            if(bid["count"] == 0):
+                auction["winner"] = None
+            else:
+                query = "SELECT amount, id, customerID FROM Bids WHERE auctionID = %s ORDER BY amount DESC LIMIT 1"
+                cursor.execute(query, tuple(str(auction["id"])))
+
+                bid = cursor.fetchone()
+
+                auction["amount"] = str(bid["amount"])
+
+                query = ("SELECT * FROM Customer where id = %s")
+
+                cursor.execute(query, tuple(str(bid["customerID"])))
+                customer = cursor.fetchone()
+                auction['winnerName'] = customer['firstName'] + " " + customer['lastName']
+
+                cursor.execute(query, tuple(str(auction['sellerID'])))
+                customer = cursor.fetchone()
+                auction['sellerName'] = customer['firstName'] + " " + customer['lastName']
+
+        cursor.close()
+        cnx.close()
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
+
+    return auctions
