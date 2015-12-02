@@ -16,7 +16,10 @@ var AuctionSearch = React.createClass ({
 				itemID: window.itemID
 			},
 			success : function(response) {
-				_.each(response, function(auction) {
+				_.each(response.current, function(auction) {
+					auction.currentBid = (auction.currentBid < auction.openingBid ? auction.openingBid : auction.currentBid)
+				});
+				_.each(response.past, function(auction) {
 					auction.currentBid = (auction.currentBid < auction.openingBid ? auction.openingBid : auction.currentBid)
 				});
 				self.setState({
@@ -66,39 +69,76 @@ var AuctionSearch = React.createClass ({
         }
         else{
         	return(
-        		<div className = "row">
-        		{ _.map(this.state.auctions, function(auction) {
-                                var imageURL = "http://placehold.it/300x300"
-                                if(self.state.item.images) {
-                                    imageURL = self.state.item.images[0]
-                                }
-                                return (
-                                	<div className="col s12 m4 l3">
-	                                    <div className="card small">
-	                                        <div className="card-image">
-	                                            <img src={imageURL}/>
-	                                            <span className="card-title">{self.state.item.name} <br/>
-	                                            	  $ {auction.currentBid}
-	                                            </span>
-	                                        </div>
+				<div>
+					<h4>Open Auctions</h4>
+	        		<div className = "row">
+	        		{ (this.state.auctions.current.length == 0 ) ? (<h5 style={{marginLeft :'20px'}}>No open auctions :( </h5>) : _.map(this.state.auctions.current, function(auction) {
+	                                var imageURL = "http://placehold.it/300x300"
+	                                if(self.state.item.images) {
+	                                    imageURL = self.state.item.images[0]
+	                                }
+	                                return (
+	                                	<div className="col s12 m4 l3">
+		                                    <div className="card small">
+		                                        <div className="card-image">
+		                                            <img src={imageURL}/>
+		                                            <span className="card-title">{self.state.item.name} <br/>
+		                                            	  $ {auction.currentBid}
+		                                            </span>
+		                                        </div>
 
-	                                        <div className="card-content">
-	                                            <p>{self.state.item.description}</p>
-	                                        </div>
+		                                        <div className="card-content">
+		                                            <p>{self.state.item.description}</p>
+		                                        </div>
 
-	                                        <div className="card-action"  >
+		                                        <div className="card-action"  >
 
-	                                            <a href={"/auction/"+auction.id}>View<i className="material-icons">remove_red_eye</i></a>
-	                                            <a href="#">Bid <i className="material-icons">attach_money</i></a>
+		                                            <a href={"/auction/"+auction.id}>View<i className="material-icons">remove_red_eye</i></a>
+		                                            <a href="#">Bid <i className="material-icons">attach_money</i></a>
 
 
-	                                        </div>
+		                                        </div>
 
+		                                    </div>
 	                                    </div>
-                                    </div>
-                                )
-                            })}
-        		</div>
+	                                )
+	                            })}
+	        		</div>
+					<h4>Past Auctions</h4>
+	        		<div className = "row">
+	        		{(this.state.auctions.past.length == 0 ) ? (<h5 style={{marginLeft :'20px'}}>No open auctions</h5>) : _.map(this.state.auctions.past, function(auction) {
+	                                var imageURL = "http://placehold.it/300x300"
+	                                if(self.state.item.images) {
+	                                    imageURL = self.state.item.images[0]
+	                                }
+	                                return (
+	                                	<div className="col s12 m4 l3">
+		                                    <div className="card small">
+		                                        <div className="card-image">
+		                                            <img src={imageURL}/>
+		                                            <span className="card-title">{self.state.item.name} <br/>
+		                                            	  $ {auction.currentBid}
+		                                            </span>
+		                                        </div>
+
+		                                        <div className="card-content">
+		                                            <p>{self.state.item.description}</p>
+		                                        </div>
+
+		                                        <div className="card-action"  >
+
+		                                            <a href={"/auction/"+auction.id}>View<i className="material-icons">remove_red_eye</i></a>
+		                                            <a href="#">Bid <i className="material-icons">attach_money</i></a>
+
+
+		                                        </div>
+
+		                                    </div>
+	                                    </div>
+	                                )
+	                            })}
+	        		</div>
+				</div>
 
         	)
 

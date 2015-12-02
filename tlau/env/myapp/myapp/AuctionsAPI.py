@@ -180,7 +180,7 @@ def apiAuctionSearch(request):
     if('itemID' not in getVars):
         raise exc.HTTPBadRequest()
 
-    searchResults = []
+    searchResults = {}
 
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
@@ -188,8 +188,8 @@ def apiAuctionSearch(request):
 
         query = "SELECT * FROM Auctions WHERE closingTime > NOW() AND itemID = %s"
 
-        cursor.execute(query, tuple(str(getVars['itemID'])))
-
+        cursor.execute(query, tuple([str(getVars['itemID'])]))
+        results = []
         for row in cursor:
             auctionInfo = {}
             for key in row:
@@ -199,7 +199,25 @@ def apiAuctionSearch(request):
                     auctionInfo[key] = str(row[key])
                 else:
                     auctionInfo[key] = row[key]
-            searchResults.append(auctionInfo)
+            results.append(auctionInfo)
+        searchResults['current'] = results
+
+        query = "SELECT * FROM Auctions WHERE closingTime < NOW() AND itemID = %s"
+
+        cursor.execute(query, tuple([str(getVars['itemID'])]))
+        results = []
+        for row in cursor:
+            auctionInfo = {}
+            for key in row:
+                if(isinstance(row[key], datetime)):
+                    auctionInfo[key] = row[key].isoformat()
+                elif(isinstance(row[key], Decimal)):
+                    auctionInfo[key] = str(row[key])
+                else:
+                    auctionInfo[key] = row[key]
+            results.append(auctionInfo)
+
+        searchResults['past'] = results
 
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err), status=500)
