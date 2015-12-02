@@ -408,12 +408,36 @@ def apiAuctionsUnapproved(request):
             auctions.append(auctionInfo)
 
         for auction in auctions:
-            # query = ("SELECT COUNT(*) as count, amount, id, customerID FROM Bids where auctionID = %s ORDER BY amount DESC LIMIT 1")
-            query = "SELECT COUNT(*) as count FROM Bids where auctionID = %s"
-            cursor.execute(query, tuple(str(auction["id"])))
+            print(auction)
 
+            query = ("SELECT * FROM Customers where id = %s")
+            cursor.execute(query, tuple([str(auction["sellerID"])]))
+            customer = cursor.fetchone()
+            print('hii')
+            auction['sellerName'] = customer['firstName'] + " " + customer['lastName']
+
+            query = ("SELECT name FROM Items where id=%s")
+            cursor.execute(query, tuple([str(auction["itemID"])]))
+            item = cursor.fetchone()
+            print('hiii')
+            auction['itemName'] = item["name"]
+
+            query = ("SELECT url from ItemsImages where itemID=%s")
+            cursor.execute(query, tuple([str(auction["itemID"])]))
+            # print('hi')
+            imageArray = []
+            for row in cursor:
+                imageArray.append(row["url"])
+            auction["itemImage"] = imageArray
+
+            query = "SELECT COUNT(*) as count FROM Bids where auctionID = %s"
+            # print(tuple(str(auction["id"])))
+            print(auction["id"])
+            cursor.execute(query, tuple([str(auction["id"])]))
+            # print('loop started')
             bid = cursor.fetchone()
             if(bid["count"] == 0):
+                print('no bids')
                 auction["winner"] = None
             else:
                 query = "SELECT amount, id, customerID FROM Bids WHERE auctionID = %s ORDER BY amount DESC LIMIT 1"
@@ -423,15 +447,15 @@ def apiAuctionsUnapproved(request):
 
                 auction["amount"] = str(bid["amount"])
 
-                query = ("SELECT * FROM Customer where id = %s")
+                query = ("SELECT * FROM Customers where id = %s")
+                print('h')
 
                 cursor.execute(query, tuple(str(bid["customerID"])))
+                print('hi')
                 customer = cursor.fetchone()
                 auction['winnerName'] = customer['firstName'] + " " + customer['lastName']
 
-                cursor.execute(query, tuple(str(auction['sellerID'])))
-                customer = cursor.fetchone()
-                auction['sellerName'] = customer['firstName'] + " " + customer['lastName']
+
 
         cursor.close()
         cnx.close()
