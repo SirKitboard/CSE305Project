@@ -58,7 +58,7 @@ var HotItems = React.createClass({
         });
     },
     render: function() {
-        console.log(this.state.loading)
+        console.log(this.state.loading);
         if(this.state.loading < 1) {
             return (
                 <div>
@@ -122,7 +122,7 @@ var HotItems = React.createClass({
                 })
             }
             return (
-                <div>
+                <div className="index">
                     <div className="row">
                         <div className="col s12">
                             <h3>Hot Items <i className="material-icons">whatshot</i></h3>

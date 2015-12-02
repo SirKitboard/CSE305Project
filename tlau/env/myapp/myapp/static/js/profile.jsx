@@ -33,7 +33,7 @@ var Profile = React.createClass({
         if(window.currentUser.type==0) {
             return (
                 <div className="profile-card z-depth-2">
-                    <div className="profileAndStats row">
+                    <div className="profile-and-stats row">
                         <div className="col s12 m6 row profile">
                             <div className="col s4 profileIcon">
                                 <i className=" material-icons">account_circle</i>

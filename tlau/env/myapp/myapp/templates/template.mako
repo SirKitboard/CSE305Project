@@ -30,6 +30,7 @@
     <!-- Custom styles for this scaffold -->
     <!-- <link href="${request.static_url('myapp:static/css/index.css')}" rel="stylesheet"> -->
     <link href="${request.static_url('myapp:static/css/template.css')}" rel="stylesheet">
+    <link href="${request.static_url('myapp:static/css/login.css')}" rel="stylesheet">
     <script src="${request.static_url('myapp:static/js/jquery-2.1.4.min.js')}"></script>
     <script src="${request.static_url('myapp:static/js/materialize/materialize.js')}"></script>
 
@@ -67,9 +68,8 @@
     ${self.scripts()}
 
     <div id="modalLogin" class="modal">
-        <div class="modal-content container">
-            <div style="text-align: center;">
-            <span class="flow-text blue-text text-darken-2">Login</span>
+        <div class="modal-content container login">
+            <h2 class="flow-text">Login</h2>
             <div class="row">
                 <div class="input-field col s12">
                     <input id="username" type="text" class="validate"/>
@@ -96,8 +96,7 @@
                   <i class="material-icons right">clear</i>
                 </button>
                 <span class="col s12">Not a member? Click <a href="/signup">here</a> to Sign up!</span>
-          </div>
-        </div>
+            </div>
         </div>
     </div>
 

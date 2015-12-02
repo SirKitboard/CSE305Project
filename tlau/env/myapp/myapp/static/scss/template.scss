@@ -61,10 +61,7 @@ h3 {
     }
 }
 
-.material-icons {
-    font-size: inherit;
-    vertical-align: text-top;
-}
+
 
 @media only screen and (min-width:993px) {
     .container{
@@ -91,3 +88,4 @@ h3 {
 @import "fab.scss";
 @import "imageScroller.scss";
 @import "editCustomer.scss";
+@import "index.scss";

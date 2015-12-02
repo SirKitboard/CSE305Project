@@ -30,7 +30,7 @@ $("#logout").on('click', function(e) {
         success: function() {
             console.log('logout');
             window.location.reload()
-        },
+        }
     })
 });
 

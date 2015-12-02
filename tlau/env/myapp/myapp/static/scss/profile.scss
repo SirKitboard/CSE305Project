@@ -4,36 +4,40 @@
     .profile-card {
         padding: 20px 10px;
 
-        .profile {
-            display: flex;
-            align-content: center;
+        .profile-and-stats{
+            margin-bottom: 0;
 
-            .profileIcon {
-                font-size: 150px;
-                text-align: center;
+            .profile {
                 display: flex;
-            }
+                align-content: center;
 
-            .greeting {
-                display: flex;
-                flex-flow: column;
-                justify-content: center;
-
-                h4, h5 {
-                    font-family: "HammersmithOne", "Helvetica", sans-serif;
-                    margin: 5px;
+                .profileIcon {
+                    font-size: 150px;
+                    text-align: center;
+                    display: flex;
                 }
 
-                .button-rating {
+                .greeting {
+                    display: flex;
+                    flex-flow: column;
+                    justify-content: center;
 
-                    .rating {
-                        margin-left: 20px;
-                        font-size: 24px;
-                        vertical-align: middle;
+                    h4, h5 {
+                        font-family: "HammersmithOne", "Helvetica", sans-serif;
+                        margin: 5px;
+                    }
+
+                    .button-rating {
+                        margin: 5px;
+
+                        .rating {
+                            margin-left: 20px;
+                            font-size: 24px;
+                            vertical-align: middle;
+                        }
                     }
                 }
             }
-
         }
     }
 }
