@@ -20,10 +20,9 @@ if(window.currentUser && window.currentUser.type ==1){
             <i class="large material-icons">mode_edit</i>
         </a>
         <ul>
-            <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
-            <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
-            <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
-            <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+            <li><a class="btn-floating red"><i class="material-icons">create</i></a></li>
+            <li><a class="btn-floating yellow darken-1"><i class="material-icons">person</i></a></li>
+            <li><a class="btn-floating green"><i class="material-icons">search</i></a></li>
         </ul>
     </div>
 </div>
