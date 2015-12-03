@@ -84,7 +84,7 @@ var MonthFilter = React.createClass({
 				<div className="row ">
 					<h4 className="col s3">Sales report for</h4>
 					<div className="input-field col s3">
-						<select ref='month' defaultValue='8'>
+						<select ref='month' defaultValue='12'>
 							<option value="" disabled>Month</option>
 							<option value="1">January </option>
 							<option value="2">February </option>
@@ -164,7 +164,7 @@ var Sales = React.createClass({
     render: function() {
     	return(
 	    	<div className="">
-				<MonthFilter style={{marginTop:'20px'}}/>		
+				<MonthFilter style={{marginTop:'20px'}}/>
 	    	</div>
 		)
 	}
