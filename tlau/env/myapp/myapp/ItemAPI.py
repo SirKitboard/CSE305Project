@@ -9,14 +9,13 @@ import pyramid.httpexceptions as exc
 
 import mysql.connector
 
-
 @view_config(route_name='apiallItems', renderer='json')
 def allItems(request):
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
-        query = ("SELECT * FROM Items")
+        query = ("SELECT * FROM Items ORDER BY copiesSold DESC")
 
         cursor.execute(query)
 
@@ -460,6 +459,45 @@ def sold(request):
 def apiHotItems(request):
     query = """
         SELECT * FROM Items LEFT JOIN ( Select itemID, SUM(frequency) as frq FROM Searches GROUP BY itemID) AS Search on Items.id = Search.itemID ORDER BY (Search.frq) DESC LIMIT 5
+        """
+
+    hotItems = []
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        cursor.execute(query)
+
+        for row in cursor:
+            item = {}
+            for key in row:
+                if(isinstance(row[key], datetime)):
+                    item[key] = row[key].isoformat()
+                elif(isinstance(row[key], Decimal)):
+                    item[key] = str(row[key])
+                else:
+                    item[key] = row[key]
+            hotItems.append(item)
+
+        for item in hotItems:
+            query = ("SELECT url FROM ItemsImages WHERE itemID = %s")
+            cursor.execute(query, tuple(str(item['id'])))
+            urls = []
+            for row in cursor:
+                urls.append(row['url'])
+            item['images'] = urls
+
+        cursor.close()
+        cnx.close()
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
+
+    return hotItems
+
+@view_config(route_name='apiBestSellers', renderer='json')
+def apiBestSellers(request):
+    query = """
+        SELECT * FROM Items ORDER BY copiesSold DESC LIMIT 5
         """
 
     hotItems = []

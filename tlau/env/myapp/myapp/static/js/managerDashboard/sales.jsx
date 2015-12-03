@@ -20,15 +20,19 @@ var MonthFilter = React.createClass({
 	        return o[b]-o[a];
 	    });
 	},
+
 	componentDidMount : function() {
 		$('select').material_select();
+		$((this.refs.month)).on('change', this.filterByMonth);
 		this.filterByMonth();
 	},
+
 	filterByMonth : function() {
+		console.log("hi");
 		var params = {
  			month : ReactDOM.findDOMNode(this.refs.month).value,
  			year : ReactDOM.findDOMNode(this.refs.year).value
- 		}
+ 		};
 		this.setState({
 			month : params.month,
 			year : params.year
@@ -64,47 +68,49 @@ var MonthFilter = React.createClass({
 			}
 		});
 	},
-	getMonthName: function() {
-		var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-		return months[this.state.month-1]
-	},
+
 	render : function() {
 		var popularItemName = "";
     	if(this.state.popularItems[0]) {
-    		popularItemName = (<div style={{fontSize:'20px'}}className="col s12 m6"> Most Popular Item : <span className="blue-text text-darken-2" style={{fontSize:'30px'}}>{this.state.popularItems[0].name}</span> </div>)
+    		popularItemName = (
+					<div className="col s12 m6 popular">
+						<span className="popular-item">Most Popular Item: </span>
+						<span className="item">{this.state.popularItems[0].name}</span>
+					</div>)
     	}
 
 		return (
 			<div>
-				<div className="row">
-					<div className="input-field col s4 row">
-						<select ref='month' defaultValue='8'>
-							  <option value="" disabled>Month</option>
-							  <option value="1">January </option>
-							  <option value="2">February </option>
-							  <option value="3">March </option>
-							  <option value='4'>April </option>
-							  <option value='5'>May </option>
-							  <option value='6'>June </option>
-							  <option value='7'>July </option>
-							  <option value='8'>August </option>
-							  <option value='9'>September </option>
-							  <option value='10'>October </option>
-							  <option value='11'>November </option>
-							  <option value='12'>December </option>
+				<div className="row ">
+					<h4 className="col s3">Sales report for</h4>
+					<div className="input-field col s3">
+						<select ref='month' defaultValue='12'>
+							<option value="" disabled>Month</option>
+							<option value="1">January </option>
+							<option value="2">February </option>
+							<option value="3">March </option>
+							<option value='4'>April </option>
+							<option value='5'>May </option>
+							<option value='6'>June </option>
+							<option value='7'>July </option>
+							<option value='8'>August </option>
+							<option value='9'>September </option>
+							<option value='10'>October </option>
+							<option value='11'>November </option>
+							<option value='12'>December </option>
 						</select>
 					</div>
-					<div className ="input-field col s4">
-						 <input ref='year' min="1990" id="year" type="number" defaultValue='2015' className="validate"/>
-						 <label className="active" htmlFor="year">Year</label>
+					<div className ="input-field col s3">
+						<input ref='year' min="1990" id="year" type="number" defaultValue='2015' onChange={this.filterByMonth} className="validate"/>
+						<label className="active" htmlFor="year">Year</label>
 					</div>
-					<a style={{marginTop:'25px'}}onClick={this.filterByMonth}className="btn waves-effect waves-light green">Filter</a>
 				</div>
 
-				<h4>Sales report for {this.getMonthName()} {this.state.year}</h4>
-
-				<div className="row">
-					<div style={{fontSize:'20px'}} className="col s12 m6"> <span className="green-text text-darken-2" style={{fontSize:'40px'}}> {this.state.salesReport.length} </span>Items Sold This Month</div>
+				<div className="row stats">
+					<div className="col s6 m3 items">
+						<span className="number-sold">{this.state.salesReport.length} </span>
+						<span className="items-sold">Items Sold This Month</span>
+					</div>
 					{popularItemName}
 				</div>
 
@@ -128,7 +134,10 @@ var MonthFilter = React.createClass({
 										<p>{item.description}</p>
 									</div>
 									<div className="card-action">
-										<a href={link}>View</a>
+										<a href={link}>
+											<i className="material-icons">visibility</i>
+											<span>&nbsp;View</span>
+										</a>
 									</div>
 								</div>
 							</div>
@@ -155,7 +164,7 @@ var Sales = React.createClass({
     render: function() {
     	return(
 	    	<div className="">
-				<MonthFilter style={{marginTop:'20px'}}/>		
+				<MonthFilter style={{marginTop:'20px'}}/>
 	    	</div>
 		)
 	}

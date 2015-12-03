@@ -1,7 +1,7 @@
 var ItemSearch = React.createClass ({
 	getInitialState : function() {
 		return{
-			items: null,
+			items: [],
 			loading: 0
 		}
 	},
@@ -59,34 +59,36 @@ var ItemSearch = React.createClass ({
         }
         else{
         	return(
-        		<div className = "row">
-        		{ _.map(this.state.items, function(item) {
-                                var imageURL = "http://placehold.it/300x300"
-								var itemPath = "/item/"+item.id
-                                if(item.images.length>0) {
-                                    imageURL = item.images[0]
-                                }
-                                return (
-                                	<div className="col s12 m4 l3">
-	                                    <div className="card small">
-	                                        <div className="card-image">
-	                                            <img src={imageURL}/>
-	                                            <span className="card-title">{item.name}
-
-	                                            </span>
-	                                        </div>
-	                                        <div className="card-content">
-	                                            <p>{item.description}</p>
-	                                        </div>
-	                                        <div className="card-action"  >
-	                                            <a href={itemPath}>View<i className="material-icons">remove_red_eye</i></a>
-	                                        </div>
-	                                    </div>
+        		<div>
+				<h4>Search Results</h4>
+				<div className = "row">
+        		{ (this.state.items.length == 0) ? (<h5 style={{marginLeft:'20px'}}>No results found</h5>) : _.map(this.state.items, function(item) {
+                        var imageURL = "http://placehold.it/300x300"
+						var itemPath = "/item/"+item.id
+                        if(item.images.length>0) {
+                            imageURL = item.images[0]
+                        }
+                        return (
+                        	<div className="col s12 m4 l3">
+                                <div className="card small">
+                                    <div className="card-image">
+                                        <img src={imageURL}/>
+                                        <span className="card-title">{item.name}
+                                        </span>
                                     </div>
-                                )
-                            })}
+                                    <div className="card-content">
+                                        <p>{item.description}</p>
+                                    </div>
+                                    <div className="card-action"  >
+                                        <a href={itemPath}>View<i className="material-icons">remove_red_eye</i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    })
+				}
         		</div>
-
+				</div>
         	)
 
         }

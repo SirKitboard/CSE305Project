@@ -29,7 +29,7 @@ $("#logout").on('click', function(e) {
         method: 'GET',
         success: function() {
             console.log('logout');
-            window.location.reload()
+            window.location.href = "/";
         }
     })
 });
@@ -50,10 +50,8 @@ $(document).ready(function(){
     }
 });
 
-$("#searchItem").on("keydown", function (e) {        
+$("#searchItem").on("keydown", function (e) {
     if(e.keyCode == 13) {
         window.location = "/items/search?query="+e.target.value;
     }
 });
-
-

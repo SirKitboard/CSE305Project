@@ -312,22 +312,13 @@ var Employees = React.createClass({
     getInitialState : function() {
         return {
             employees : [],
+            filteredEmployees : [],
             openEditModal : false,
             selectedEmployee : null
         }
     },
     componentDidMount : function() {
-        var self = this;
-        $.ajax({
-            url: '/api/employees',
-            method: 'GET',
-            success: function(response){
-                self.setState({
-                    employees : response
-                });
-                console.log(response);
-            }
-        });
+        this.reloadEmployees();
         $(".modal-trigger").leanModal();
     },
     openAddModal : function() {
@@ -343,12 +334,12 @@ var Employees = React.createClass({
             method: 'GET',
             success: function(response){
                 self.setState({
-                    employees : response
+                    employees : response,
+                    filteredEmployees : response
                 });
-                console.log(response);
+                // console.log(response);
             }
         });
-        this.closeModal();
     },
     editEmployee : function(e) {
         var employeeID = e.target.getAttribute('data-id');
@@ -367,7 +358,16 @@ var Employees = React.createClass({
         });
         $("#modalAddEmployee").closeModal();
     },
+    filterEmployees : function(e) {
+        var value = e.target.value.toLowerCase();
+        this.setState({
+            filteredEmployees : _.filter(this.state.employees, function(employee){
+                return (employee.name.toLowerCase().indexOf(value) > -1);
+            })
+        })
+    },
     render : function() {
+        console.log(this.state.filteredEmployees);
         var self = this;
         var editModal = "";
         if(this.state.openEditModal){
@@ -378,41 +378,54 @@ var Employees = React.createClass({
             }
         }
         return (
-            <div className="row">
-            {
-                _.map(this.state.employees, function(employee){
-                    return (
-                        <div className="col s12 m4 l3">
-                            <div className="card">
-                                <div className="card-image">
-                                    <img src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/>
-                                    <span className="card-title black-text">{employee.name}</span>
-                                </div>
-                                <div className="card-content">
-                                    <span className="bold">Hourly Rate: </span> {employee.hourlyRate}<br/>
-                                    <span className="bold">Start Date: </span> {employee.startDate}<br/>
-                                    <span className="bold">Telephone: </span> {employee.telephone}<br/>
-                                    <span className="bold">State/ZipCode: </span>{employee.state}/{employee.zipCode}<br/>
-                                </div>
-                                <div className="card-action">
-                                    <a href="#" data-id={employee.id} onClick={self.editEmployee}>
-                                        <i className="material-icons">create</i>
-                                        <span>&nbsp;Edit</span>
-                                    </a>
+            <div>
+                <div className="row">
+                    <div className= "col s12 offset-m7 m4 offset-l8 l3">
+                        <div className="input-field">
+                          <i className="material-icons prefix">search</i>
+                          <input onChange={this.filterEmployees} id="search" type="text"></input>
+                          <label htmlFor="search">Search</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div> All Employees </div>
+                <div className="row">
+                {
+                    _.map(this.state.filteredEmployees, function(employee){
+                        return (
+                            <div className="col s12 m4 l3">
+                                <div className="card">
+                                    <div className="card-image">
+                                        <img src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/>
+                                        <span className="card-title black-text">{employee.name}</span>
+                                    </div>
+                                    <div className="card-content">
+                                        <span className="bold">Hourly Rate: </span> {employee.hourlyRate}<br/>
+                                        <span className="bold">Start Date: </span> {employee.startDate}<br/>
+                                        <span className="bold">Telephone: </span> {employee.telephone}<br/>
+                                        <span className="bold">State/ZipCode: </span>{employee.state}/{employee.zipCode}<br/>
+                                    </div>
+                                    <div className="card-action">
+                                        <a href="#" data-id={employee.id} onClick={self.editEmployee}>
+                                            <i className="material-icons">create</i>
+                                            <span>&nbsp;Edit</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )
-                })
-            }
-            <div id="modalAddEmployee" className="modal modal-fixed-footer">
-                {editModal}
-            </div>
-            <div className="fixed-action-btn">
-                <a onClick={this.openAddModal} className="btn-floating btn-large green">
-                    <i className="large material-icons">add</i>
-                </a>
-            </div>
+                        )
+                    })
+                }
+                </div>
+                <div id="modalAddEmployee" className="modal modal-fixed-footer">
+                    {editModal}
+                </div>
+                <div className="fixed-action-btn">
+                    <a onClick={this.openAddModal} className="btn-floating btn-large green">
+                        <i className="large material-icons">add</i>
+                    </a>
+                </div>
             </div>
         )
     }
