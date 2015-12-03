@@ -289,7 +289,8 @@ var MailingList = React.createClass({
                 self.setState({
                     mailingLists : response
                 });
-                console.log(response);
+                $("#modalEditMailingList").closeModal();
+                // console.log(response);
             }
         });
     },
@@ -308,13 +309,18 @@ var MailingList = React.createClass({
         });
         $("#modalEditMailingList").openModal();
     },
+    closeEditPanel : function() {
+        this.setState({
+            selectedMailingList : null
+        });
+        $("#modalEditMailingList").closeModal();
+    },
     render : function() {
         var self = this;
         var mailEditModal = "";
         if(this.state.selectedMailingList) {
-            // console.log('HIIIII');
             console.log(this.state.selectedMailingList);
-            mailEditModal = <EditMailingList mailingList={this.state.selectedMailingList} onSubmit={this.reloadLists}/>
+            mailEditModal = <EditMailingList mailingList={this.state.selectedMailingList} onClose={this.closeEditPanel} onSubmit={this.reloadLists}/>
         }
         return (
             <div>
