@@ -107,7 +107,8 @@ window.ItemPicker = React.createClass({
                     </tbody>
               </table>
               </div>
-              <div className="modal-footer">
+              <div style={{height:'75px'}}className="modal-footer">
+                <div style={{textAlign:'center'}}>Can't find what you're looking for? <a href="/items/add">Click here to add your item</a></div>
                 <button onClick={this.close} className="btn waves-effect waves-light btn-left" type="submit" name="action">
                     Close
                     <i className="material-icons right">clear</i>

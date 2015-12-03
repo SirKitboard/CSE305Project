@@ -333,6 +333,14 @@ var Profile = React.createClass({
                     <div id="modalUpdate" className="modal">
                         <CustomerEditor onClose={this.closeCustomerEditor} customer={window.user}/>
                     </div>
+                    <div className="fixed-action-btn">
+                        <a href="auctions/add" className="btn-floating btn-large red">
+                            <i className="large material-icons">mode_edit</i>
+                        </a>
+                        <ul>
+                          <li><a href="/profile/receipts" className="btn-floating blue"><i className="material-icons">receipt</i></a></li>
+                        </ul>
+                    </div>
                 </div>
             )
         }

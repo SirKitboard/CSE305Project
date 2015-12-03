@@ -210,39 +210,71 @@ def apiRevenueStats(request):
 
 @view_config(route_name='apireceipt', renderer='json')
 def receipt(request):
-    Authorizer.authorizeCustomer(request)
-
     getVars = request.GET
-    auctionID = getVars['auctionID']
+    customerID = getVars['id']
+    receiptsOfCustomer = {}
 
-    receiptOfCustomer = {}
-
-    query = "SELECT * FROM Receipts WHERE auctionID = %s"
+    query = "SELECT * FROM Sales_Report WHERE customerID = %s"
 
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
-        cursor.execute(query, tuple(str(auctionID)))
-
+        cursor.execute(query, tuple([str(customerID)]))
+        temp = []
         for row in cursor:
+            receipt = {}
             for key in row:
                 if(isinstance(row[key], datetime)):
-                    receiptOfCustomer[key] = row[key].isoformat()
+                    receipt[key] = row[key].isoformat()
                 elif(isinstance(row[key], Decimal)):
-                    receiptOfCustomer[key] = str(row[key])
+                    receipt[key] = str(row[key])
                 else:
-                    receiptOfCustomer[key] = row[key]
+                    receipt[key] = row[key]
+            temp.append(receipt)
+
+        receiptsOfCustomer['bought'] = temp
+
+        query = "SELECT * FROM Sales_Report WHERE sellerID = %s"
+
+        cursor.execute(query, tuple([str(customerID)]))
+        temp = []
+        for row in cursor:
+            receipt = {}
+            for key in row:
+                if(isinstance(row[key], datetime)):
+                    receipt[key] = row[key].isoformat()
+                elif(isinstance(row[key], Decimal)):
+                    receipt[key] = str(row[key])
+                else:
+                    receipt[key] = row[key]
+            temp.append(receipt)
+
+        receiptsOfCustomer['sold'] = temp
+
+        for key in receiptsOfCustomer:
+            for row in receiptsOfCustomer[key]:
+                # print(row)
+                query = ("SELECT * FROM Customers WHERE id = %s")
+                cursor.execute(query, tuple([str(row['sellerID'])]))
+                line = cursor.fetchone()
+                row['sellerName'] = line['firstName'] + " " + line['lastName']
+
+                query = ("SELECT url FROM ItemsImages WHERE itemID = %s")
+                cursor.execute(query, tuple([str(row['itemID'])]))
+                urls = []
+                for line in cursor:
+                    urls.append(line['url'])
+                print(urls)
+                row['images'] = urls
+
 
         cursor.close()
         cnx.close()
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err), status=500)
 
-    if(session['currentUser']['id'] != receiptOfCustomer['customerID']):
-        raise exc.HTTPForbidden()
-
-    return receiptOfCustomer
+    return receiptsOfCustomer
 
 # -----------------------------------------------------------------------------------------------------------------------------
 
