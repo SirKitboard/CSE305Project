@@ -64,7 +64,7 @@ var CustomerPicker = React.createClass({
         var tableBody = <tr><td colSpan="4">No customers to display :( </td></tr>
         if(this.state.filteredCustomers.length > 0) {
             tableBody = _.map(this.state.filteredCustomers, function(customer) {
-                var image = <img className="circle responsive-img" style={{width:'60px', height:'50px'}} src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/>
+                var image = <img className="circle responsive-img" src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/>
                 var classes = "";
                 if(self.state.picked && customer.id == self.state.picked.id) {
                     classes = "selected";
@@ -81,7 +81,7 @@ var CustomerPicker = React.createClass({
             });
         }
         return (
-            <div>
+            <div className="modal-picker">
                 <div className="modal-content">
                 <div className="row">
                     <div className="input-field col s12 offset-m6 m6">
@@ -106,10 +106,11 @@ var CustomerPicker = React.createClass({
               </table>
               </div>
               <div className="modal-footer">
-                <button style={{margin:'0 3px'}} onClick={this.close} className="btn waves-effect waves-light" type="submit" name="action">
-                  Close
+                <button onClick={this.close} className="btn waves-effect waves-light btn-left" type="submit" name="action">
+                    <span>Close</span>
+                    <i className="material-icons right">clear</i>
                 </button>
-                <button style={{margin:'0 3px'}} onClick={this.submit} className="btn waves-effect waves-light" type="submit" name="action">Submit
+                <button onClick={this.submit} className="btn waves-effect waves-light btn-right" type="submit" name="action">Submit
                   <i className="material-icons right">send</i>
                 </button>
               </div>
@@ -164,7 +165,7 @@ var RevenueTab = React.createClass({
                     revenueInfo : response
                 })
             }
-        })
+        });
         this.closeCustomerPicker();
     },
     pickCustomer : function() {
@@ -222,10 +223,10 @@ var RevenueTab = React.createClass({
                 monthValue+= (row.revenue / 10);
             });
             revenueInfo = (
-                <div style={{marginTop:'20px', padding:'5px'}} className="z-depth-1">
+                <div className="z-depth-1">
                     <h5>Customer you chose</h5>
                     <div className="row">
-                        <div className="col s12 m2"><img className="responsive-img circle" style={{width:'100px', height:'90px'}} src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/></div>
+                        <div className="col s12 m2"><img className="responsive-img circle" src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/></div>
                         <div className="col s12 m10">
                             <div className="row revenueValues">
                                 <div className="col s12 m6">
@@ -262,9 +263,9 @@ var RevenueTab = React.createClass({
             });
             revenueInfo = (
                 <div style={{marginTop:'20px', padding:'5px'}} className="z-depth-1">
-                    <h5>Customer you chose</h5>
+                    <h5>Item you chose</h5>
                     <div className="row">
-                        <div className="col s12 m2"><img className="responsive-img circle" style={{width:'100px', height:'90px'}} src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/></div>
+                        <div className="col s12 m2"><img className="responsive-img circle" src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/></div>
                         <div className="col s12 m10">
                             <div className="row revenueValues">
                                 <div className="col s12 m6">
@@ -290,44 +291,48 @@ var RevenueTab = React.createClass({
         var revenueStats = "";
         if(this.state.revenueStats) {
             revenueStats = (
-                <div className="row">
-                    <h5>Generated Highest Total Revenue</h5>
-                    <div className="col s12 m4">
-                        <span style={{fontSize:'20px'}} className="bold grey-text text-darken-1">Item</span>
-                        <div className="card">
-                            <div style={{height:'160px', overflow:'hidden'}} className="card-image">
-                                <img style={{height:'100%', width:'100%'}} src={this.state.revenueStats.item.images.length > 0 ? this.state.revenueStats.item.images[0] : "http://placehold.it/300x300"}/>
-                                <span className="card-title">{this.state.revenueStats.item.name}</span>
-                            </div>
-                            <div className="card-content">
-                                <p>Revenue : ${this.state.revenueStats.item.revenue}</p>
-                                <p>Count : {this.state.revenueStats.item.copiesSold}</p>
+                <div>
+                    <div className="row">
+                        <h5>Generated Highest Total Revenue</h5>
+                    </div>
+                    <div className="row highest-revenue">
+                        <div className="col s12 m4">
+                            <span className="bold grey-text text-darken-1 revenue-topic">Item</span>
+                            <div className="card">
+                                <div className="card-image">
+                                    <img src={this.state.revenueStats.item.images.length > 0 ? this.state.revenueStats.item.images[0] : "http://placehold.it/300x300"}/>
+                                    <span className="card-title">{this.state.revenueStats.item.name}</span>
+                                </div>
+                                <div className="card-content">
+                                    <p>Revenue : ${this.state.revenueStats.item.revenue}</p>
+                                    <p>Count : {this.state.revenueStats.item.copiesSold}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="col s12 m4">
-                        <span style={{fontSize:'20px'}} className="bold grey-text text-darken-1">Customer</span>
-                        <div className="card">
-                            <div style={{height:'160px', overflow:'hidden'}} className="card-image">
-                                <img src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/>
-                                <span className="card-title">{this.state.revenueStats.customer.firstName + " " + this.state.revenueStats.customer.firstName}</span>
-                            </div>
-                            <div className="card-content">
-                                <p>Revenue : ${this.state.revenueStats.customer.revenue}</p>
-                                <p>Count : {this.state.revenueStats.customer.copiesSold}</p>
+                        <div className="col s12 m4">
+                            <span className="bold grey-text text-darken-1 revenue-topic">Customer</span>
+                            <div className="card">
+                                <div className="card-image">
+                                    <img src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/>
+                                    <span className="card-title">{this.state.revenueStats.customer.firstName + " " + this.state.revenueStats.customer.firstName}</span>
+                                </div>
+                                <div className="card-content">
+                                    <p>Revenue : ${this.state.revenueStats.customer.revenue}</p>
+                                    <p>Count : {this.state.revenueStats.customer.copiesSold}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="col s12 m4">
-                        <span style={{fontSize:'20px'}} className="bold grey-text text-darken-1">Customer Representative</span>
-                        <div className="card">
-                            <div style={{height:'160px', overflow:'hidden'}} className="card-image">
-                                <img src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/>
-                                <span className="card-title">{this.state.revenueStats.employee.firstName + " " + this.state.revenueStats.employee.firstName}</span>
-                            </div>
-                            <div className="card-content">
-                                <p>Revenue : ${this.state.revenueStats.employee.revenue}</p>
-                                <p>Count : {this.state.revenueStats.employee.copiesSold}</p>
+                        <div className="col s12 m4">
+                            <span className="bold grey-text text-darken-1 revenue-topic">Customer Representative</span>
+                            <div className="card">
+                                <div className="card-image">
+                                    <img src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/>
+                                    <span className="card-title">{this.state.revenueStats.employee.firstName + " " + this.state.revenueStats.employee.firstName}</span>
+                                </div>
+                                <div className="card-content">
+                                    <p>Revenue : ${this.state.revenueStats.employee.revenue}</p>
+                                    <p>Count : {this.state.revenueStats.employee.copiesSold}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -337,11 +342,12 @@ var RevenueTab = React.createClass({
         return (
             <div>
                 <div className="row">
-                    <div className="input-field col">
+                    <span className="specific col s3">See revenue of a specific:</span>
+                    <div className="input-field col s3">
                         <input id="customer" type="text" onClick={this.pickCustomer} className="validate" value={this.getCustomerName()}/>
                         <label htmlFor="customer" className={this.state.selectedCustomer ? "active" : ""}>Customer</label>
                     </div>
-                    <div className="input-field col">
+                    <div className="input-field col s3">
                         <input id="item" type="text" onClick={this.pickItem} className="validate" value={this.getItemName()}/>
                         <label htmlFor="item" className={this.state.selectedItem ? "active" : ""}>Item</label>
                     </div>

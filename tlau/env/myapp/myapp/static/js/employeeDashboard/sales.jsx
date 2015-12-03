@@ -68,8 +68,14 @@ var Sales = React.createClass({
                                     <span className="bold">Ended: </span> {auction.closingTime}<br/>
                                 </div>
                                 <div className="card-action">
-                                    <a href={"/auctions/"+auction.id}>View</a>
-                                    <a href="#" data-id={auction.id} onClick={self.approveAuction}>Approve</a>
+                                    <a href={"/auctions/"+auction.id}>
+                                        <i className="material-icons">visibility</i>
+                                        <span>&nbsp;View</span>
+                                    </a>
+                                    <a href="#" data-id={auction.id} onClick={self.approveAuction}>
+                                        <i className="material-icons">thumb_up</i>
+                                        <span>&nbsp;Approve</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>

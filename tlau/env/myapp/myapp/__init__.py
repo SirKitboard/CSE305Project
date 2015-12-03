@@ -100,6 +100,7 @@ def main(global_config, **settings):
     config.add_route('itemSearch', 'items/search', request_method='GET')
     config.add_route('managerDashboard', 'manager/dashboard', request_method='GET')
     config.add_route('employeeDashboard', 'employee/dashboard', request_method='GET')
+    config.add_route('help', 'help', request_method='GET')
 
     config.scan()
     return config.make_wsgi_app()

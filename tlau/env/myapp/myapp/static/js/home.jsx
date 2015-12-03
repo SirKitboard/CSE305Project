@@ -114,7 +114,10 @@ var HotItems = React.createClass({
                                     <p>{item.description}</p>
                                 </div>
                                 <div className="card-action">
-                                    <a href={link}>View</a>
+                                    <a href={link}>
+                                        <i className="material-icons">visibility</i>
+                                        <span>&nbsp;View</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
