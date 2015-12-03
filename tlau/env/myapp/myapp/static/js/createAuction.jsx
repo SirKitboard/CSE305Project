@@ -75,8 +75,6 @@ var CreateAuction = React.createClass({
             increment : ReactDOM.findDOMNode(this.refs.increment).value,
         }
 
-        debugger;
-
         var self = this;
 
         $.ajax({

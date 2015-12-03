@@ -55,8 +55,12 @@ def apiAuctionWin(request):
         auction = cursor.fetchone()
 
         if(auction['finished'] == 1):
+            cursor.close()
+            cnx.close()
             raise exc.HTTPBadRequest()
         elif(auction['closingTime'] > datetime.now()):
+            cursor.close()
+            cnx.close()
             raise exc.HTTPBadRequest()
 
         query = "UPDATE Auctions SET finished=1 WHERE id = %s"
@@ -66,18 +70,21 @@ def apiAuctionWin(request):
         query = "SELECT COUNT(*) as count FROM Bids where auctionID = %s"
         cursor.execute(query, tuple([str(auctionID)]))
         bid = cursor.fetchone()
-
         if(bid['count'] == 0):
+            cursor.close()
+            cnx.commit()
+            cnx.close()
             raise exc.HTTPOk()
-            return {}
 
         query = "SELECT amount, id, customerID FROM Bids WHERE auctionID = %s ORDER BY amount DESC LIMIT 1"
         cursor.execute(query, tuple([str(auctionID)]))
         bid = cursor.fetchone()
 
         if(bid['amount'] < auction['reserve']):
+            cursor.close()
+            cnx.commit()
+            cnx.close()
             raise exc.HTTPOk()
-            return {}
 
         query = "INSERT INTO Wins (bidID, time, customerID, auctionID)\
                     VALUES (%s, NOW(), %s, %s);"
@@ -102,7 +109,7 @@ def apiAuctionWin(request):
         cnx.commit()
         cnx.close()
     except mysql.connector.Error as err:
-        cnx.commit()
+        cursor.close()
         cnx.close()
         return Response("Something went wrong: {}".format(err), status=500)
 
