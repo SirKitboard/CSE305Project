@@ -33,7 +33,11 @@ var Customers = React.createClass({
         this.closeModal();
     },
     editCustomer : function(e) {
-        var customerID = e.target.getAttribute('data-id');
+        var target = e.target;
+        if(target.tagName != "A") {
+            target = target.parentElement;
+        }
+        var customerID = target.getAttribute('data-id');
         var customer = _.find(this.state.customers, function(customer) {
             return customer.id == customerID
         });
