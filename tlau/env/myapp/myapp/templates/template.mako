@@ -52,8 +52,10 @@
                     <li><a class="modal-trigger sign-in" href="#modalLogin">Why not sign in? <i class="tiny material-icons">person_add</i></a></li>
 % else:
                     <li>
-                        <a href="/profile">Hi ${currentUser['firstName']}</a>
-                        <i class="material-icons">person</i>
+                        <a href="/profile">
+                            Hi ${currentUser['firstName']}
+                            <i class="tiny material-icons">person</i>
+                        </a>
                     </li>
                     <li><a id="logout" class="logout">Logout<i class="tiny material-icons">power_settings_new</i></a></li>
 % endif
