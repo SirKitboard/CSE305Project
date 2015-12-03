@@ -98,7 +98,7 @@ var AuctionSearch = React.createClass ({
 														<span>&nbsp;View</span>
 													</a>
 
-													<a href={"/actions/"+ {auction.id} + "/bid"}>
+													<a href={"/actions/"+ auction.id + "/bid"}>
 														<i className="material-icons">attach_money</i>
 														<span>Bid</span>
 													</a>
