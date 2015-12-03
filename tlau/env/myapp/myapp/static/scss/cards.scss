@@ -1,7 +1,5 @@
 .card{
-
   .card-image {
-
       overflow: hidden;
 
       .card-title {
@@ -42,4 +40,11 @@
     }
   }
 
+}
+
+.card.small {
+    .card-image {
+        max-height: 145px;
+        overflow: hidden;
+    }
 }
