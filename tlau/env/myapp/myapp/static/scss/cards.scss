@@ -1,8 +1,7 @@
 .card{
-
   .card-image {
 
-      height:200px;
+      max-height:200px;
       overflow: hidden;
 
       .card-title {
@@ -43,4 +42,11 @@
     }
   }
 
+}
+
+.card.small {
+    .card-image {
+        max-height: 145px;
+        overflow: hidden;
+    }
 }

@@ -4,7 +4,7 @@ window.BidHistory = React.createClass ({
 			bids : null,
 			item: null,
 			loading: 0
-		}	
+		}
 	},
 	componentDidMount : function() {
 		var self = this;
@@ -60,13 +60,13 @@ window.BidHistory = React.createClass ({
 		         </thead>
 		          <tbody>
 
-    			{ _.map(this.state.bids, function(bid) {	
+    			{ _.map(this.state.bids, function(bid) {
 
 
 						return (<tr>
-			            	<td>{bid.name}</td>
+			            	<td><a href={"/profile?id="+bid.customerID}> {bid.name}</a></td>
 			            	<td><span id= "time">{new Date(bid.time).toLocaleDateString("en-US", options)}</span></td>
-			            	<td>{bid.amount}</td> 
+			            	<td>{bid.amount}</td>
 			            </tr>)
 			    	})
     			}
