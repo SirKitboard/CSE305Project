@@ -246,7 +246,7 @@ CREATE TABLE `Items` (
 
 LOCK TABLES `Items` WRITE;
 /*!40000 ALTER TABLE `Items` DISABLE KEYS */;
-INSERT INTO `Items` VALUES (1,'Titanic','DVD',2011,3,98,'This is a description'),(2,'Nissan Sentra','Car',2007,1,3,NULL),(3,'Gamecube','Game',2001,1,3,NULL),(4,'Scott Pilgrim','DVD',2010,0,2,NULL),(5,'Inception','DVD',2010,0,10,NULL),(6,'GTAV','Game',2014,1,10,NULL),(7,'Nexus 5','phone',2013,0,0,''),(8,'Nexus 6P','Phone',2015,0,0,'Ma phoooonneeee');
+INSERT INTO `Items` VALUES (1,'Titanic','DVD',2011,2,99,'A tragic story of two young lovers'),(2,'Nissan Sentra','Car',2007,1,3,'Really nice car'),(3,'Gamecube','Game',2001,1,3,'A game console, a lot of fun.'),(4,'Scott Pilgrim','DVD',2010,0,2,'Movie based on the comic series of the same name'),(5,'Inception','DVD',2010,0,10,'A very confusing movie. Some would say it is over hyped'),(6,'GTAV','Game',2014,1,10,'Newest GTA  game in series. great graphics'),(7,'Nexus 5','phone',2013,0,0,'Cool phone, great for developers'),(8,'Nexus 6P','Phone',2015,0,0,'A phone that calls people');
 /*!40000 ALTER TABLE `Items` ENABLE KEYS */;
 UNLOCK TABLES;
 
