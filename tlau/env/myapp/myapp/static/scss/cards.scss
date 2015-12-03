@@ -2,6 +2,9 @@
 
   .card-image {
 
+      height:200px;
+      overflow: hidden;
+
       .card-title {
         font-family: "Roboto", "Helvetica", sans-serif;
         font-weight: bold;
@@ -41,4 +44,3 @@
   }
 
 }
-
