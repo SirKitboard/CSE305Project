@@ -2,6 +2,8 @@
 @import "editCustomer.scss";
 
 #navBar {
+    margin-bottom: 20px;
+
     .tabs {
         background-color : $tloa-green;
         .tab {
@@ -45,6 +47,37 @@
         .value {
             font-size : 35px;
             color: $tloa-green;
+        }
+    }
+}
+
+#salesTab {
+
+
+    input {
+        font-size: 36px;
+        border-bottom: none;
+    }
+
+    .items {
+        .number-sold {
+            color: $tloa-green;
+            font-size: 40px;
+        }
+
+        .items-sold {
+            font-size: 20px;
+        }
+    }
+
+    .popular {
+        .popular-item {
+            font-size: 20px;
+        }
+
+        .item {
+            font-size: 40px;
+            color: $tloa-blue;
         }
     }
 }

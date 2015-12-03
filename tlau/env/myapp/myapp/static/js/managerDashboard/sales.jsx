@@ -73,8 +73,8 @@ var MonthFilter = React.createClass({
 		var popularItemName = "";
     	if(this.state.popularItems[0]) {
     		popularItemName = (
-					<div className="col s12 m6 popular-item">
-						<span>Most Popular Item :</span>
+					<div className="col s12 m6 popular">
+						<span className="popular-item">Most Popular Item: </span>
 						<span className="item">{this.state.popularItems[0].name}</span>
 					</div>)
     	}
@@ -82,8 +82,8 @@ var MonthFilter = React.createClass({
 		return (
 			<div>
 				<div className="row ">
-					<h4 className="col s4">Sales report for</h4>
-					<div className="input-field col s4">
+					<h4 className="col s3">Sales report for</h4>
+					<div className="input-field col s3">
 						<select ref='month' defaultValue='8'>
 							<option value="" disabled>Month</option>
 							<option value="1">January </option>
@@ -100,14 +100,17 @@ var MonthFilter = React.createClass({
 							<option value='12'>December </option>
 						</select>
 					</div>
-					<div className ="input-field col s4">
+					<div className ="input-field col s3">
 						<input ref='year' min="1990" id="year" type="number" defaultValue='2015' onChange={this.filterByMonth} className="validate"/>
 						<label className="active" htmlFor="year">Year</label>
 					</div>
 				</div>
 
-				<div className="row">
-					<div style={{fontSize:'20px'}} className="col s12 m6"> <span className="green-text text-darken-2" style={{fontSize:'40px'}}> {this.state.salesReport.length} </span>Items Sold This Month</div>
+				<div className="row stats">
+					<div className="col s6 m3 items">
+						<span className="number-sold">{this.state.salesReport.length} </span>
+						<span className="items-sold">Items Sold This Month</span>
+					</div>
 					{popularItemName}
 				</div>
 
