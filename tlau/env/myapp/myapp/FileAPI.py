@@ -113,7 +113,7 @@ def addImage(request):
         path[key] = rel_path
 
         try:
-            cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+            cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
             cursor = cnx.cursor()
 
             query = ("INSERT INTO ItemsImages(itemID, url) VALUES (%s, %s)")

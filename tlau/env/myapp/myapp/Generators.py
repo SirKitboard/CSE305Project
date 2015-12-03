@@ -40,7 +40,7 @@ def salesReport(request):
     query = query + ' AND '.join(queryAppend)
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         cursor.execute(query, tuple(acceptedValues))
@@ -95,7 +95,7 @@ def revenueReport(request):
     totalReport = []
     monthReport = []
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         cursor.execute(query, tuple(str(value)))
@@ -146,7 +146,7 @@ def apiRevenueStats(request):
 
     stats = {}
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         cursor.execute(query1)
@@ -217,7 +217,7 @@ def receipt(request):
     query = "SELECT * FROM Sales_Report WHERE customerID = %s"
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         cursor.execute(query, tuple([str(customerID)]))
@@ -287,7 +287,7 @@ def mailingList(request):
     mailingList = []
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         cursor.execute(query)

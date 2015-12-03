@@ -19,7 +19,7 @@ def allCustomers(request):
     Authorizer.authorizeEmployee(request)
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         query = ("SELECT * FROM Customers")
@@ -64,7 +64,7 @@ def getCustomer(request):
     customerID = request.matchdict['id']
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         query = ("SELECT * FROM Customers WHERE id = %s")
@@ -109,7 +109,7 @@ def customerStats(request):
     responseDict = {}
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         query = ("SELECT SUM(currentBid) as stat FROM Auctions WHERE sellerID = %s AND finished='1'")
@@ -183,7 +183,7 @@ def addCustomer(request):
     postVars['password'] = crypt.crypt(postVars['password'], salt)
     # print(postVars['password'])
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
         cursor.execute(query, tuple(acceptedKeys))
@@ -210,7 +210,7 @@ def deleteCustomer(request):
     query = "DELETE FROM Customers WHERE id= %s"
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
         cursor.execute(query, tuple([request.matchdict['id']]))
@@ -247,7 +247,7 @@ def updateCustomer(request):
     query = query + ', '.join(queryAppend) + " WHERE ID = %s"
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
         cursor.execute(query, tuple(acceptedValues))
@@ -269,7 +269,7 @@ def sellHistory(request):
     history = []
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         query = ("SELECT * FROM Auctions WHERE id = %s")
@@ -302,7 +302,7 @@ def apiRateCustomer(request):
     rating = request.POST['rating']
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         query= "UPDATE Customers SET rating = (rating*numRatings + %s)/(numRatings+1), numRatings = numRatings + 1 WHERE id = %s"
@@ -323,7 +323,7 @@ def auctionHistory(request):
     history = {}
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
         temp = []
         query = "SELECT * from Auctions where sellerID = %s ORDER BY closingTime DESC"

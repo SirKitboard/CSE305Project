@@ -12,7 +12,7 @@ import mysql.connector
 @view_config(route_name='apiallItems', renderer='json')
 def allItems(request):
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
         query = ("SELECT * FROM Items ORDER BY copiesSold DESC")
@@ -57,7 +57,7 @@ def allItems(request):
 def apiItemTypes(request):
     types = []
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         query = ("SELECT DISTINCT(type) as type FROM Items")
@@ -82,7 +82,7 @@ def getItem(request):
     item = None
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
         query = ("SELECT * FROM Items WHERE ID = " + str(itemID))
@@ -155,7 +155,7 @@ def getItemThumbnails(request):
     item = None
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
         query = ("SELECT * FROM Items WHERE ID = " + str(itemID))
@@ -214,7 +214,7 @@ def addItem(request):
     item = {}
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
         cursor.execute(query, tuple(acceptedValues))
@@ -262,7 +262,7 @@ def updateItem(request):
     query = query + ', '.join(queryAppend) + " WHERE ID = %s"
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
         cursor.execute(query, tuple(acceptedValues))
@@ -282,7 +282,7 @@ def deleteItem(request):
     query= "DELETE FROM Items WHERE id= %s"
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
         cursor.execute(query, tuple([request.matchdict['id']]))
@@ -330,7 +330,7 @@ def itemSuggestions(request):
 
     suggestedItems = []
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         cursor.execute(query, tuple([str(customerID), str(customerID)]))
@@ -388,7 +388,7 @@ def search(request):
         validValues.append('%' + getVars['keyword'] + '%')
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         cursor.execute(query, tuple(validValues))
@@ -432,7 +432,7 @@ def sold(request):
         if(key not in postVars):
             raise exc.HTTPBadRequest()
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         query = """
@@ -484,7 +484,7 @@ def apiHotItems(request):
 
     hotItems = []
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         cursor.execute(query)
@@ -523,7 +523,7 @@ def apiBestSellers(request):
 
     hotItems = []
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         cursor.execute(query)

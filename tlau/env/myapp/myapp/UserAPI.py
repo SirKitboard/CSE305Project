@@ -29,7 +29,7 @@ def login(request):
     try:
         query = ("SELECT type, id FROM Users WHERE username=%s AND password=%s")
 
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor1 = cnx.cursor(dictionary=True)
 
         cursor1.execute(query, (acceptedKeys[0], cryptedPassword))

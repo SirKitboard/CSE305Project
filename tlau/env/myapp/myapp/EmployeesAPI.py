@@ -14,7 +14,7 @@ def allEmployees(request):
     Authorizer.authorizeEmployee(request)
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         query = ("SELECT * FROM Employees")
@@ -57,7 +57,7 @@ def getEmployee(request):
     employeeID = request.matchdict['id']
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         query = ("SELECT * FROM Employees WHERE id = %s")
@@ -123,7 +123,7 @@ def addEmployee(request):
              VALUES (%s,  %s,  %s,  %s,  %s,  %s,  %s, %s, %s, %s, %s);")
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
         cursor.execute(query, tuple(acceptedKeys))
@@ -152,7 +152,7 @@ def deleteEmployee(request):
     query= "DELETE FROM Employees WHERE id= %s"
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
         cursor.execute(query, tuple(employeeID))
@@ -191,7 +191,7 @@ def updateEmployee(request):
     query = query + ', '.join(queryAppend) + " WHERE ID = %s"
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor()
 
         cursor.execute(query, tuple(acceptedValues))

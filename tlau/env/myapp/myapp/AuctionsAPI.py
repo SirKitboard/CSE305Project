@@ -15,7 +15,7 @@ import mysql.connector
 def openAuctions(request):
     auctions = []
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         query = ("SELECT * FROM Auctions LEFT JOIN Items ON Auctions.itemID = Items.id where closingTime > NOW()")
@@ -47,7 +47,7 @@ def apiAuctionWin(request):
     auctionID = request.matchdict['id']
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         query = "SELECT * from Auctions where id = %s"
@@ -121,7 +121,7 @@ def getAuction(request):
     auctionID = request.matchdict['id']
     auction = {}
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         query = ("SELECT * FROM Auctions where id = %s")
@@ -151,7 +151,7 @@ def getAuction(request):
 def bidHistory(request):
     auctionID = request.matchdict['id']
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         query = ("SELECT * FROM BidLogs LEFT JOIN (SELECT firstName, lastName, id FROM Customers) AS CustomerInfo ON BidLogs.customerID = CustomerInfo.id WHERE BidLogs.auctionID = %s ORDER BY BidLogs.id ASC")
@@ -190,7 +190,7 @@ def apiAuctionSearch(request):
     searchResults = {}
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         query = "SELECT * FROM Auctions WHERE closingTime > NOW() AND itemID = %s"
@@ -250,7 +250,7 @@ def addAuction(request):
 
     # print(postVars['password'])
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         employees = []
@@ -301,7 +301,7 @@ def apiAddBid(request):
             raise exc.HTTPBadRequest()
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True, buffered=True)
 
         query = "SELECT COUNT(*) as count, itemID, increment, openingBid, sellerID FROM Auctions WHERE id = %s AND closingTime > NOW()"
@@ -418,7 +418,7 @@ def apiAuctionsUnapproved(request):
     Authorizer.authorizeEmployee(request)
     auctions = []
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         query = ("SELECT * FROM Auctions where closingTime<NOW() AND finished=0")

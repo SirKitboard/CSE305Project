@@ -15,7 +15,7 @@ def apiAllMailingLists(request):
     Authorizer.authorizeEmployee(request)
     mailingLists = []
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         query = ("SELECT * FROM MailingLists")
@@ -55,7 +55,7 @@ def apiGetMailingList(request):
     mailingListID = request.matchdict['id']
     mailingLists = {}
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         query = ("SELECT * FROM MailingLists where id = %s")
@@ -97,7 +97,7 @@ def apiAddMailingList(request):
         raise exc.HTTPBadRequest()
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         query = "INSERT INTO MailingLists(name, createdBy) VALUES(%s, %s)"
@@ -139,7 +139,7 @@ def apiUpdateMailingList(request):
         raise exc.HTTPBadRequest()
 
     try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
         query = "UPDATE MailingLists SET name = %s WHERE id = %s"
