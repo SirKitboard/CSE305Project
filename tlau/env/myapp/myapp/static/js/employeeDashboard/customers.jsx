@@ -113,7 +113,7 @@ var Customers = React.createClass({
                     })
                 }
                 </div>
-                <div id="modalEditCustomer" className="modal">
+                <div id="modalEditCustomer" className="modal modal-fixed-footer">
                     {editModal}
                 </div>
             </div>
