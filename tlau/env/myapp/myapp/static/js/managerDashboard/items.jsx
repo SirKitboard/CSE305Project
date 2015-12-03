@@ -41,7 +41,7 @@ var ItemsSearch = React.createClass({
 			    <div className= "col s12 offset-m7 m4 offset-l8 l3">
 			        <div className="input-field">
 			        	<i className="material-icons prefix">search</i>
-			          <input onChange={this.filteredItems}id="search" type="search" required></input>
+			          <input onChange={this.filteredItems}id="search" type="text"></input>
 			          <label htmlFor="search">Search</label>
 			        </div>
 			    </div>

@@ -2,22 +2,13 @@ var Customers = React.createClass({
     getInitialState : function() {
         return {
             customers : [],
+            filteredCustomers : [],
             openEditModal : false,
             selectedEmployee : null
         }
     },
     componentDidMount : function() {
-        var self = this;
-        $.ajax({
-            url: '/api/customers',
-            method: 'GET',
-            success: function(response){
-                self.setState({
-                    customers : response
-                });
-                console.log(response);
-            }
-        });
+        this.reloadCustomer();
         $(".modal-trigger").leanModal();
     },
     openAddModal : function() {
@@ -33,7 +24,8 @@ var Customers = React.createClass({
             method: 'GET',
             success: function(response){
                 self.setState({
-                    customers : response
+                    customers : response,
+                    filteredCustomers : response
                 });
                 console.log(response);
             }
@@ -57,6 +49,15 @@ var Customers = React.createClass({
         });
         $("#modalEditCustomer").closeModal();
     },
+    filterCustomers : function(e) {
+        console.log(e);
+        var value = e.target.value.toLowerCase();
+        this.setState({
+            filteredCustomers : _.filter(this.state.customers, function(customer){
+                return (customer.name.toLowerCase().indexOf(value) > -1);
+            })
+        })
+    },
     render : function() {
         var self = this;
         var editModal = "";
@@ -66,42 +67,54 @@ var Customers = React.createClass({
             }
         }
         return (
-            <div className="row">
-            {
-                _.map(this.state.customers, function(customer){
-                    return (
-                        <div className="col s12 m4 l3">
-                            <div className="card">
-                                <div className="card-image">
-                                    <img src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/>
-                                    <div className="card-title">
-                                    <span className="black-text">{customer.name}</span>
-                                    <span className="card-subtitle black-text">ID: {customer.id}</span>
+            <div>
+                <div className="row">
+                    <div className= "col s12 offset-m7 m4 offset-l8 l3">
+                        <div className="input-field">
+                          <i className="material-icons prefix">search</i>
+                          <input onChange={this.filterCustomers} id="search" type="text"></input>
+                          <label htmlFor="search">Search</label>
+                        </div>
+                    </div>
+                </div>
+                <div className="row">
+                {
+                    _.map(this.state.filteredCustomers, function(customer){
+                        return (
+                            <div className="col s12 m4 l3">
+                                <div className="card">
+                                    <div className="card-image">
+                                        <img src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/>
+                                        <div className="card-title">
+                                        <span className="black-text">{customer.name}</span>
+                                        <span className="card-subtitle black-text">ID: {customer.id}</span>
+                                        </div>
+                                    </div>
+                                    <div className="card-content">
+                                        <span className="bold">Email: </span> {customer.email}<br/>
+                                        <span className="bold">Telephone: </span>{customer.state}/{customer.telephone}<br/>
+                                        <span className="bold">Items Sold: </span> {customer.itemsSold}<br/>
+                                        <span className="bold">Items Bought: </span> {customer.itemsPurchased}<br/>
+                                        <span className="bold">Rating: </span> {customer.rating}<br/>
+
+                                    </div>
+                                    <div className="card-action">
+                                        <a href="#" data-id={customer.id} onClick={self.editCustomer}>
+                                            <i className="material-icons">create</i>
+                                            <span>&nbsp;Edit</span>
+                                        </a>
                                     </div>
                                 </div>
-                                <div className="card-content">
-                                    <span className="bold">Email: </span> {customer.email}<br/>
-                                    <span className="bold">Telephone: </span>{customer.state}/{customer.telephone}<br/>
-                                    <span className="bold">Items Sold: </span> {customer.itemsSold}<br/>
-                                    <span className="bold">Items Bought: </span> {customer.itemsPurchased}<br/>
-                                    <span className="bold">Rating: </span> {customer.rating}<br/>
-
-                                </div>
-                                <div className="card-action">
-                                    <a href="#" data-id={customer.id} onClick={self.editCustomer}>
-                                        <i className="material-icons">create</i>
-                                        <span>&nbsp;Edit</span>
-                                    </a>
-                                </div>
                             </div>
-                        </div>
-                    )
-                })
-            }
-            <div id="modalEditCustomer" className="modal">
-                {editModal}
+                        )
+                    })
+                }
+                </div>
+                <div id="modalEditCustomer" className="modal">
+                    {editModal}
+                </div>
             </div>
-            </div>
+
         )
     }
 })
