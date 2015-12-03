@@ -82,9 +82,8 @@ var AuctionSearch = React.createClass ({
 		                                    <div className="card small">
 		                                        <div className="card-image">
 		                                            <img src={imageURL}/>
-		                                            <span className="card-title">{self.state.item.name} <br/>
-		                                            	  $ {auction.currentBid}
-		                                            </span>
+		                                            <span className="card-title">{self.state.item.name}</span>
+													<span className="card-subtitle">${auction.currentBid}</span>
 		                                        </div>
 
 		                                        <div className="card-content">
@@ -96,11 +95,6 @@ var AuctionSearch = React.createClass ({
 													<a href={"/auction/"+auction.id}>
 														<i className="material-icons">remove_red_eye</i>
 														<span>&nbsp;View</span>
-													</a>
-
-													<a href={"/actions/"+ auction.id}>
-														<i className="material-icons">attach_money</i>
-														<span>Bid</span>
 													</a>
 
 		                                        </div>
