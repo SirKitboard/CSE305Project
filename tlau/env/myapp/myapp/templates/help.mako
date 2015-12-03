@@ -14,6 +14,20 @@
         </div>
         <div class="collapsible-body"><p>Search up an item. Then click on see more auctions for this item. Select the auction that you would like to partake in and select bid. Then put in the amount you want to bid. That's it!</p></div>
     </li>
+       <li>
+        <div class="collapsible-header">
+            <i class="material-icons">question_answer</i>
+            <span> How Do I make an auction?</span>  
+        </div>
+        <div class="collapsible-body"><p>Make sure you are logged. Then, in your home screen in the lower right side there is a pencil icon. Click on that icon and fill in your item data.</p></div>
+    </li>
+          <li>
+        <div class="collapsible-header">
+            <i class="material-icons">question_answer</i>
+            <span> In my auction history, why are some of my auctions grey and the other auctions white?</span>  
+        </div>
+        <div class="collapsible-body"><p>The grey cards indicate that the auction is closed and completed, whit cards indicate that the auction is still on going.</p></div>
+    </li>
     <li>
         <div class="collapsible-header">
             <i class="material-icons">question_answer</i>
