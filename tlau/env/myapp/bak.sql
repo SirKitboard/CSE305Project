@@ -49,7 +49,7 @@ CREATE TABLE `Auctions` (
   CONSTRAINT `Auctions_ibfk_1` FOREIGN KEY (`itemID`) REFERENCES `Items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `Auctions_ibfk_4` FOREIGN KEY (`sellerID`) REFERENCES `Customers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `Auctions_ibfk_5` FOREIGN KEY (`employeeID`) REFERENCES `Employees` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -58,7 +58,7 @@ CREATE TABLE `Auctions` (
 
 LOCK TABLES `Auctions` WRITE;
 /*!40000 ALTER TABLE `Auctions` DISABLE KEYS */;
-INSERT INTO `Auctions` VALUES (1,2,1,'1998-11-01 00:00:00','2008-12-08 13:00:00',1000.00,1900.00,1500.00,100.00,2,1),(3,3,1,'1998-11-01 00:00:00','2015-10-20 10:00:00',90.00,600.00,210.00,20.00,2,1),(4,1,1,'1998-11-01 00:00:00','1998-12-01 00:00:00',10.00,50.00,25.00,5.00,2,1),(5,6,3,'2015-04-04 09:00:00','2015-05-05 09:00:00',15.00,31.00,25.00,2.00,2,1),(6,1,1,'2015-11-01 00:00:00','2015-11-30 00:00:00',10.00,45.00,25.00,5.00,2,0),(12,1,7,'2015-11-28 19:56:18','2015-11-30 00:00:00',30.00,NULL,30.00,5.00,2,0);
+INSERT INTO `Auctions` VALUES (1,2,1,'1998-11-01 00:00:00','2008-12-08 13:00:00',1000.00,1900.00,1500.00,100.00,2,1),(3,3,1,'1998-11-01 00:00:00','2015-10-20 10:00:00',90.00,600.00,210.00,20.00,2,1),(4,1,1,'1998-11-01 00:00:00','1998-12-01 00:00:00',10.00,50.00,25.00,5.00,2,1),(5,6,3,'2015-04-04 09:00:00','2015-05-05 09:00:00',15.00,31.00,25.00,2.00,2,1),(6,1,1,'2015-11-01 00:00:00','2015-11-30 00:00:00',10.00,45.00,25.00,5.00,2,1),(12,1,7,'2015-11-28 19:56:18','2015-11-30 00:00:00',30.00,NULL,30.00,5.00,2,0),(13,1,1,'2015-12-03 16:30:09','2015-12-31 00:00:00',25.00,NULL,30.00,2.00,3,0);
 /*!40000 ALTER TABLE `Auctions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,7 +170,8 @@ CREATE TABLE `Customers` (
   `creditCardNumber` char(24) NOT NULL DEFAULT '',
   `itemsSold` int(11) DEFAULT '0',
   `itemsPurchased` int(11) DEFAULT '0',
-  `rating` int(11) DEFAULT '3',
+  `rating` decimal(10,2) DEFAULT '3.00',
+  `numRatings` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -181,7 +182,7 @@ CREATE TABLE `Customers` (
 
 LOCK TABLES `Customers` WRITE;
 /*!40000 ALTER TABLE `Customers` DISABLE KEYS */;
-INSERT INTO `Customers` VALUES (1,'Smithy','John','789 Peace Blvd','Los Angeles','CA',12345,'(412) 443-4321','shlu@ic.sunysb.edu','2345-6789-2345-6789',3,0,3),(2,'Finch','Atticus',' Happy 987','Stony Brook','NY',11790,'516 111 11111','finch@gmail.com','1111-1111-1111-1111',0,1,3),(3,'Lu','Shiyong','123 Success Street','Stony Brook','NY',11790,'(516) 632-8959','shiyong@cs.sunysb.edu','1234-5678-1234-5678',0,1,3),(4,'Du','Haixia','456 Fortune Road','Stony Brook','NY',11790,'(516) 632-4360','dhaixia@cs.sunysb.edu','5678-1234-5678-1234',0,1,3),(7,'Balwani','Adi','asdasdasd','asdasd','ny',12312,'6314494337','Adibalwani@gmail.com','1234123412341234',0,0,3),(9,'hjkhkj','hjfkds','kfdjah','hjkh','hjk',11590,'12345678865','menasyhalaa@gmail.com','123456789012',0,0,3);
+INSERT INTO `Customers` VALUES (1,'Smithy','John','789 Peace Blvd','Los Angeles','CA',12345,'(412) 443-4321','shlu@ic.sunysb.edu','2345-6789-2345-6789',5,0,2.00,2),(2,'Finch','Atticus',' Happy 987','Stony Brook','NY',11790,'516 111 11111','finch@gmail.com','1111-1111-1111-1111',0,1,4.17,6),(3,'Lu','Shiyong','123 Success Street','Stony Brook','NY',11790,'(516) 632-8959','shiyong@cs.sunysb.edu','1234-5678-1234-5678',0,1,3.00,1),(4,'Du','Haixia','456 Fortune Road','Stony Brook','NY',11790,'(516) 632-4360','dhaixia@cs.sunysb.edu','5678-1234-5678-1234',0,1,3.00,1),(7,'Balwani','Adi','asdasdasd','asdasd','ny',12312,'6314494337','Adibalwani@gmail.com','1234123412341234',0,2,3.00,1),(9,'hjkhkj','hjfkds','kfdjah','hjkh','hjk',11590,'12345678865','menasyhalaa@gmail.com','123456789012',0,0,3.00,1);
 /*!40000 ALTER TABLE `Customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -245,7 +246,7 @@ CREATE TABLE `Items` (
 
 LOCK TABLES `Items` WRITE;
 /*!40000 ALTER TABLE `Items` DISABLE KEYS */;
-INSERT INTO `Items` VALUES (1,'Titanic','DVD',2011,1,100,'This is a description'),(2,'Nissan Sentra','Car',2007,1,3,NULL),(3,'Gamecube','Game',2001,1,3,NULL),(4,'Scott Pilgrim','DVD',2010,0,2,NULL),(5,'Inception','DVD',2010,0,10,NULL),(6,'GTAV','Game',2014,1,10,NULL),(7,'Nexus 5','phone',2013,0,0,''),(8,'Nexus 6P','Phone',2015,0,0,'Ma phoooonneeee');
+INSERT INTO `Items` VALUES (1,'Titanic','DVD',2011,3,98,'This is a description'),(2,'Nissan Sentra','Car',2007,1,3,NULL),(3,'Gamecube','Game',2001,1,3,NULL),(4,'Scott Pilgrim','DVD',2010,0,2,NULL),(5,'Inception','DVD',2010,0,10,NULL),(6,'GTAV','Game',2014,1,10,NULL),(7,'Nexus 5','phone',2013,0,0,''),(8,'Nexus 6P','Phone',2015,0,0,'Ma phoooonneeee');
 /*!40000 ALTER TABLE `Items` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -286,7 +287,7 @@ CREATE TABLE `MailingLists` (
   `name` varchar(100) DEFAULT NULL,
   `createdBy` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -295,7 +296,7 @@ CREATE TABLE `MailingLists` (
 
 LOCK TABLES `MailingLists` WRITE;
 /*!40000 ALTER TABLE `MailingLists` DISABLE KEYS */;
-INSERT INTO `MailingLists` VALUES (1,'List1',2);
+INSERT INTO `MailingLists` VALUES (1,'List1',2),(10,'Hello',2);
 /*!40000 ALTER TABLE `MailingLists` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -322,7 +323,7 @@ CREATE TABLE `MailingListsMappings` (
 
 LOCK TABLES `MailingListsMappings` WRITE;
 /*!40000 ALTER TABLE `MailingListsMappings` DISABLE KEYS */;
-INSERT INTO `MailingListsMappings` VALUES (1,1),(1,2),(1,3),(1,4);
+INSERT INTO `MailingListsMappings` VALUES (1,1),(10,1),(1,2),(10,2),(1,3),(1,4);
 /*!40000 ALTER TABLE `MailingListsMappings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -425,7 +426,7 @@ CREATE TABLE `Searches` (
 
 LOCK TABLES `Searches` WRITE;
 /*!40000 ALTER TABLE `Searches` DISABLE KEYS */;
-INSERT INTO `Searches` VALUES (1,6,2),(2,2,1),(3,2,2),(3,4,2),(7,1,9),(7,2,3),(7,3,9);
+INSERT INTO `Searches` VALUES (1,1,6),(1,6,2),(2,2,1),(3,2,2),(3,4,2),(7,1,9),(7,2,3),(7,3,9);
 /*!40000 ALTER TABLE `Searches` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -483,7 +484,7 @@ CREATE TABLE `Wins` (
 
 LOCK TABLES `Wins` WRITE;
 /*!40000 ALTER TABLE `Wins` DISABLE KEYS */;
-INSERT INTO `Wins` VALUES (6,'2008-12-08 13:00:00',2,1),(1,'2015-08-08 09:00:00',4,3),(8,'1998-12-01 00:00:00',3,4),(12,'2015-05-05 00:00:00',1,5);
+INSERT INTO `Wins` VALUES (6,'2008-12-08 13:00:00',2,1),(1,'2015-08-08 09:00:00',4,3),(8,'1998-12-01 00:00:00',3,4),(12,'2015-05-05 00:00:00',1,5),(15,'2015-12-02 22:57:44',7,6);
 /*!40000 ALTER TABLE `Wins` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -625,4 +626,4 @@ USE `305`;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-02 17:21:41
+-- Dump completed on 2015-12-03 19:52:48
