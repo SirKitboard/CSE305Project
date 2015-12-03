@@ -1,10 +1,16 @@
 .login {
   text-align: center;
 
-  h3 {
+  h2 {
     font-family: "HammersmithOne", "Helvetica", sans-serif;
+    font-size: 36px;
+    margin-bottom: 0;
   }
 
-
+  .buttons{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+  }
 
 }

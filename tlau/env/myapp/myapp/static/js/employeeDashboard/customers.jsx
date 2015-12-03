@@ -74,7 +74,10 @@ var Customers = React.createClass({
                             <div className="card">
                                 <div className="card-image">
                                     <img src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/>
-                                    <span className="card-title black-text">{customer.name}</span>
+                                    <div className="card-title">
+                                    <span className="black-text">{customer.name}</span>
+                                    <span className="card-subtitle black-text">ID: {customer.id}</span>
+                                    </div>
                                 </div>
                                 <div className="card-content">
                                     <span className="bold">Email: </span> {customer.email}<br/>
@@ -85,7 +88,10 @@ var Customers = React.createClass({
 
                                 </div>
                                 <div className="card-action">
-                                    <a href="#" data-id={customer.id} onClick={self.editCustomer}>Edit</a>
+                                    <a href="#" data-id={customer.id} onClick={self.editCustomer}>
+                                        <i className="material-icons">create</i>
+                                        <span>&nbsp;Edit</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>

@@ -14,32 +14,40 @@
     }
 }
 
-#employeesTab {
-    .card {
-        .card-content {
-
-        }
-    }
+#customersTab {
+    display: block;
 }
 
-#revenueTab {
-    td, tr, th {
-        text-align: center;
+#mailingListTab {
+    .header {
+        margin-bottom: 0;
+    }
+    .row {
+        button {
+           margin-top: 1.14rem;
+        }
     }
 
-    .selected {
-        background-color: #26a69a !important;
-    }
+    #modalCreateMailingList {
+        .user-chips {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
 
-    tr:hover {
-        background-color: #e3e3e9 !important;
-    }
+            .chip {
+                margin: 5px 5px 5px 0;
+            }
+        }
 
-    .revenueValues {
-        font-size:25px;
-        .value {
-            font-size : 35px;
-            color: $tloa-green;
+        .modal-footer {
+
+            .button-left {
+                margin-left: 5px;
+            }
+
+            .button-right {
+                margin-right: 5px;
+            }
         }
     }
 }

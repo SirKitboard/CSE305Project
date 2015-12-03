@@ -4,7 +4,7 @@
 <link href="${request.static_url('myapp:static/css/createAuction.css')}" rel="stylesheet">
 </%def>
 <%def name="body()">
-    <div id="createAuctionContainer" class="container">
+    <div id="createAuctionContainer" class="container template">
     </div>
 </%def>
 <%def name="scripts()">

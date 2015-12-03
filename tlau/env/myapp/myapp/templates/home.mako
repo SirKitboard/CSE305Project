@@ -17,7 +17,7 @@
     <link href="${request.static_url('myapp:static/css/home.css')}" rel="stylesheet">
   </head>
 
-  <body class="teal">
+  <body class="teal login">
     <div class="starter-template valign-wrapper row" style="width:100%;height:100%;">
         <div class="login-card card-panel hoverble valign col s12 m6 offset-m3" style="text-align: center;">
           <span class="flow-text blue-text text-darken-2">Login</span>

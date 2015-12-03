@@ -94,21 +94,21 @@ var CreateMailingList = React.createClass({
                             <label htmlFor="search">Search..</label>
                         </div>
                     </div>
-                    <div className="row">
+                    <div className="user-chips">
                         {
                             _.map(this.state.filteredCustomers, function(customer) {
                                 // console.log(customer.id);
                                 // console.log(self.state.selectedIDs.indexOf(customer.id));
                                 if(self.state.selectedIDs.indexOf(customer.id) > -1) {
                                     return (
-                                        <div style={{margin:'8px'}} data-id={customer.id} onClick={self.removeCustomer} className="chip teal lighten-2 waves-effect">
+                                        <div data-id={customer.id} onClick={self.removeCustomer} className="chip teal lighten-2 waves-effect">
                                             <img src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg" alt="Contact Person"/>
                                             {customer.name}
                                         </div>
                                     )
                                 } else {
                                     return (
-                                        <div style={{margin:'8px'}} data-id={customer.id} onClick={self.addCustomer} className="chip waves-effect">
+                                        <div data-id={customer.id} onClick={self.addCustomer} className="chip waves-effect">
                                             <img src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg" alt="Contact Person"/>
                                             {customer.name}
                                         </div>
@@ -119,17 +119,19 @@ var CreateMailingList = React.createClass({
                     </div>
                 </div>
                 <div className="modal-footer">
-                    <button onClick={this.close} style={{margin:'0 5px'}} className="btn waves-effect waves-light" id='login' type="submit" name="action">
+                    <button onClick={this.close} className="btn waves-effect waves-light button-left" type="submit" name="action">
                         Close
+                        <i className="material-icons right">clear</i>
                     </button>
-                    <button  onClick={this.save} style={{margin:'0 5px'}} className="btn waves-effect waves-light" id='login' type="submit" name="action">Submit
+                    <button  onClick={this.save} className="btn waves-effect waves-light button-right" type="submit" name="action">
+                        Submit
                         <i className="material-icons right">send</i>
                     </button>
                 </div>
             </div>
     )
     }
-})
+});
 
 var Sales = React.createClass({
     getInitialState : function() {
@@ -167,19 +169,22 @@ var Sales = React.createClass({
                     _.map(this.state.mailingLists, function(mailingList) {
                         return (
                             <div>
-                                <div className="row">
+                                <div className="row header">
                                     <h4 className="col">{mailingList.name}</h4>
-                                    <a style={{marginTop:'15px', marginLeft:'25px'}} className="col btn waves-effect waves-light">Send Mail</a>
+                                    <button className="col btn waves-effect waves-light">
+                                        <span>Send Mail</span>
+                                        <i className="material-icons right">send</i>
+                                    </button>
                                 </div>
                                 <div className="row">
                                 {
                                     _.map(mailingList.customers, function(customer) {
                                         return (
                                             <div className="col s12 m4 l3">
-                                                <div className="card">
+                                                <div className="card small">
                                                     <div className="card-image">
                                                         <img src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/>
-                                                        <span className="card-title white-text">{customer.name}</span>
+                                                        <span className="card-title black-text">{customer.name}</span>
                                                     </div>
                                                     <div className="card-content">
                                                         {customer.email}

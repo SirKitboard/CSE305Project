@@ -51,7 +51,10 @@
 % if currentUser == None:
                     <li><a class="modal-trigger sign-in" href="#modalLogin">Why not sign in? <i class="tiny material-icons">person_add</i></a></li>
 % else:
-                    <li><a href="/profile">Hi ${currentUser['firstName']}</a></li>
+                    <li>
+                        <a href="/profile">Hi ${currentUser['firstName']}</a>
+                        <i class="material-icons">person</i>
+                    </li>
                     <li><a id="logout" class="logout">Logout<i class="tiny material-icons">power_settings_new</i></a></li>
 % endif
                 </ul>
@@ -79,7 +82,7 @@
                     <input id="password" type="password" class="validate" data-error="Invalid username or password"/>
                     <label for="password">Password</label>
                 </div>
-                <div class="col s12 row">
+                <div class="col s12">
                     <p class="col s12 m6">
                         <input name="group1" type="radio" id="isCustomer"/>
                         <label for="isCustomer">Customer</label>
@@ -89,13 +92,17 @@
                         <label for="isEmployee">Employees</label>
                     </p>
                 </div>
-                <button class="btn waves-effect waves-light" id='login' type="submit" name="action">Submit
-                  <i class="material-icons right">send</i>
-                </button>
-                <button class="btn waves-effect waves-light modal-action modal-close">Close
-                  <i class="material-icons right">clear</i>
-                </button>
-                <span class="col s12">Not a member? Click <a href="/signup">here</a> to Sign up!</span>
+                <div class="col s12 buttons">
+                    <button class="btn waves-effect waves-light" id='login' type="submit" name="action">Submit
+                      <i class="material-icons right">send</i>
+                    </button>
+                    <button class="btn waves-effect waves-light modal-action modal-close">Close
+                      <i class="material-icons right">clear</i>
+                    </button>
+                </div>
+                <div class="col s12">
+                    <span class="col s12">Not a member? Click <a href="/signup">here</a> to Sign up!</span>
+                </div>
             </div>
         </div>
     </div>
