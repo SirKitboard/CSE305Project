@@ -36,7 +36,7 @@ window.CustomerEditor = React.createClass({
             <div className="modal-content container edit-customer">
                 <div>
                     <div className="row">
-                        <h4>Update your profile</h4>
+                        <h4>Update profile</h4>
                     </div>
 
                     <div className="row contact header">
