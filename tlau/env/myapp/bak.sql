@@ -271,7 +271,7 @@ CREATE TABLE `ItemsImages` (
 
 LOCK TABLES `ItemsImages` WRITE;
 /*!40000 ALTER TABLE `ItemsImages` DISABLE KEYS */;
-INSERT INTO `ItemsImages` VALUES (1,'http://ecx.images-amazon.com/images/I/51d17yMqhVL.jpg'),(6,'http://media.rockstargames.com/rockstargames/img/global/news/upload/actual_1364906194.jpg'),(7,'/static/images/5751eb3b-e382-4010-86ab-b2a45e5bea93.png'),(8,'/static/images/3170496a-f070-4384-9c14-ad6db846851c.jpg');
+INSERT INTO `ItemsImages` VALUES (1,'http://ecx.images-amazon.com/images/I/51d17yMqhVL.jpg'),(6,'http://media.rockstargames.com/rockstargames/img/global/news/upload/actual_1364906194.jpg'),(7,'/static/images/5751eb3b-e382-4010-86ab-b2a45e5bea93.png'),(8,'/static/images/3170496a-f070-4384-9c14-ad6db846851c.jpg'),(1,'http://ecx.images-amazon.com/images/I/91BU-BbUBQL._SY550_.jpg'),(2,'http://images.thetruthaboutcars.com/2012/04/2013-Nissan-Sylphy-Sentra-32.jpg'),(3,'http://vignette4.wikia.nocookie.net/ssb/images/3/3a/Bloggamecube.jpg/revision/latest?cb=20140712200626'),(4,'http://ia.media-imdb.com/images/M/MV5BMTkwNTczNTMyOF5BMl5BanBnXkFtZTcwNzUxOTUyMw@@._V1_SX640_SY720_.jpg'),(5,'https://trailers.apple.com/trailers/wb/inception/images/poster-large.jpg?lastmod=1'),(5,'http://resizing.flixster.com/l5I-Yk--UFS2Nrq_GJmKcWzRZ7M=/800x1200/dkpu1ddg7pbsk.cloudfront.net/movie/11/16/67/11166725_ori.jpg'),(6,'http://cdn.bgr.com/2013/09/gta-v-big.jpg'),(7,'http://d.ibtimes.co.uk/en/full/1369359/new-android-kitkat-update-build-ktu65-spotted-nexus-5.jpg'),(8,'http://www.androidcentral.com/sites/androidcentral.com/files/styles/large/public/article_images/2015/09/nexus-6p-render.jpg?itok=S7a7qata');
 /*!40000 ALTER TABLE `ItemsImages` ENABLE KEYS */;
 UNLOCK TABLES;
 
