@@ -63,7 +63,7 @@ def refreshSession(request):
                     'email': row['email'],
                     'itemsSold': row['itemsSold'],
                     'itemsPurchased': row['itemsPurchased'],
-                    'rating': row['rating'],
+                    'rating': str(row['rating']),
                     'creditCardNumber' : row['creditCardNumber']
                 }
                 session['currentUser'] = user

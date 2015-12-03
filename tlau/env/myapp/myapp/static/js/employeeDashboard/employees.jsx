@@ -257,16 +257,15 @@ var Employees = React.createClass({
         return (
             <div>
                 <div className="row">
-                    <div className= "col s12 offset-m7 m4 offset-l8 l3">
-                        <div className="input-field">
-                          <i className="material-icons prefix">search</i>
-                          <input onChange={this.filterEmployees} id="search" type="text"></input>
-                          <label htmlFor="search">Search</label>
-                        </div>
+                    <h3 className="header col s6"> All Employees </h3>
+                    <div className="input-field col offset-s2 s4">
+                        <i className="material-icons prefix">search</i>
+                        <input onChange={this.filterEmployees} id="search" type="text"></input>
+                        <label htmlFor="search">Search</label>
                     </div>
                 </div>
 
-                <div> All Employees </div>
+
                 <div className="row">
                 {
                     _.map(this.state.filteredEmployees, function(employee){

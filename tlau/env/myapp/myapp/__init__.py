@@ -66,6 +66,7 @@ def main(global_config, **settings):
     config.add_route('apiupdateCustomer', 'api/customers/{id}', request_method='PUT')
     config.add_route('apisellHistory', 'api/customers/{id}/sellHistory', request_method='GET')
     config.add_route('apiauctionHistory', 'api/customers/{id}/auctionHistory', request_method='GET')
+    config.add_route('apiRateCustomer', 'api/customers/{id}/rate', request_method='POST')
 
     # Auctions Routes
     config.add_route('apiAuctionWin', 'api/auctions/{id}/win', request_method='POST')

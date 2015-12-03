@@ -4,6 +4,8 @@ from pyramid.response import Response
 from datetime import datetime
 from decimal import Decimal
 from myapp import Authorizer
+from datetime import datetime
+from decimal import Decimal
 import crypt
 
 import pyramid.httpexceptions as exc
@@ -40,7 +42,7 @@ def allCustomers(request):
                 'creditCardNumber': customer['creditCardNumber'],
                 'itemsSold': customer['itemsSold'],
                 'itemsPurchased': customer['itemsPurchased'],
-                'rating': customer['rating']
+                'rating': str(customer['rating'])
             })
 
         cursor.close()
@@ -85,7 +87,7 @@ def getCustomer(request):
                 'creditCardNumber': customer['creditCardNumber'],
                 'itemsSold': customer['itemsSold'],
                 'itemsPurchased': customer['itemsPurchased'],
-                'rating': customer['rating']
+                'rating': str(customer['rating'])
             }
 
         cursor.close()
@@ -293,6 +295,27 @@ def sellHistory(request):
     return history
 
 # -----------------------------------------------------------------------------------------------------------------------------
+
+@view_config(route_name='apiRateCustomer', renderer='json')
+def apiRateCustomer(request):
+    customerID = request.matchdict['id']
+    rating = request.POST['rating']
+
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        query= "UPDATE Customers SET rating = (rating*numRatings + %s)/(numRatings+1), numRatings = numRatings + 1 WHERE id = %s"
+
+        cursor.execute(query, tuple([rating, customerID]))
+
+        cursor.close()
+        cnx.commit()
+        cnx.close()
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
+
+    raise exc.HTTPOk()
 
 @view_config(route_name='apiauctionHistory', renderer='json')
 def auctionHistory(request):
