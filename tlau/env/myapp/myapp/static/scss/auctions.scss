@@ -3,7 +3,7 @@
 
 .auction-container {
 
-    padding: 10px;
+    padding: 20px;
     margin-top: 20px;
 
     h1 {
@@ -18,5 +18,9 @@
 
     .material-icons {
         vertical-align: bottom;
+    }
+
+    .description {
+        margin-bottom: 10px;
     }
 }

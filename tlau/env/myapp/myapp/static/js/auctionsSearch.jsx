@@ -78,13 +78,15 @@ var AuctionSearch = React.createClass ({
 	                                    imageURL = self.state.item.images[0]
 	                                }
 	                                return (
-	                                	<div className="col s12 m4 l3">
+	                                	<div className="col s12 m4 l2">
 		                                    <div className="card small">
 		                                        <div className="card-image">
 		                                            <img src={imageURL}/>
-		                                            <span className="card-title">{self.state.item.name}</span>
-													<span className="card-subtitle">${auction.currentBid}</span>
-		                                        </div>
+													<div className="card-title">
+														<span className="white-text">{self.state.item.name}</span>
+														<span className="card-subtitle white-text"> ${auction.currentBid}</span>
+													</div>
+												</div>
 
 		                                        <div className="card-content">
 		                                            <p>{self.state.item.description}</p>
@@ -112,13 +114,14 @@ var AuctionSearch = React.createClass ({
 	                                    imageURL = self.state.item.images[0]
 	                                }
 	                                return (
-	                                	<div className="col s12 m4 l3">
+	                                	<div className="col s12 m4 l2">
 		                                    <div className="card small">
 		                                        <div className="card-image">
 		                                            <img src={imageURL}/>
-		                                            <span className="card-title">{self.state.item.name} <br/>
-		                                            	  $ {auction.currentBid}
-		                                            </span>
+													<div className="card-title">
+														<span className="white-text">{self.state.item.name}</span>
+														<span className="card-subtitle white-text"> ${auction.currentBid}</span>
+													</div>
 		                                        </div>
 
 		                                        <div className="card-content">
