@@ -1,6 +1,7 @@
 <%inherit file="myapp:templates/template.mako" />
 <%def name="title()">Help</%def>
 <%def name="head()">
+<link href="${request.static_url('myapp:static/css/help.css')}" rel="stylesheet">
 <script>
 </script></%def>
 <%def name="body()">
@@ -51,7 +52,7 @@
     </li>
      <li>
          <div class="collapsible-header">
-            <i class="material-icons">question_answer</i>>
+            <i class="material-icons">question_answer</i>
             <span>I put in the wrong information in my profile account, what do I do?</span>
         </div>
         <div class="collapsible-body">
