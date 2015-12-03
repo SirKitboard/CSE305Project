@@ -154,7 +154,7 @@ var Profile = React.createClass({
             }
             return (
                 <div>
-                    <div className="profile-card z-depth-2">
+                    <div className="profile-card z-depth-1">
                         {profileInfo}
                     </div>
 

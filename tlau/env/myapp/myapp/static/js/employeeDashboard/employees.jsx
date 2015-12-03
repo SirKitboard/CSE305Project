@@ -284,8 +284,8 @@ var Employees = React.createClass({
                                     </div>
                                     <div className="card-action">
                                         <a href="#" data-id={employee.id} onClick={self.editEmployee}>
-                                            <i className="material-icons">create</i>
-                                            <span>View</span>
+                                            <i className="material-icons">visibility</i>
+                                            <span>&nbsp;View</span>
                                         </a>
                                     </div>
                                 </div>
