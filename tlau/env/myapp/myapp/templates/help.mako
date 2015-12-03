@@ -10,7 +10,7 @@
     <li>
         <div class="collapsible-header">
             <i class="material-icons">question_answer</i>
-            <span> How Do I Bid on an item?</span>  
+            <span> How do I bid on an item?</span>
         </div>
         <div class="collapsible-body"><p>Search up an item. Then click on see more auctions for this item. Select the auction that you would like to partake in and select bid. Then put in the amount you want to bid. That's it!</p></div>
     </li>

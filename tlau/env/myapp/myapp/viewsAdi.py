@@ -55,3 +55,13 @@ def employeeDashboard(request):
 	if('currentUser' in request.session):
 		values["currentUser"] = request.session['currentUser']
 	return values
+
+@view_config(route_name='receipts', renderer='myapp:templates/receipts.mako')
+def receipt(request):
+	# Authorizer.authorizeEmployee(request)
+	values = {
+		'currentUser': None,
+	}
+	if('currentUser' in request.session):
+		values["currentUser"] = request.session['currentUser']
+	return values

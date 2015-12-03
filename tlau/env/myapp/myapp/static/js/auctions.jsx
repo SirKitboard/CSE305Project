@@ -127,33 +127,39 @@ var Auction = React.createClass({
 										Current Price: ${this.state.auction.currentBid}
 									</div>
 									{bidButton}
-								</div>
-								<div className="closing-time">
-									<i className="material-icons">hourglass_full</i>
-									Closes at:&nbsp;
-									<span id= "closingTime">
-										{new Date(this.state.auction.closingTime).toLocaleDateString("en-US", options)}
-									</span>
-								</div>
-								<div className="row">
-									<div className="col">
+									<div className="col s12">
+										<i className="material-icons">hourglass_full</i>
+										Closes at:&nbsp;
+										<span id= "closingTime">
+											{new Date(this.state.auction.closingTime).toLocaleDateString("en-US", options)}
+										</span>
+									</div>
+									<div className="col s12">
 										<i className="material-icons">create</i>
 										Posted by:&nbsp;
 										<span className= "green-text" id= "sellerName">{this.state.seller.name}</span>
 									</div>
-									<div className="col amber-text text-lighten-1">
+									<div className="col amber-text text-lighten-1 s7">
 										<i className="material-icons">star</i>
-										<span id="rating">{this.state.seller.rating}</span></div>
+										<span id="rating">{this.state.seller.rating}</span>
+										<span>&nbsp;rating</span>
+									</div>
+									<div className="col" id= "Reserve"></div>
+									<div className="col s12">
+									 <a className="modal-trigger" href="#modalTable">
+										 <i className="material-icons">restore</i>See Bid History
+									 </a>
+									</div>
 								</div>
-								<p id= "Reserve"></p>
-								 <a className="modal-trigger" href="#modalTable">
-									 <i className="material-icons">restore</i> See Bid History
-								 </a>
 							</div>
-							<div>
-								Description: <span id="description">{this.state.item.description}</span>
+
+							<div className="description">
+								<h6>Description:</h6>
+								<div id="description">{this.state.item.description}</div>
 							</div>
-							<button onClick={this.getAuctionSearch} className  = "btn waves-effect waves-light  light-blue darken-2" type="seeMoreButton">See More Auctions for this Item </button>
+
+							<button onClick= {this.getAuctionSearch} className  = "btn waves-effect waves-light  light-blue darken-2" type="seeMoreButton">View More Auctions for this Item </button>
+
 						</div>
 					</div>
 				</div>

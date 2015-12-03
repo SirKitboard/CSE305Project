@@ -163,7 +163,7 @@ var Profile = React.createClass({
                         <ul className="collapsible" data-collapsible="expandable">
                             <li>
                                 <div className="collapsible-header">
-                                    <i className="material-icons">question_answer</i>
+                                    <i className="material-icons">create</i>
                                     <span>Created</span>
                                 </div>
                                 <div className="collapsible-body">
@@ -182,9 +182,10 @@ var Profile = React.createClass({
                                                     <div className={auction.finished ? "card small grey lighten-2" : "card small"}>
                                                         <div className="card-image">
                                                             <img src={imageURL}/>
-                                                            <span className="card-title">{auction.itemName} <br/>
-                                                                  $ {auction.currentBid}
-                                                            </span>
+                                                            <div  className="card-title">
+                                                                <span className="white-text">{auction.itemName}</span>
+                                                             <span className="card-subtitle white-text">${auction.currentBid}</span>
+                                                            </div>
                                                         </div>
 
                                                         <div className="card-content">
@@ -198,10 +199,13 @@ var Profile = React.createClass({
                                                                 <span>&nbsp;View</span>
                                                             </a>
 
-                                                            {(auction.finished) ? "" : <a href={"/actions/"+ auction.id}>
-                                                                <i className="material-icons">attach_money</i>
-                                                                <span>Bid</span>
-                                                            </a>}
+                                                            {(auction.finished) ?
+                                                                <a className="closed">
+                                                                    <i className="material-icons">close</i>
+                                                                    <span>CLOSED</span>
+                                                                </a>
+                                                                : ""
+                                                            }
 
                                                         </div>
                                                     </div>
@@ -214,7 +218,7 @@ var Profile = React.createClass({
                             </li>
                             <li>
                                 <div className="collapsible-header">
-                                    <i className="material-icons">question_answer</i>
+                                    <i className="material-icons">mood</i>
                                     <span>Won</span>
                                 </div>
                                 <div className="collapsible-body">
@@ -233,9 +237,10 @@ var Profile = React.createClass({
                                                     <div className={auction.finished ? "card small grey lighten-2" : "card small"}>
                                                         <div className="card-image">
                                                             <img src={imageURL}/>
-                                                            <span className="card-title">{auction.itemName} <br/>
-                                                                  $ {auction.currentBid}
-                                                            </span>
+                                                            <div  className="card-title">
+                                                                <span className="white-text">{auction.itemName}</span>
+                                                                <span className="card-subtitle white-text">${auction.currentBid}</span>
+                                                            </div>
                                                         </div>
 
                                                         <div className="card-content">
@@ -249,10 +254,14 @@ var Profile = React.createClass({
                                                                 <span>&nbsp;View</span>
                                                             </a>
 
-                                                            {(auction.finished) ? "" : <a href={"/actions/"+ auction.id}>
-                                                                <i className="material-icons">attach_money</i>
-                                                                <span>Bid</span>
-                                                            </a>}
+                                                            {(auction.finished) ?
+                                                                <a className="closed">
+                                                                    <i className="material-icons">close</i>
+                                                                    <span>CLOSED</span>
+                                                                </a>
+                                                                :
+                                                                ""
+                                                                }
 
                                                         </div>
                                                     </div>
@@ -265,7 +274,7 @@ var Profile = React.createClass({
                             </li>
                             <li>
                                 <div className="collapsible-header">
-                                    <i className="material-icons">question_answer</i>
+                                    <i className="material-icons">history</i>
                                     <span>Participated</span>
                                 </div>
                                 <div className="collapsible-body">
@@ -284,9 +293,10 @@ var Profile = React.createClass({
                                                     <div className={auction.finished ? "card small grey lighten-2" : "card small"}>
                                                         <div className="card-image">
                                                             <img src={imageURL}/>
-                                                            <span className="card-title">{auction.itemName} <br/>
-                                                                  $ {auction.currentBid}
-                                                            </span>
+                                                            <div className="card-title">
+                                                                <span className="white-text">{auction.itemName}</span>
+                                                                <span className="card-subtitle white-text">${auction.currentBid}</span>
+                                                            </div>
                                                         </div>
 
                                                         <div className="card-content">
@@ -300,10 +310,14 @@ var Profile = React.createClass({
                                                                 <span>&nbsp;View</span>
                                                             </a>
 
-                                                            {(auction.finished) ? "" : <a href={"/actions/"+ auction.id}>
-                                                                <i className="material-icons">attach_money</i>
-                                                                <span>Bid</span>
-                                                            </a>}
+                                                            {(auction.finished) ?
+                                                                <a className="closed">
+                                                                    <i className="material-icons">close</i>
+                                                                    <span>CLOSED</span>
+                                                                </a>
+                                                                :
+                                                                ""
+                                                            }
 
                                                         </div>
                                                     </div>
@@ -318,6 +332,14 @@ var Profile = React.createClass({
                     </div>
                     <div id="modalUpdate" className="modal">
                         <CustomerEditor onClose={this.closeCustomerEditor} customer={window.user}/>
+                    </div>
+                    <div className="fixed-action-btn">
+                        <a href="auctions/add" className="btn-floating btn-large red">
+                            <i className="large material-icons">mode_edit</i>
+                        </a>
+                        <ul>
+                          <li><a href="/profile/receipts" className="btn-floating blue"><i className="material-icons">receipt</i></a></li>
+                        </ul>
                     </div>
                 </div>
             )

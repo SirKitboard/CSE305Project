@@ -9,7 +9,7 @@
         padding-left: 10px;
         padding-bottom: 0;
 
-        .black-text {
+        .black-text, .white-text {
           display: block;
         }
 
@@ -35,6 +35,10 @@
       color: $tloa-green;
     }
 
+    .closed {
+      color: $tloa-red;
+    }
+
     .material-icons {
       vertical-align: bottom;
     }
@@ -44,7 +48,6 @@
 
 .card.small {
     .card-image {
-        max-height: 145px;
         overflow: hidden;
     }
 }
