@@ -1,10 +1,22 @@
-.auction {
-    background-color: white;
-    box-shadow: 0 4px 6px 0 rgba(0,0,0,0.50);
 
-    #currentBid {
-        font-family: "Verdana";
-        font-size: 25px;
-        color: green;
+@import "variables.scss";
+
+.auction-container {
+
+    padding: 10px;
+    margin-top: 20px;
+
+    h1 {
+        margin: 0;
+    }
+    .current-bid {
+        font-family: "Roboto", "Helvetica", sans-serif;
+        font-weight: bold;
+        font-size: 24px;
+        color: $tloa-green;
+    }
+
+    .material-icons {
+        vertical-align: bottom;
     }
 }

@@ -108,7 +108,7 @@ var Auction = React.createClass({
 
 
 			return (
-				<div>
+				<div className="auction-container z-depth-2 container">
 					<h1 className="black-text" id="name">{this.state.item.name}</h1>
 					<div className="row grey-text text-darken-2" style={{marginBottom:'5px'}}>
 						<div className="col s6 m3">
@@ -123,14 +123,14 @@ var Auction = React.createClass({
 						<div className="col s12 m6">
 							<div className="bold">
 								<div className="row">
-									<div id="currentBid" className="col s12 m8">
-										Current Price: {this.state.auction.currentBid}
+									<div className="col s12 m8 current-bid">
+										Current Price: ${this.state.auction.currentBid}
 									</div>
 									{bidButton}
 								</div>
-								<div>
+								<div className="closing-time">
 									<i className="material-icons">hourglass_full</i>
-									Closes at:
+									Closes at:&nbsp;
 									<span id= "closingTime">
 										{new Date(this.state.auction.closingTime).toLocaleDateString("en-US", options)}
 									</span>
@@ -138,7 +138,7 @@ var Auction = React.createClass({
 								<div className="row">
 									<div className="col">
 										<i className="material-icons">create</i>
-										Posted by:
+										Posted by:&nbsp;
 										<span className= "green-text" id= "sellerName">{this.state.seller.name}</span>
 									</div>
 									<div className="col amber-text text-lighten-1">
