@@ -4,26 +4,38 @@
     font-family: "HammersmithOne", "Helvetica", sans-serif;
   }
 
+  .header {
+    font-family: "Roboto", "Helvetica", sans-serif;
+    font-weight: bold;
+
+    .material-icons {
+      vertical-align: bottom;
+    }
+  }
+
+  .contact {
+    color: $tloa-blue;
+  }
+
+  .address {
+    color: $tloa-yellow;
+  }
+
+  .payment, .employment {
+    color: $tloa-green;
+  }
+
+  .account {
+    color: $tloa-red;
+  }
+
   .row {
 
     margin-bottom: 0;
 
+    .employment-type {
+        padding: 0;
 
-    .header {
-      font-family: "Roboto", "Helvetica", sans-serif;
-      font-weight: bold;
-    }
-
-    .contact {
-      color: $tloa-blue;
-    }
-
-    .address {
-      color: $tloa-yellow;
-    }
-
-    .payment {
-      color: $tloa-green;
     }
 
     .input-field {
@@ -39,4 +51,5 @@
       margin-right: 30px;
     }
   }
+
 }

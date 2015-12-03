@@ -1,4 +1,5 @@
 @import "variables.scss";
+@import "editCustomer.scss";
 
 #navBar {
     .tabs {
@@ -17,6 +18,13 @@
 #employeesTab {
     margin: 0 0.75rem;
     display: block;
+
+    .modal-footer {
+        button {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+    }
 }
 
 #revenueTab {

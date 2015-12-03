@@ -115,7 +115,7 @@ var AddEditEmployee = React.createClass({
         };
         this.setState({
             saving: true
-        })
+        });
 
         console.log(params);
 
@@ -171,13 +171,13 @@ var AddEditEmployee = React.createClass({
             </div>
         )
         var submitButton = (
-            <button onClick={this.createEmployee} style={{margin:'0 5px'}} className="btn waves-effect waves-light" id='login' type="submit" name="action">Submit
+            <button onClick={this.createEmployee} className="btn waves-effect waves-light" id='login' type="submit" name="action">Submit
                 <i className="material-icons right">send</i>
             </button>
         );
         var classActive = "";
         if(this.props.employee) {
-            classActive = "active"
+            classActive = "active";
             startDateDiv = "";
             submitButton = (
                 <button  onClick={this.updateEmployee} style={{margin:'0 5px'}} className="btn waves-effect waves-light" id='login' type="submit" name="action">Submit
@@ -192,7 +192,7 @@ var AddEditEmployee = React.createClass({
                         <label htmlFor="username">Username</label>
                     </div>
                 </div>
-            )
+            );
             passwordDiv = (
                 <div className="row">
                     <div className="input-field col s12 m6">
@@ -207,12 +207,12 @@ var AddEditEmployee = React.createClass({
             )
         }
         var typeInputs = (
-            <div className="col s12 row">
-                <p className="col s12 m6">
+            <div className="row">
+                <p className="col s6 m3 employment-type">
                     <input name="group1" type="radio" id="isRep" defaultChecked={this.state.type == 1}/>
                     <label htmlFor="isRep">Customer Rep</label>
                 </p>
-                <p className="col s12 m6">
+                <p className="col s6 m3">
                     <input name="group1" type="radio" id="isManager" defaultChecked={this.state.type == 0}/>
                     <label htmlFor="isManager">Manager</label>
                 </p>
@@ -223,7 +223,14 @@ var AddEditEmployee = React.createClass({
         }
         return (
             <div>
-                <div className="modal-content">
+                <div className="modal-content container edit-customer">
+                    <div className="row">
+                        <h4>Edit Employee Info</h4>
+                    </div>
+                    <div className="row contact header">
+                        <span>Contact Info&nbsp;</span>
+                        <i className="material-icons">info_outline</i>
+                    </div>
                     <div className="row">
                         <div className="input-field col s12 m6">
                             <input ref="first_name" id="first_name" type="text" className="validate" defaultValue={this.state.firstName}/>
@@ -244,6 +251,10 @@ var AddEditEmployee = React.createClass({
                             <label className={classActive} htmlFor="phone">SSN</label>
                         </div>
                     </div>
+                    <div className="row employment header">
+                        <span>Employment Info&nbsp;</span>
+                        <i className="material-icons">work</i>
+                    </div>
                     <div className="row">
                         <div className="input-field col s6 m6">
                             <input defaultValue={this.state.hourlyRate} type="number" step="0.01" min="0" ref="hourlyRate" id="hourlyRate" className="validate"/>
@@ -251,8 +262,17 @@ var AddEditEmployee = React.createClass({
                         </div>
                         {startDateDiv}
                     </div>
+                    {typeInputs}
+                    <div className="row account header">
+                        <span>Account Info&nbsp;</span>
+                        <i className="material-icons">vpn_key</i>
+                    </div>
                     {userDiv}
                     {passwordDiv}
+                    <div className="row address header">
+                        <span>Address Info&nbsp;</span>
+                        <i className="material-icons">home</i>
+                    </div>
                     <div className="row">
                         <div className="input-field col s12">
                             <input ref="address" id="address" type="text" className="validate" defaultValue={this.state.address}/>
@@ -275,11 +295,11 @@ var AddEditEmployee = React.createClass({
                             <label className={classActive} htmlFor="zipCode">ZipCode</label>
                         </div>
                     </div>
-                    {typeInputs}
                 </div>
                 <div className="modal-footer">
-                    <button onClick={this.close} style={{margin:'0 5px'}} className="btn waves-effect waves-light" id='login' type="submit" name="action">
-                        Close
+                    <button onClick={this.close} className="btn waves-effect waves-light" id='login' type="submit" name="action">
+                        <span>Close</span>
+                        <i className="material-icons right">clear</i>
                     </button>
                     {submitButton}
                 </div>
@@ -375,7 +395,10 @@ var Employees = React.createClass({
                                     <span className="bold">State/ZipCode: </span>{employee.state}/{employee.zipCode}<br/>
                                 </div>
                                 <div className="card-action">
-                                    <a href="#" data-id={employee.id} onClick={self.editEmployee}>Edit</a>
+                                    <a href="#" data-id={employee.id} onClick={self.editEmployee}>
+                                        <i className="material-icons">create</i>
+                                        <span>&nbsp;Edit</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>

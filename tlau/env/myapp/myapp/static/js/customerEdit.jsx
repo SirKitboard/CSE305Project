@@ -39,8 +39,9 @@ window.CustomerEditor = React.createClass({
                         <h4>Update your profile</h4>
                     </div>
 
-                    <div className="row">
-                        <span className="contact header">Contact Info <i className="material-icons">info_outline</i> </span>
+                    <div className="row contact header">
+                        <span>Contact Info </span>
+                        <i className="material-icons">info_outline</i>
                     </div>
                     <div className="row">
                         <div className="input-field col s12 m6">
@@ -64,8 +65,9 @@ window.CustomerEditor = React.createClass({
                             <label className="active" htmlFor="phone">Phone</label>
                         </div>
                     </div>
-                    <div className="row">
-                        <span className="address header">Address <i className="material-icons">home</i> </span>
+                    <div className="row address header">
+                        <span>Address Info</span>
+                        <i className="material-icons">home</i>
                     </div>
                     <div className="row">
                         <div className="input-field col s12">
