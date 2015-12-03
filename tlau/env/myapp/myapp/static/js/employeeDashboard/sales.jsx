@@ -23,13 +23,14 @@ var Sales = React.createClass({
         });
     },
     approveAuction : function(e) {
-        var auctionID = e.target.getAttribute('data-id');
+        var target = e.target;
+        if(target.className != "A"){
+            target = target.parentElement;
+        }
+        var auctionID = target.getAttribute('data-id');
         var self = this;
         $.ajax({
             url : '/api/auctions/'+auctionID+'/win',
-            data : {
-                auctionID
-            },
             method : 'POST',
             success : function() {
                 self.reloadAuctions();
