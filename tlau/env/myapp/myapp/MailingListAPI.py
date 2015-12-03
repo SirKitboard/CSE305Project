@@ -129,33 +129,37 @@ def apiAddMailingList(request):
     raise exc.HTTPOk()
     # return mailingLists
 
-@view_config(route_name='apiAddCustomerToList', renderer='json')
-def apiAddCustomerToList(request):
+@view_config(route_name='apiUpdateMailingList', renderer='json')
+def apiUpdateMailingList(request):
     Authorizer.authorizeEmployee(request)
     mailingListID = request.matchdict['id']
     postVars = request.POST
-    if('customerID' not in postVars):
+    # print(postVars)
+    if 'name' not in postVars:
         raise exc.HTTPBadRequest()
 
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
-        query = "SELECT COUNT(*) as count FROM MailingLists where id = %s"
-        cursor.execute(query, tuple([str(mailingListID)]))
-        count = cursor.fetchone()['count']
+        query = "UPDATE MailingLists SET name = %s WHERE id = %s"
+        cursor.execute(query, tuple([postVars['name'], mailingListID]))
 
-        if(count!=0):
-            query = "SELECT COUNT(*) as count FROM Customers where id = %s"
-            cursor.execute(query, tuple([str(customerID)]))
-            count = cursor.fetchone()['count']
-            if(count!=0):
-                query = "INSERT INTO MailingListsMappings(listID, customerID) VALUES (%s, %s)"
-                cursor.execute(query, tuple([mailingListID, customerID]))
-            else:
-                raise exc.HTTPBadRequest()
-        else:
-            raise exc.HTTPBadRequest()
+        if 'customers[]' in postVars:
+            # postVars.getall('customers[]')
+            query = "DELETE FROM MailingListsMappings WHERE listID = %s"
+            cursor.execute(query, tuple([str(mailingListID)]))
+            # print (mailingListID)
+            for customerID in postVars.getall('customers[]'):
+                print(customerID)
+                query = "SELECT COUNT(*) as count FROM Customers where id = %s"
+                cursor.execute(query, tuple([str(customerID)]))
+                count = cursor.fetchone()['count']
+                if(count!=0):
+                    query = "INSERT INTO MailingListsMappings(listID, customerID) VALUES (%s, %s)"
+                    cursor.execute(query, tuple([mailingListID, customerID]))
+                else:
+                    raise exc.HTTPBadRequest()
 
         cursor.close()
         cnx.commit()
@@ -163,40 +167,5 @@ def apiAddCustomerToList(request):
     except mysql.connector.Error as err:
         return Response("Something went wrong: {}".format(err), status=500)
 
-    return mailingLists
-
-@view_config(route_name='apiDeleteCustomerFromList', renderer='json')
-def apiDeleteCustomerFromList(request):
-    Authorizer.authorizeEmployee(request)
-    mailingListID = request.matchdict['id']
-    postVars = request.POST
-    if('customerID' not in postVars):
-        raise exc.HTTPBadRequest()
-
-    try:
-        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
-        cursor = cnx.cursor(dictionary=True)
-
-        query = "SELECT COUNT(*) as count FROM MailingLists where id = %s"
-        cursor.execute(query, tuple([str(mailingListID)]))
-        count = cursor.fetchone()['count']
-
-        if(count!=0):
-            query = "SELECT COUNT(*) as count FROM Customers where id = %s"
-            cursor.execute(query, tuple([str(customerID)]))
-            count = cursor.fetchone()['count']
-            if(count!=0):
-                query = "DELETE FROM MailingListsMappings WHERE listID = %s AND customerID = %s"
-                cursor.execute(query, tuple([mailingListID, customerID]))
-            else:
-                raise exc.HTTPBadRequest()
-        else:
-            raise exc.HTTPBadRequest()
-
-        cursor.close()
-        cnx.commit()
-        cnx.close()
-    except mysql.connector.Error as err:
-        return Response("Something went wrong: {}".format(err), status=500)
-
-    return mailingLists
+    raise exc.HTTPOk()
+    # return mailingLists

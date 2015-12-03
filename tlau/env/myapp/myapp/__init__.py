@@ -80,8 +80,7 @@ def main(global_config, **settings):
     config.add_route('apiAllMailingLists', 'api/mailingLists', request_method='GET')
     config.add_route('apiAddMailingList', 'api/mailingLists', request_method='POST')
     config.add_route('apiGetMailingList', 'api/mailingLists/{id}', request_method='GET')
-    config.add_route('apiAddCustomerToList', 'api/mailingLists/{id}', request_method='PUT')
-    config.add_route('apiDeleteCustomerFromList', 'api/mailingLists/{id}', request_method='DELETE')
+    config.add_route('apiUpdateMailingList', 'api/mailingLists/{id}', request_method='PUT')
 
     # Generators
     config.add_route('apisalesReport', 'api/generate/salesReport', request_method='GET')
