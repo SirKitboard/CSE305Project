@@ -69,12 +69,14 @@ var Item = React.createClass({
 					<div className ="row">
 						{image}
 						<div className="col s12 m6">
-							<div className="bold">
-								<div>
-									Description:  <span id="description">{this.state.item.description}</span>
-								</div>
-								<button onClick= {this.getAuctionSearch} className  = "btn waves-effect waves-light  light-blue darken-2" type="seeMoreButton">See More Auctions for this Item </button>
+							<div className="description">
+								<h6>Description:</h6>
+								<div id="description">{this.state.item.description}</div>
 							</div>
+
+							<button onClick= {this.getAuctionSearch} className="btn waves-effect waves-light light-blue darken-2">
+								View Auctions for this Item
+							</button>
 						</div>
 					</div>
 				</div>

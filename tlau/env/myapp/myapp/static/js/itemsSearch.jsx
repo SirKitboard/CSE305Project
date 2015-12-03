@@ -133,7 +133,7 @@ var ItemSearch = React.createClass ({
                             imageURL = item.images[0]
                         }
                         return (
-                        	<div className="col s12 m4 l3">
+                        	<div className="col s12 m4 l2">
                                 <div className="card small">
                                     <div className="card-image">
                                         <img src={imageURL}/>
