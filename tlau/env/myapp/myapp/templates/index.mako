@@ -16,13 +16,11 @@ if(window.currentUser && window.currentUser.type ==1){
 
     </div>
     <div class="fixed-action-btn">
-        <a class="btn-floating btn-large red">
+        <a href="auctions/add" class="btn-floating btn-large red">
             <i class="large material-icons">mode_edit</i>
         </a>
         <ul>
-            <li><a class="btn-floating red"><i class="material-icons">create</i></a></li>
-            <li><a class="btn-floating yellow darken-1"><i class="material-icons">person</i></a></li>
-            <li><a class="btn-floating green"><i class="material-icons">search</i></a></li>
+            <li><a href="profile" class="btn-floating yellow darken-1"><i class="material-icons">person</i></a></li>
         </ul>
     </div>
 </div>
