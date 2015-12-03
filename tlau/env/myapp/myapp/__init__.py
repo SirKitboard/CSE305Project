@@ -90,6 +90,9 @@ def main(global_config, **settings):
     config.add_route('apirevenueReport', 'api/generate/revenueReport', request_method='GET')
     config.add_route('apiRevenueStats', 'api/generate/revenueStats', request_method='GET')
 
+    # Database Routes
+    config.add_route('apiGetBackup', 'api/database', request_method='GET')
+
     # Views
     config.add_route('addItem', 'items/add', request_method='GET')
     config.add_route('createAuction', 'auctions/add', request_method='GET')

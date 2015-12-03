@@ -366,6 +366,15 @@ var Employees = React.createClass({
             })
         })
     },
+    makeBackup : function() {
+        $.ajax({
+            url : '/api/database',
+            method : 'GET',
+            success : function() {
+                window.location.href = "/static/databases/bak.sql"
+            }
+        })
+    },
     render : function() {
         console.log(this.state.filteredEmployees);
         var self = this;
@@ -425,6 +434,9 @@ var Employees = React.createClass({
                     <a onClick={this.openAddModal} className="btn-floating btn-large green">
                         <i className="large material-icons">add</i>
                     </a>
+                    <ul>
+                      <li><a onClick={this.makeBackup} className="btn-floating red"><i className="material-icons">cloud_download</i></a></li>
+                    </ul>
                 </div>
             </div>
         )

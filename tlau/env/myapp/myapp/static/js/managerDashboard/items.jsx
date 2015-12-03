@@ -34,6 +34,18 @@ var ItemsSearch = React.createClass({
 	showBestSellers : function() {
 		$("#modalBestSellers").openModal();
 	},
+	addItem : function() {
+		window.location.href = "/items/add";
+	},
+	makeBackup : function() {
+        $.ajax({
+            url : '/api/database',
+            method : 'GET',
+            success : function() {
+                window.location.href = "/static/databases/bak.sql"
+            }
+        })
+    },
     render: function() {
     	return(
 			<div>
@@ -75,7 +87,14 @@ var ItemsSearch = React.createClass({
 					})
 				}
 				</div>
-
+				<div className="fixed-action-btn">
+                    <a onClick={this.addItem} className="btn-floating btn-large green">
+                        <i className="large material-icons">add</i>
+                    </a>
+                    <ul>
+                      <li><a onClick={this.makeBackup} className="btn-floating red"><i className="material-icons">cloud_download</i></a></li>
+                    </ul>
+                </div>
 			</div>
 		)}
 });

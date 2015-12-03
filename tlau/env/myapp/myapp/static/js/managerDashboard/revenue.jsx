@@ -207,6 +207,15 @@ var RevenueTab = React.createClass({
     closeItemPicker : function() {
         $("#modalItemPicker").closeModal();
     },
+    makeBackup : function() {
+        $.ajax({
+            url : '/api/database',
+            method : 'GET',
+            success : function() {
+                window.location.href = "/static/databases/bak.sql"
+            }
+        })
+    },
     render : function() {
         var revenueInfo = "";
         if(this.state.currentFilter == 1) {
@@ -359,6 +368,9 @@ var RevenueTab = React.createClass({
                 </div>
                 <div id="modalItemPicker" className="modal modal-fixed-footer">
                     <ItemPicker onClose={this.closeItemPicker} onSubmit={this.setItemFilter}/>
+                </div>
+                <div className="fixed-action-btn">
+                    <a onClick={this.makeBackup} className="btn-floating btn-large red"><i className="large material-icons">cloud_download</i></a>
                 </div>
             </div>
         )

@@ -161,10 +161,22 @@ var Sales = React.createClass({
 		$('ul.tabs').tabs();
 		$('ul.tabs').tabs('select_tab', 'monthTab');
 	},
+	makeBackup : function() {
+        $.ajax({
+            url : '/api/database',
+            method : 'GET',
+            success : function() {
+                window.location.href = "/static/databases/bak.sql"
+            }
+        })
+    },
     render: function() {
     	return(
 	    	<div className="">
 				<MonthFilter style={{marginTop:'20px'}}/>
+				<div className="fixed-action-btn">
+                    <a onClick={this.makeBackup} className="btn-floating btn-large red"><i className="large material-icons">cloud_download</i></a>
+                </div>
 	    	</div>
 		)
 	}
