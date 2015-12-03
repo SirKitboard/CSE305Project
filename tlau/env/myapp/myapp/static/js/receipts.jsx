@@ -19,11 +19,39 @@ if(window.user.type == 1) {
     window.user.id = getQueryVariable('id');
 }
 
+var RatingModal = React.createClass({
+    saveRating : function() {
+        var rating = ReactDOM.findDOMNode(this.refs.rating).value
+        this.props.onSubmit(rating);
+    },
+    close : function() {
+        this.props.onClose();
+    },
+    render : function() {
+        return (
+            <div className="modal-content">
+                <div className="row">
+                    <div className="input-field">
+                        <input defaultValue="3" type="number" step="1" min="0" ref="rating" id="rating" className="validate"/>
+                        <label className="active" htmlFor="rating">Rating</label>
+                    </div>
+                    <button onClick={this.saveRating} className="btn waves-effect waves-light" id='login' type="submit" name="action">Submit
+                        <i className="material-icons right">send</i>
+                    </button>
+                    <button onClick={this.close} className="btn waves-effect waves-light" id='login' type="submit" name="action">Close
+                    </button>
+                </div>
+            </div>
+        )
+    }
+})
+
 var Profile = React.createClass({
     getInitialState: function() {
         return {
             'loading' : true,
-            receipts: {}
+            receipts: {},
+            selected : null
         }
     },
     componentDidMount: function() {
@@ -55,11 +83,37 @@ var Profile = React.createClass({
           accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
         });
     },
+    rateModal : function(e) {
+        var customerID = e.target.getAttribute('data-id');
+        this.setState({
+            selected : customerID
+        })
+        $("#ratingModal").openModal();
+    },
+    closeModal : function() {
+        this.setState({
+            selected : null
+        })
+        $("#ratingModal").closeModal();
+    },
+    saveRating : function(rating) {
+        $.ajax({
+            url : '/api/customers/'+this.state.selected+'/rate',
+            data :{
+                rating : rating
+            },
+            method : 'POST',
+            success: function(){
+                $("#ratingModal").closeModal();
+            }
+        })
+    },
     render: function() {
         // console.log('render');
         if(this.state.loading) {
             return <div></div>
         }
+        var self = this;
         return (
             <div>
                 <div className="template" >
@@ -87,7 +141,7 @@ var Profile = React.createClass({
                                                     <span className="bold">{receipt.itemName}</span><br/>
                                                     <span>$ {receipt.amount} paid to <a href={"/profile?id=" + receipt.sellerID}>{receipt.sellerName}</a></span><br/>
                                                     <span>Auction <a href={"/auction/" + receipt.auctionID}>{receipt.auctionID}</a> at {receipt.time}</span><br/>
-                                                    <span><a href="">Leave a review</a></span>
+                                                    <span><a onClick={self.rateModal} data-id={receipt.sellerID}>Leave a review</a></span>
                                                 </div>
                                               </div>
                                             </div>
@@ -128,6 +182,9 @@ var Profile = React.createClass({
                             </div>
                         </li>
                     </ul>
+                </div>
+                <div className="modal" id="ratingModal">
+                    <RatingModal onClose={this.closeModal} onSubmit={this.saveRating}/>
                 </div>
                 <div className="fixed-action-btn">
                     <a href="auctions/add" className="btn-floating btn-large red">
