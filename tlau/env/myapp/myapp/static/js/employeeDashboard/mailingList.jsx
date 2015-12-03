@@ -289,7 +289,7 @@ var MailingList = React.createClass({
                 self.setState({
                     mailingLists : response
                 });
-                $("#modalEditMailingList").closeModal();
+                self.closeEditPanel();
                 // console.log(response);
             }
         });
