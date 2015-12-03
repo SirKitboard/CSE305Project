@@ -81,32 +81,29 @@ var MonthFilter = React.createClass({
 
 		return (
 			<div>
-
-				<div className="row">
-					<h4>Sales report for
-						<div className="input-field col s4 row">
-							<select ref='month' defaultValue='8'>
-								<option value="" disabled>Month</option>
-								<option value="1">January </option>
-								<option value="2">February </option>
-								<option value="3">March </option>
-								<option value='4'>April </option>
-								<option value='5'>May </option>
-								<option value='6'>June </option>
-								<option value='7'>July </option>
-								<option value='8'>August </option>
-								<option value='9'>September </option>
-								<option value='10'>October </option>
-								<option value='11'>November </option>
-								<option value='12'>December </option>
-							</select>
-						</div>
-						<div className ="input-field col s4">
-							<input ref='year' min="1990" id="year" type="number" defaultValue='2015' onChange={this.filterByMonth} className="validate"/>
-							<label className="active" htmlFor="year">Year</label>
-						</div>
-
-					</h4>
+				<div className="row ">
+					<h4 className="col s4">Sales report for</h4>
+					<div className="input-field col s4">
+						<select ref='month' defaultValue='8'>
+							<option value="" disabled>Month</option>
+							<option value="1">January </option>
+							<option value="2">February </option>
+							<option value="3">March </option>
+							<option value='4'>April </option>
+							<option value='5'>May </option>
+							<option value='6'>June </option>
+							<option value='7'>July </option>
+							<option value='8'>August </option>
+							<option value='9'>September </option>
+							<option value='10'>October </option>
+							<option value='11'>November </option>
+							<option value='12'>December </option>
+						</select>
+					</div>
+					<div className ="input-field col s4">
+						<input ref='year' min="1990" id="year" type="number" defaultValue='2015' onChange={this.filterByMonth} className="validate"/>
+						<label className="active" htmlFor="year">Year</label>
+					</div>
 				</div>
 
 				<div className="row">
