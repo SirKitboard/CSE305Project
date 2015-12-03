@@ -33,8 +33,8 @@ window.CustomerEditor = React.createClass({
     },
     render: function() {
         return (
-            <div className="modal-content container edit-customer">
-                <div>
+            <div className="edit-customer">
+                <div className="modal-content">
                     <div className="row">
                         <h4>Update profile</h4>
                     </div>
@@ -100,18 +100,21 @@ window.CustomerEditor = React.createClass({
                             <label className="active" htmlFor="creditCardNumber">Credit Card Number</label>
                         </div>
                     </div>
-                    <div className="row">
-                        <button onClick={this.handleUpdate} className="btn waves-effect waves-light send"
-                                id='login' type="submit" name="action">
-                          <span>Submit</span>
-                          <i className="material-icons right">send</i>
-                        </button>
-                            <button onClick={this.close} className="btn waves-effect waves-light"
-                                id='login' type="submit" name="action">
-                            <span>Close</span>
-                            <i className="material-icons right">clear</i>
-                        </button>
-                    </div>
+
+                </div>
+                <div className="modal-footer">
+                    <button onClick={this.close} className="btn waves-effect waves-light button-left"
+                            id='login' type="submit" name="action">
+                        <span>Close</span>
+                        <i className="material-icons right">clear</i>
+                    </button>
+
+                    <button onClick={this.handleUpdate} className="btn waves-effect waves-light button-right"
+                            id='login' type="submit" name="action">
+                        <span>Submit</span>
+                        <i className="material-icons right">send</i>
+                    </button>
+
                 </div>
             </div>
         )
