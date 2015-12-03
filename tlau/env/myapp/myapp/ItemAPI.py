@@ -53,6 +53,27 @@ def allItems(request):
 
     return items
 
+@view_config(route_name='apiItemTypes', renderer='json')
+def apiItemTypes(request):
+    types = []
+    try:
+        cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
+        cursor = cnx.cursor(dictionary=True)
+
+        query = ("SELECT DISTINCT(type) as type FROM Items")
+
+        cursor.execute(query)
+
+        for row in cursor:
+            types.append(row['type'])
+
+        cursor.close()
+        cnx.close()
+    except mysql.connector.Error as err:
+        return Response("Something went wrong: {}".format(err), status=500)
+
+    return types
+
 
 @view_config(route_name='apigetItem', renderer='json')
 def getItem(request):

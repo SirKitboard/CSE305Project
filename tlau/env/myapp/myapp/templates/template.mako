@@ -58,8 +58,9 @@
                         </a>
                     </li>
                     <li><a id="logout" class="logout">Logout<i class="tiny material-icons">power_settings_new</i></a></li>
-                    <li><a href="/help">Need Help?</a></li>
+
 % endif
+                    <li><a href="/help">Need Help?</a></li>
                 </ul>
             </div>
             <div class="bottom">
