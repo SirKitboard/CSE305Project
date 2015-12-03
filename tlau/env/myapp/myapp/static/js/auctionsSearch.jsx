@@ -93,9 +93,15 @@ var AuctionSearch = React.createClass ({
 
 		                                        <div className="card-action"  >
 
-		                                            <a href={"/auction/"+auction.id}>View<i className="material-icons">remove_red_eye</i></a>
-		                                            <a href="#">Bid <i className="material-icons">attach_money</i></a>
+													<a href={"/auction/"+auction.id}>
+														<i className="material-icons">remove_red_eye</i>
+														<span>&nbsp;View</span>
+													</a>
 
+													<a href={"/actions/"+ auction.id}>
+														<i className="material-icons">attach_money</i>
+														<span>Bid</span>
+													</a>
 
 		                                        </div>
 
@@ -127,8 +133,11 @@ var AuctionSearch = React.createClass ({
 
 		                                        <div className="card-action"  >
 
-		                                            <a href={"/auction/"+auction.id}>View<i className="material-icons">remove_red_eye</i></a>
-		                                            <a href="#">Bid <i className="material-icons">attach_money</i></a>
+		                                            <a href={"/auction/"+auction.id}>
+														<i className="material-icons">remove_red_eye</i>
+														<span>&nbsp;View</span>
+													</a>
+
 
 
 		                                        </div>

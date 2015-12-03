@@ -29,7 +29,7 @@ def allCustomers(request):
             items.append({
                 'id': customer['id'],
                 'name': customer['firstName'] + customer['lastName'],
-                'firstName': customer['firstName'], 
+                'firstName': customer['firstName'],
                 'lastName': customer['lastName'],
                 'address': customer['address'],
                 'city': customer['city'],
@@ -74,6 +74,8 @@ def getCustomer(request):
             customer = {
                 'id': customer['id'],
                 'name': customer['firstName'] + " " + customer['lastName'],
+                'firstName': customer['firstName'],
+                'lastName': customer['lastName'],
                 'address': customer['address'],
                 'city': customer['city'],
                 'state': customer['state'],
@@ -294,23 +296,15 @@ def sellHistory(request):
 
 @view_config(route_name='apiauctionHistory', renderer='json')
 def auctionHistory(request):
-    sellerID = request.matchdict['id']
-    history = []
+    customerID = request.matchdict['id']
+    history = {}
 
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
-
-        query = """
-            SELECT * FROM Auctions WHERE ID IN (
-                SELECT AuctionID
-                FROM Bids
-                WHERE CustomerID = %s
-            );
-        """
-
-        cursor.execute(query, tuple(str(sellerID)))
-
+        temp = []
+        query = "SELECT * from Auctions where sellerID = %s ORDER BY closingTime DESC"
+        cursor.execute(query, tuple(str(customerID)))
         for row in cursor:
             historyRow = {}
             for key in row:
@@ -320,7 +314,53 @@ def auctionHistory(request):
                     historyRow[key] = str(row[key])
                 else:
                     historyRow[key] = row[key]
-            history.append(historyRow)
+            temp.append(historyRow)
+        history['created'] = temp
+        temp = []
+        query = "SELECT * from Auctions JOIN (select auctionID from Bids where customerID = %s) as BidInfo ON Auctions.id = BidInfo.auctionID ORDER BY closingTime DESC"
+        cursor.execute(query, tuple(str(customerID)))
+        for row in cursor:
+            historyRow = {}
+            for key in row:
+                if(isinstance(row[key], datetime)):
+                    historyRow[key] = row[key].isoformat()
+                elif(isinstance(row[key], Decimal)):
+                    historyRow[key] = str(row[key])
+                else:
+                    historyRow[key] = row[key]
+            temp.append(historyRow)
+        history['participated'] = temp
+
+        temp = []
+        query = "SELECT * from Auctions JOIN (select auctionID from Wins where customerID = %s) as BidInfo ON Auctions.id = BidInfo.auctionID ORDER BY closingTime DESC"
+        cursor.execute(query, tuple(str(customerID)))
+        for row in cursor:
+            historyRow = {}
+            for key in row:
+                if(isinstance(row[key], datetime)):
+                    historyRow[key] = row[key].isoformat()
+                elif(isinstance(row[key], Decimal)):
+                    historyRow[key] = str(row[key])
+                else:
+                    historyRow[key] = row[key]
+            temp.append(historyRow)
+        history['won'] = temp
+
+        for key in history:
+            for row in history[key]:
+                # print(row)
+                query = ("SELECT name, description FROM Items WHERE id = %s")
+                cursor.execute(query, tuple([str(row['itemID'])]))
+                line = cursor.fetchone()
+                row['itemName'] = line['name']
+                row['description'] = line['description']
+                query = ("SELECT url FROM ItemsImages WHERE itemID = %s")
+                cursor.execute(query, tuple([str(row['itemID'])]))
+                urls = []
+                for line in cursor:
+                    urls.append(line['url'])
+                print(urls)
+                row['images'] = urls
 
         cursor.close()
         cnx.close()

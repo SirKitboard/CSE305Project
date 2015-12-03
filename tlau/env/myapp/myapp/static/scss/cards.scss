@@ -1,6 +1,6 @@
 .card{
-
   .card-image {
+      overflow: hidden;
 
       .card-title {
         font-family: "Roboto", "Helvetica", sans-serif;
@@ -42,3 +42,9 @@
 
 }
 
+.card.small {
+    .card-image {
+        max-height: 145px;
+        overflow: hidden;
+    }
+}

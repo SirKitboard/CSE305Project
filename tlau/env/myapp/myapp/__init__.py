@@ -30,6 +30,7 @@ def main(global_config, **settings):
     config.add_route('apiitemSuggestions', 'api/items/suggestions', request_method='GET')
     config.add_route('apiHotItems', 'api/items/hot', request_method='GET')
     config.add_route('apiBestSellers', 'api/items/bestSellers', request_method='GET')
+    config.add_route('apiItemTypes', 'api/items/types', request_method='GET')
     config.add_route('apigetItem', 'api/items/{id}', request_method='GET')
     config.add_route('apigetItemThumbnails', 'api/items/{id}/thumbnails', request_method='GET')
     config.add_route('apiaddItem', 'api/items', request_method='POST')
@@ -80,8 +81,7 @@ def main(global_config, **settings):
     config.add_route('apiAllMailingLists', 'api/mailingLists', request_method='GET')
     config.add_route('apiAddMailingList', 'api/mailingLists', request_method='POST')
     config.add_route('apiGetMailingList', 'api/mailingLists/{id}', request_method='GET')
-    config.add_route('apiAddCustomerToList', 'api/mailingLists/{id}', request_method='PUT')
-    config.add_route('apiDeleteCustomerFromList', 'api/mailingLists/{id}', request_method='DELETE')
+    config.add_route('apiUpdateMailingList', 'api/mailingLists/{id}', request_method='PUT')
 
     # Generators
     config.add_route('apisalesReport', 'api/generate/salesReport', request_method='GET')
@@ -89,6 +89,9 @@ def main(global_config, **settings):
     config.add_route('apimailingList', 'api/generate/mailingList', request_method='GET')
     config.add_route('apirevenueReport', 'api/generate/revenueReport', request_method='GET')
     config.add_route('apiRevenueStats', 'api/generate/revenueStats', request_method='GET')
+
+    # Database Routes
+    config.add_route('apiGetBackup', 'api/database', request_method='GET')
 
     # Views
     config.add_route('addItem', 'items/add', request_method='GET')

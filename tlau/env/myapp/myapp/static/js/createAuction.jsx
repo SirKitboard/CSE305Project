@@ -17,6 +17,7 @@ var CreateAuction = React.createClass({
             selectYears: 15 // Creates a dropdown of 15 years to control year
         });
     },
+
     handleUpload : function() {
         var files = ReactDOM.findDOMNode(this.refs.files);
         var formD = new FormData();
@@ -25,6 +26,7 @@ var CreateAuction = React.createClass({
             formD.append(key, value);
         });
         console.log(formD);
+
         $.ajax({
             url : "/api/items/"+this.state.itemID+"/image",
             method : 'POST',
@@ -37,10 +39,11 @@ var CreateAuction = React.createClass({
                 console.log(response);
                 this.setState({
                     complete : true
-                })
+                });
             }
         })
     },
+
     formatDate : function(date) {
         date = new Date(date);
         var dformat = [date.getFullYear(),
@@ -53,16 +56,18 @@ var CreateAuction = React.createClass({
         return(dformat)
 
     },
+
     handleSubmit : function() {
         // var files = ReactDOM.findDOMNode(this.refs.files);
         // if(files.files.length < 1) return;
+
         var dateString = ReactDOM.findDOMNode(this.refs.closingTime).value;
         if(this.state.itemPicked == null) return;
         if(new Date() > new Date(dateString)) return;
 
 
         var options = {
-		 	hour12: false,
+		 	hour12: false
 		};
 
 
@@ -72,10 +77,8 @@ var CreateAuction = React.createClass({
             closingTime : this.formatDate(dateString),
             openingBid : ReactDOM.findDOMNode(this.refs.openingBid).value,
             reserve : ReactDOM.findDOMNode(this.refs.reserve).value,
-            increment : ReactDOM.findDOMNode(this.refs.increment).value,
-        }
-
-        debugger;
+            increment : ReactDOM.findDOMNode(this.refs.increment).value
+        };
 
         var self = this;
 
@@ -87,7 +90,8 @@ var CreateAuction = React.createClass({
                 self.setState({
                     itemID : response.id
                 });
-                // self.handleUpload()
+                console.log("auction created");
+                ReactDOM.findDOMNode(self.refs.submit).textContent = "Auction Created!";
             }
         })
     },
@@ -120,7 +124,7 @@ var CreateAuction = React.createClass({
                 </div>
               </div>
             </div>
-        )
+        );
         if(this.state.itemPicked != null) {
             var image = <img src="http://placehold.it/100x100" alt="" className="circle responsive-img"/>
             if(this.state.itemPicked.images.length > 0) {
@@ -137,7 +141,8 @@ var CreateAuction = React.createClass({
                   </span>
                 </div>
               </div>
-            </div>)
+            </div>
+            )
         }
         return (
             <div>
@@ -165,7 +170,9 @@ var CreateAuction = React.createClass({
                     </div>
                 </div>
                 <div className="row">
-                    <button onClick={this.handleSubmit} className="btn waves-effect waves-light" id='login' type="submit" name="action">Submit
+                    <button onClick={this.handleSubmit} className="btn waves-effect waves-light"
+                            id='login' type="submit" name="action" ref="submit">
+                        Submit
                         <i className="material-icons right">send</i>
                     </button>
                 </div>

@@ -23,13 +23,14 @@ var Sales = React.createClass({
         });
     },
     approveAuction : function(e) {
-        var auctionID = e.target.getAttribute('data-id');
+        var target = e.target;
+        if(target.className != "A"){
+            target = target.parentElement;
+        }
+        var auctionID = target.getAttribute('data-id');
         var self = this;
         $.ajax({
             url : '/api/auctions/'+auctionID+'/win',
-            data : {
-                auctionID
-            },
             method : 'POST',
             success : function() {
                 self.reloadAuctions();
@@ -68,8 +69,14 @@ var Sales = React.createClass({
                                     <span className="bold">Ended: </span> {auction.closingTime}<br/>
                                 </div>
                                 <div className="card-action">
-                                    <a href={"/auctions/"+auction.id}>View</a>
-                                    <a href="#" data-id={auction.id} onClick={self.approveAuction}>Approve</a>
+                                    <a href={"/auctions/"+auction.id}>
+                                        <i className="material-icons">visibility</i>
+                                        <span>&nbsp;View</span>
+                                    </a>
+                                    <a href="#" data-id={auction.id} onClick={self.approveAuction}>
+                                        <i className="material-icons">thumb_up</i>
+                                        <span>&nbsp;Approve</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>

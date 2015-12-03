@@ -11,7 +11,7 @@ from myapp import Authorizer
 
 @view_config(route_name='apiallEmployees', renderer='json')
 def allEmployees(request):
-    Authorizer.authorizeManager(request)
+    Authorizer.authorizeEmployee(request)
 
     try:
         cnx = mysql.connector.connect(user='root', password='SmolkaSucks69', host='127.0.0.1', database='305')

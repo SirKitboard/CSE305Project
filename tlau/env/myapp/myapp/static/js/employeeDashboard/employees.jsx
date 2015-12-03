@@ -39,105 +39,6 @@ var AddEditEmployee = React.createClass({
     close : function() {
         this.props.onClose();
     },
-    createEmployee : function() {
-
-        var dateString = ReactDOM.findDOMNode(this.refs.startDate).value
-        // debugger;
-        if(this.state.error != 1) {
-            // console.log(this.state.error);
-            return;
-        }
-        // };
-        var type = $('#isManager').is(':checked') ? 0 : 1
-        var params = {
-            firstName : ReactDOM.findDOMNode(this.refs.first_name).value,
-            lastName : ReactDOM.findDOMNode(this.refs.last_name).value,
-            username : ReactDOM.findDOMNode(this.refs.username).value.toLowerCase(),
-            password : ReactDOM.findDOMNode(this.refs.password).value,
-            address : ReactDOM.findDOMNode(this.refs.address).value,
-            city : ReactDOM.findDOMNode(this.refs.city).value,
-            state : ReactDOM.findDOMNode(this.refs.state).value,
-            zipCode : ReactDOM.findDOMNode(this.refs.zipCode).value,
-            telephone : ReactDOM.findDOMNode(this.refs.phone).value,
-            startDate : new Date(dateString).toISOString().slice(0,10),
-            hourlyRate : ReactDOM.findDOMNode(this.refs.hourlyRate).value,
-            type : type,
-            ssn : ReactDOM.findDOMNode(this.refs.ssn).value,
-        };
-        this.setState({
-            saving: true
-        })
-
-        console.log(params);
-
-        var self = this;
-        $.ajax({
-            url : '/api/employees',
-            method: 'POST',
-            data : params,
-            success : function(response) {
-                // window.location.href = '/#modalLogin'
-                self.setState({
-                    saving : false
-                });
-                self.props.onSubmit()
-            },
-            error : function() {
-                self.setState({
-                    saving : false
-                })
-            }
-        });
-    },
-    updateEmployee : function() {
-        // var dateString = ReactDOM.findDOMNode(this.refs.startDate).value
-        // debugger;
-        // if(this.state.error != 1) {
-        //     // console.log(this.state.error);
-        //     return;
-        // }
-        // };
-        var type = $('#isManager').is(':checked') ? 0 : 1
-        if(this.props.employee.id == window.currentUser.id) {
-            type = window.currentUser.employeeType
-        }
-        var params = {
-            firstName : ReactDOM.findDOMNode(this.refs.first_name).value,
-            lastName : ReactDOM.findDOMNode(this.refs.last_name).value,
-            address : ReactDOM.findDOMNode(this.refs.address).value,
-            city : ReactDOM.findDOMNode(this.refs.city).value,
-            state : ReactDOM.findDOMNode(this.refs.state).value,
-            zipCode : ReactDOM.findDOMNode(this.refs.zipCode).value,
-            telephone : ReactDOM.findDOMNode(this.refs.phone).value,
-            hourlyRate : ReactDOM.findDOMNode(this.refs.hourlyRate).value,
-            type : type,
-            ssn : ReactDOM.findDOMNode(this.refs.ssn).value,
-        };
-        this.setState({
-            saving: true
-        });
-
-        console.log(params);
-
-        var self = this;
-        $.ajax({
-            url : '/api/employees/'+this.props.employee.id,
-            method: 'PUT',
-            data : params,
-            success : function(response) {
-                // window.location.href = '/#modalLogin'
-                self.setState({
-                    saving : false
-                });
-                self.props.onSubmit()
-            },
-            error : function() {
-                self.setState({
-                    saving : false
-                })
-            }
-        });
-    },
     render : function() {
         if(this.state.saving) {
             return (
@@ -166,29 +67,19 @@ var AddEditEmployee = React.createClass({
         var passwordDiv = ""
         var startDateDiv = (
             <div className="input-field col s6 m6">
-                <input type="date" ref="startDate" id="startDate" disabled={this.props.employee ? true : false} className="datepicker"/>
+                <input disabled type="date" ref="startDate" id="startDate" disabled={this.props.employee ? true : false} className="datepicker"/>
                 <label htmlFor="startDate">Start Date</label>
             </div>
         )
-        var submitButton = (
-            <button onClick={this.createEmployee} className="btn waves-effect waves-light" id='login' type="submit" name="action">Submit
-                <i className="material-icons right">send</i>
-            </button>
-        );
         var classActive = "";
         if(this.props.employee) {
             classActive = "active";
             startDateDiv = "";
-            submitButton = (
-                <button  onClick={this.updateEmployee} style={{margin:'0 5px'}} className="btn waves-effect waves-light" id='login' type="submit" name="action">Submit
-                    <i className="material-icons right">send</i>
-                </button>
-            )
         } else {
             userDiv = (
                 <div className="row">
                     <div className="input-field col s12">
-                        <input ref="username" id="username" type="text" className="validate"/>
+                        <input disabled ref="username" id="username" type="text" className="validate"/>
                         <label htmlFor="username">Username</label>
                     </div>
                 </div>
@@ -196,11 +87,11 @@ var AddEditEmployee = React.createClass({
             passwordDiv = (
                 <div className="row">
                     <div className="input-field col s12 m6">
-                        <input onChange={this.verifyPassword} ref="password" type="password" id="password" ref="password" className={passwordClasses}/>
+                        <input disabled onChange={this.verifyPassword} ref="password" type="password" id="password" ref="password" className={passwordClasses}/>
                         <label htmlFor="password">Password</label>
                     </div>
                     <div className="input-field col s12 m6">
-                        <input onChange={this.verifyPassword} data-error="Passwords dont match" data-success='Passwords match!' ref="password_r" id="password_r" type="password" className={passwordClasses}/>
+                        <input disabled onChange={this.verifyPassword} data-error="Passwords dont match" data-success='Passwords match!' ref="password_r" id="password_r" type="password" className={passwordClasses}/>
                         <label htmlFor="password_r">Repeat Password</label>
                     </div>
                 </div>
@@ -209,11 +100,11 @@ var AddEditEmployee = React.createClass({
         var typeInputs = (
             <div className="row">
                 <p className="col s6 m3 employment-type">
-                    <input name="group1" type="radio" id="isRep" defaultChecked={this.state.type == 1}/>
+                    <input disabled name="group1" type="radio" id="isRep" defaultChecked={this.state.type == 1}/>
                     <label htmlFor="isRep">Customer Rep</label>
                 </p>
                 <p className="col s6 m3">
-                    <input name="group1" type="radio" id="isManager" defaultChecked={this.state.type == 0}/>
+                    <input disabled name="group1" type="radio" id="isManager" defaultChecked={this.state.type == 0}/>
                     <label htmlFor="isManager">Manager</label>
                 </p>
             </div>
@@ -225,7 +116,7 @@ var AddEditEmployee = React.createClass({
             <div>
                 <div className="modal-content container edit-customer">
                     <div className="row">
-                        <h4>Edit Employee Info</h4>
+                        <h4>View Employee Info</h4>
                     </div>
                     <div className="row contact header">
                         <span>Contact Info&nbsp;</span>
@@ -233,65 +124,48 @@ var AddEditEmployee = React.createClass({
                     </div>
                     <div className="row">
                         <div className="input-field col s12 m6">
-                            <input ref="first_name" id="first_name" type="text" className="validate" defaultValue={this.state.firstName}/>
+                            <input disabled ref="first_name" id="first_name" type="text" className="validate" defaultValue={this.state.firstName}/>
                             <label className={classActive} htmlFor="first_name">First Name</label>
                         </div>
                         <div className="input-field col s12 m6">
-                            <input ref="last_name" id="last_name" type="text" className="validate" defaultValue={this.state.lastName}/>
+                            <input disabled ref="last_name" id="last_name" type="text" className="validate" defaultValue={this.state.lastName}/>
                             <label className={classActive} htmlFor="last_name">Last Name</label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="input-field col s12 m6">
-                            <input ref="phone" id="phone" type="tel" className="validate" defaultValue={this.state.telephone}/>
+                            <input disabled ref="phone" id="phone" type="tel" className="validate" defaultValue={this.state.telephone}/>
                             <label className={classActive} htmlFor="phone">Phone</label>
                         </div>
                         <div className="input-field col s12 m6">
-                            <input ref="ssn" id="ssn" type="tel" className="validate" defaultValue={this.state.telephone}/>
+                            <input disabled ref="ssn" id="ssn" type="tel" className="validate" defaultValue={this.state.telephone}/>
                             <label className={classActive} htmlFor="phone">SSN</label>
                         </div>
                     </div>
-                    <div className="row employment header">
-                        <span>Employment Info&nbsp;</span>
-                        <i className="material-icons">work</i>
-                    </div>
-                    <div className="row">
-                        <div className="input-field col s6 m6">
-                            <input defaultValue={this.state.hourlyRate} type="number" step="0.01" min="0" ref="hourlyRate" id="hourlyRate" className="validate"/>
-                            <label className={classActive} htmlFor="hourlyRate">Hourly Rate</label>
-                        </div>
-                        {startDateDiv}
-                    </div>
                     {typeInputs}
-                    <div className="row account header">
-                        <span>Account Info&nbsp;</span>
-                        <i className="material-icons">vpn_key</i>
-                    </div>
-                    {userDiv}
-                    {passwordDiv}
                     <div className="row address header">
                         <span>Address Info&nbsp;</span>
                         <i className="material-icons">home</i>
                     </div>
                     <div className="row">
                         <div className="input-field col s12">
-                            <input ref="address" id="address" type="text" className="validate" defaultValue={this.state.address}/>
+                            <input disabled ref="address" id="address" type="text" className="validate" defaultValue={this.state.address}/>
                             <label className={classActive} htmlFor="address">Address</label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="input-field col s12">
-                            <input ref="city" id="city" type="text" className="validate" defaultValue={this.state.city}/>
+                            <input disabled ref="city" id="city" type="text" className="validate" defaultValue={this.state.city}/>
                             <label className={classActive} htmlFor="city">City</label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="input-field col s12 m6">
-                            <input ref="state" id="state" type="text" className="validate" defaultValue={this.state.state}/>
+                            <input disabled ref="state" id="state" type="text" className="validate" defaultValue={this.state.state}/>
                             <label className={classActive} htmlFor="state">State</label>
                         </div>
                         <div className="input-field col s12 m6">
-                            <input ref='zipCode' id="zipcode" type="number" className="validate" defaultValue={this.state.zipCode}/>
+                            <input disabled ref='zipCode' id="zipcode" type="number" className="validate" defaultValue={this.state.zipCode}/>
                             <label className={classActive} htmlFor="zipCode">ZipCode</label>
                         </div>
                     </div>
@@ -301,7 +175,6 @@ var AddEditEmployee = React.createClass({
                         <span>Close</span>
                         <i className="material-icons right">clear</i>
                     </button>
-                    {submitButton}
                 </div>
             </div>
         )
@@ -342,7 +215,11 @@ var Employees = React.createClass({
         });
     },
     editEmployee : function(e) {
-        var employeeID = e.target.getAttribute('data-id');
+        var target = e.target;
+        if(target.tagName != "A") {
+            target = target.parentElement;
+        }
+        var employeeID = target.getAttribute('data-id');
         var employee = _.find(this.state.employees, function(employee) {
             return employee.id == employeeID
         });
@@ -364,15 +241,6 @@ var Employees = React.createClass({
             filteredEmployees : _.filter(this.state.employees, function(employee){
                 return (employee.name.toLowerCase().indexOf(value) > -1);
             })
-        })
-    },
-    makeBackup : function() {
-        $.ajax({
-            url : '/api/database',
-            method : 'GET',
-            success : function() {
-                window.location.href = "/static/databases/bak.sql"
-            }
         })
     },
     render : function() {
@@ -405,7 +273,7 @@ var Employees = React.createClass({
                         return (
                             <div className="col s12 m4 l3">
                                 <div className="card">
-                                    <div className="card-image">
+                                    <div className="card-image person">
                                         <img src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/>
                                         <span className="card-title black-text">{employee.name}</span>
                                     </div>
@@ -418,7 +286,7 @@ var Employees = React.createClass({
                                     <div className="card-action">
                                         <a href="#" data-id={employee.id} onClick={self.editEmployee}>
                                             <i className="material-icons">create</i>
-                                            <span>&nbsp;Edit</span>
+                                            <span>View</span>
                                         </a>
                                     </div>
                                 </div>
@@ -429,14 +297,6 @@ var Employees = React.createClass({
                 </div>
                 <div id="modalAddEmployee" className="modal modal-fixed-footer">
                     {editModal}
-                </div>
-                <div className="fixed-action-btn">
-                    <a onClick={this.openAddModal} className="btn-floating btn-large green">
-                        <i className="large material-icons">add</i>
-                    </a>
-                    <ul>
-                      <li><a onClick={this.makeBackup} className="btn-floating red"><i className="material-icons">cloud_download</i></a></li>
-                    </ul>
                 </div>
             </div>
         )

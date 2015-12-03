@@ -5,14 +5,14 @@
 <script>
 </script></%def>
 <%def name="body()">
-<div class="container" >
+<div class="container template" >
     <ul class="collapsible" data-collapsible="expandable">
     <li>
         <div class="collapsible-header">
             <i class="material-icons">question_answer</i>
             <span> How Do I Bid on an item?</span>  
         </div>
-        <div class="collapsible-body"><p>Search up an item. Then click on see more auctions for this item. Select the auction that you would like to partake in and select bid. Then put in the amount you want to bid. That's it! .</p></div>
+        <div class="collapsible-body"><p>Search up an item. Then click on see more auctions for this item. Select the auction that you would like to partake in and select bid. Then put in the amount you want to bid. That's it!</p></div>
     </li>
     <li>
         <div class="collapsible-header">
@@ -20,7 +20,7 @@
             <span>What happens if an item doesn't sell?</span>
         </div>
         <div class="collapsible-body">
-            <p>The auction is marked as complete. No on one loses any money and you keep your item</p>
+            <p>The auction is marked as complete. No on one loses any money and you keep your item.</p>
         </div>
     </li>
     <li>
@@ -38,7 +38,7 @@
             <span>How can I look up other customers?</span>
         </div>
         <div class="collapsible-body">
-            <p> If you see a customer you are interested in through out an auction, simply click on their profile and see their stats and auctions they took part in </p>
+            <p> If you see a customer you are interested in throughout an auction, simply click on their profile to see their stats and the auctions they took part in.</p>
         </div>
     </li>
      <li>
@@ -80,7 +80,7 @@
      <li>
          <div class="collapsible-header">
             <i class="material-icons">question_answer</i>
-            <span> I wanted an item but the Bid button is disabled what does that mean?</span>
+            <span> I wanted an item but the Bid button is disabled, what does that mean?</span>
         </div>
         <div class="collapsible-body">
             <p> Unfortunately it means the auction is closed, that item is no longer uo for bidding. You can always search up an item and find more open auctions, though! </p>
