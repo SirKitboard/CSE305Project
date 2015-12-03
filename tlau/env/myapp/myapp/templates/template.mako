@@ -48,6 +48,7 @@
             <div class="top">
                 <a href="/" class="brand-logo"><span class="black-alt">TOTALLY</span> LEGIT <span class="black-alt">ONLINE</span> AUCTIONS</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <a href="/help" class="waves-effect waves-light btn">Need Help?</a>
 % if currentUser == None:
                     <li><a class="modal-trigger sign-in" href="#modalLogin">Why not sign in? <i class="tiny material-icons">person_add</i></a></li>
 % else:

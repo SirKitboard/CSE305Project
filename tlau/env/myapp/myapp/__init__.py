@@ -29,6 +29,7 @@ def main(global_config, **settings):
     config.add_route('apisearch', 'api/items/search', request_method='GET')
     config.add_route('apiitemSuggestions', 'api/items/suggestions', request_method='GET')
     config.add_route('apiHotItems', 'api/items/hot', request_method='GET')
+    config.add_route('apiBestSellers', 'api/items/bestSellers', request_method='GET')
     config.add_route('apigetItem', 'api/items/{id}', request_method='GET')
     config.add_route('apigetItemThumbnails', 'api/items/{id}/thumbnails', request_method='GET')
     config.add_route('apiaddItem', 'api/items', request_method='POST')
@@ -100,6 +101,7 @@ def main(global_config, **settings):
     config.add_route('itemSearch', 'items/search', request_method='GET')
     config.add_route('managerDashboard', 'manager/dashboard', request_method='GET')
     config.add_route('employeeDashboard', 'employee/dashboard', request_method='GET')
+    config.add_route('help', 'help', request_method='GET')
 
     config.scan()
     return config.make_wsgi_app()

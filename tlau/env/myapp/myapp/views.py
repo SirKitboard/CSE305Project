@@ -69,3 +69,14 @@ def itemSearch(request):
 	if('currentUser' in request.session):
 		values["currentUser"] = request.session['currentUser']
 	return values
+
+
+@view_config(route_name='help', renderer='myapp:templates/help.mako')
+def help(request):
+	values = {
+		'currentUser': None
+	}
+	if('currentUser' in request.session):
+		values["currentUser"] = request.session['currentUser']
+	return values
+	

@@ -1,16 +1,14 @@
 var ItemsSearch = React.createClass({
-
-getInitialState : function() {
+	getInitialState : function() {
 		return {
 			items : [],
 			filteredItems : [],
 			loading: 0,
 		}
 	},
-
-	 	componentDidMount : function() {
+ 	componentDidMount : function() {
 		var self = this;
-		$('select').material_select();	
+		$('select').material_select();
 		$.ajax({
 			url: '/api/items',
 			method: 'GET',
@@ -20,7 +18,7 @@ getInitialState : function() {
 					filteredItems : response,
 					loading : false
 				});
-		
+
 			}
 		});
 	},
@@ -33,8 +31,10 @@ getInitialState : function() {
 			})
 		})
 	},
+	showBestSellers : function() {
+		$("#modalBestSellers").openModal();
+	},
     render: function() {
-    
     	return(
 			<div>
 				<div className="row">

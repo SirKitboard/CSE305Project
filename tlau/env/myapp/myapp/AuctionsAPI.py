@@ -51,7 +51,7 @@ def apiAuctionWin(request):
         cursor = cnx.cursor(dictionary=True)
 
         query = "SELECT * from Auctions where id = %s"
-        cursor.execute(query,tuple(str(auctionID)))
+        cursor.execute(query, tuple([str(auctionID)]))
         auction = cursor.fetchone()
 
         if(auction['finished'] == 1):
@@ -60,11 +60,11 @@ def apiAuctionWin(request):
             raise exc.HTTPBadRequest()
 
         query = "UPDATE Auctions SET finished=1 WHERE id = %s"
-        cursor.execute(query,tuple(str(auctionID)))
+        cursor.execute(query, tuple([str(auctionID)]))
 
         # query = "SELECT COUNT(*) as count, amount, id, customerID FROM Bids where auctionID = 1 ORDER BY amount DESC LIMIT 1"
         query = "SELECT COUNT(*) as count FROM Bids where auctionID = %s"
-        cursor.execute(query,tuple(str(auctionID)))
+        cursor.execute(query, tuple([str(auctionID)]))
         bid = cursor.fetchone()
 
         if(bid['count'] == 0):
@@ -72,7 +72,7 @@ def apiAuctionWin(request):
             return {}
 
         query = "SELECT amount, id, customerID FROM Bids WHERE auctionID = %s ORDER BY amount DESC LIMIT 1"
-        cursor.execute(query,tuple(str(auctionID)))
+        cursor.execute(query, tuple([str(auctionID)]))
         bid = cursor.fetchone()
 
         if(bid['amount'] < auction['reserve']):
@@ -101,10 +101,10 @@ def apiAuctionWin(request):
         cursor.close()
         cnx.commit()
         cnx.close()
-    except mysql.connect.Error as err:
+    except mysql.connector.Error as err:
         cnx.commit()
         cnx.close()
-        return Reponse("Something went wrong: {}".format(err), status=500)
+        return Response("Something went wrong: {}".format(err), status=500)
 
     raise exc.HTTPOk()
 
