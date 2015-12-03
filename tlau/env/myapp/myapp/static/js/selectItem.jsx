@@ -84,7 +84,7 @@ window.ItemPicker = React.createClass({
             });
         }
         return (
-            <div>
+            <div className="modal-picker">
                 <div className="modal-content">
                 <div className="row">
                     <div className="input-field col s12 offset-m6 m6">
@@ -108,11 +108,13 @@ window.ItemPicker = React.createClass({
               </table>
               </div>
               <div className="modal-footer">
-                <button style={{margin:'0 3px'}} onClick={this.close} className="btn waves-effect waves-light" type="submit" name="action">
-                  Close
+                <button onClick={this.close} className="btn waves-effect waves-light btn-left" type="submit" name="action">
+                    Close
+                    <i className="material-icons right">clear</i>
                 </button>
-                <button style={{margin:'0 3px'}} onClick={this.submit} className="btn waves-effect waves-light" type="submit" name="action">Submit
-                  <i className="material-icons right">send</i>
+                <button onClick={this.submit} className="btn waves-effect waves-light btn-right" type="submit" name="action">
+                    Submit
+                    <i className="material-icons right">send</i>
                 </button>
               </div>
             </div>

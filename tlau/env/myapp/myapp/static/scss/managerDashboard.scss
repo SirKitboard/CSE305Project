@@ -1,5 +1,6 @@
 @import "variables.scss";
 @import "editCustomer.scss";
+@import "modal_picker.scss";
 
 #navBar {
     margin-bottom: 20px;
@@ -30,6 +31,14 @@
 }
 
 #revenueTab {
+
+    .specific {
+        font-family: "Roboto", "Helvetica", sans-serif;
+        font-weight: bold;
+        margin-top: 1em;
+        font-size: 18px;
+    }
+
     td, tr, th {
         text-align: center;
     }
@@ -42,11 +51,26 @@
         background-color: #e3e3e9 !important;
     }
 
+    .input-field {
+        margin-top: 0;
+    }
+
     .revenueValues {
         font-size:25px;
         .value {
             font-size : 35px;
             color: $tloa-green;
+        }
+    }
+
+    .highest-revenue {
+        .revenue-topic {
+            font-size: 20px;
+        }
+
+        .card-image {
+            max-height: 200px;
+            overflow: hidden;
         }
     }
 }
@@ -55,7 +79,7 @@
 
 
     input {
-        font-size: 36px;
+        font-size: 2.28rem;;
         border-bottom: none;
     }
 
@@ -80,4 +104,12 @@
             color: $tloa-blue;
         }
     }
+}
+
+#itemsTab {
+
+    #search {
+        padding-left: 0;
+    }
+
 }
