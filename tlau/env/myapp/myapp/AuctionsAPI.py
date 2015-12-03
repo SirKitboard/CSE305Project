@@ -126,7 +126,7 @@ def getAuction(request):
 
         query = ("SELECT * FROM Auctions where id = %s")
 
-        cursor.execute(query, tuple(str(auctionID)))
+        cursor.execute(query, tuple([str(auctionID)]))
 
         for row in cursor:
             auctionInfo = {}
@@ -156,7 +156,7 @@ def bidHistory(request):
 
         query = ("SELECT * FROM BidLogs LEFT JOIN (SELECT firstName, lastName, id FROM Customers) AS CustomerInfo ON BidLogs.customerID = CustomerInfo.id WHERE BidLogs.auctionID = %s ORDER BY BidLogs.id ASC")
 
-        cursor.execute(query, tuple(str(auctionID)))
+        cursor.execute(query, tuple([str(auctionID)]))
 
         history = []
         for row in cursor:
