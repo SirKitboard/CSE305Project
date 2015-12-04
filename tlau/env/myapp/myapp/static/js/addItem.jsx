@@ -110,9 +110,11 @@ var AddItem = React.createClass({
             <div className="row">
                 <div className="input-field col s12">
                   <textarea id="description" ref="description" className="materialize-textarea"></textarea>
-                  <label htmlFor="description">Textarea</label>
+                  <label htmlFor="description">Description</label>
                 </div>
-            <div className="file-field input-field">
+            </div>
+            <div className="row">
+                <div className="file-field input-field">
                   <div className="btn">
                     <span>Images</span>
                     <input onChange={this.handleFile} ref="files" type="file" accept="image/*" multiple/>
