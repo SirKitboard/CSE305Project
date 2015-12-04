@@ -98,7 +98,7 @@ def revenueReport(request):
         cnx = mysql.connector.connect(user='root', password='password', host='127.0.0.1', database='305')
         cursor = cnx.cursor(dictionary=True)
 
-        cursor.execute(query, tuple(str(value)))
+        cursor.execute(query, tuple([str(value)]))
 
         for row in cursor:
             totalReportValues = {}
@@ -113,7 +113,7 @@ def revenueReport(request):
         report['total'] = totalReport
 
 
-        cursor.execute(secondQuery, tuple(str(value)))
+        cursor.execute(secondQuery, tuple([str(value)]))
 
         for row in cursor:
             monthReportValues = {}
@@ -163,7 +163,7 @@ def apiRevenueStats(request):
         stats['item'] = stat
 
         query1 = "SELECT * FROM ItemsImages WHERE itemID = %s"
-        cursor.execute(query1, tuple(str(stat['id'])))
+        cursor.execute(query1, tuple([str(stat['id'])]))
         images = []
         for row in cursor:
             images.append(row['url'])

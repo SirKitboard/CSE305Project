@@ -306,7 +306,7 @@ def apiAddBid(request):
 
         query = "SELECT COUNT(*) as count, itemID, increment, openingBid, sellerID FROM Auctions WHERE id = %s AND closingTime > NOW()"
 
-        cursor.execute(query, tuple(str(auctionID)))
+        cursor.execute(query, tuple([str(auctionID)]))
 
         row = cursor.fetchone()
         auctionCount = row['count']
@@ -347,7 +347,7 @@ def apiAddBid(request):
 
         query = "SELECT * from Bids WHERE auctionID = %s"
 
-        cursor.execute(query, tuple(str(auctionID)))
+        cursor.execute(query, tuple([str(auctionID)]))
 
         bids = []
 
@@ -470,7 +470,7 @@ def apiAuctionsUnapproved(request):
                 auction["winner"] = None
             else:
                 query = "SELECT amount, id, customerID FROM Bids WHERE auctionID = %s ORDER BY amount DESC LIMIT 1"
-                cursor.execute(query, tuple(str(auction["id"])))
+                cursor.execute(query, tuple([str(auction["id"])]))
 
                 bid = cursor.fetchone()
 
@@ -479,7 +479,7 @@ def apiAuctionsUnapproved(request):
                 query = ("SELECT * FROM Customers where id = %s")
                 print('h')
 
-                cursor.execute(query, tuple(str(bid["customerID"])))
+                cursor.execute(query, tuple([str(bid["customerID"])]))
                 print('hi')
                 customer = cursor.fetchone()
                 auction['winnerName'] = customer['firstName'] + " " + customer['lastName']

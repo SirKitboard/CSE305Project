@@ -35,6 +35,7 @@ var AddItem = React.createClass({
             formD.append(key, value);
         });
         console.log(formD);
+        var self = this;
         $.ajax({
             url : "/api/items/"+this.state.itemID+"/image",
             method : 'POST',
@@ -45,7 +46,7 @@ var AddItem = React.createClass({
             contentType: false, // Set content type to false as jQuery will tell the server its a query string
             success : function(response) {
                 console.log(response);
-                this.setState({
+                self.setState({
                     complete : true
                 })
             }

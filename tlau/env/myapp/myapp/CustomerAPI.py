@@ -69,7 +69,7 @@ def getCustomer(request):
 
         query = ("SELECT * FROM Customers WHERE id = %s")
 
-        cursor.execute(query, tuple(str(customerID)))
+        cursor.execute(query, tuple([str(customerID)]))
 
         customer = {}
         for customer in cursor:
@@ -114,25 +114,25 @@ def customerStats(request):
 
         query = ("SELECT SUM(currentBid) as stat FROM Auctions WHERE sellerID = %s AND finished='1'")
 
-        cursor.execute(query, tuple(str(customerID)))
+        cursor.execute(query, tuple([str(customerID)]))
 
         responseDict["moneyMade"] = (str(cursor.fetchone()['stat']))
 
         query = ("SELECT SUM(Auctions.currentBid) as stat FROM Auctions, Wins WHERE Auctions.id = Wins.auctionID AND Wins.customerID = %s")
 
-        cursor.execute(query, tuple(str(customerID)))
+        cursor.execute(query, tuple([str(customerID)]))
 
         responseDict["moneySpent"] = (str(cursor.fetchone()['stat']))
 
         query = ("SELECT COUNT(*) as stat FROM Auctions WHERE Auctions.sellerID = %s AND Auctions.finished='0'")
 
-        cursor.execute(query, tuple(str(customerID)))
+        cursor.execute(query, tuple([str(customerID)]))
 
         responseDict["activeAuctions"] = (str(cursor.fetchone()['stat']))
 
         query = ("SELECT COUNT(DISTINCT(Auctions.id)) as stat FROM Auctions, Bids WHERE Bids.auctionID = Auctions.id AND Bids.customerID = %s AND Auctions.finished='0'")
 
-        cursor.execute(query, tuple(str(customerID)))
+        cursor.execute(query, tuple([str(customerID)]))
 
         responseDict["activeBids"] = (str(cursor.fetchone()['stat']))
 
@@ -157,7 +157,7 @@ def customerStats(request):
 # Add a customer
 @view_config(route_name='apiaddCustomer', renderer='json')
 def addCustomer(request):
-    Authorizer.authorizeCustomer(request)
+    # Authorizer.authorizeCustomer(request)
 
     requiredCustomerKeys = ['lastName', 'firstName', 'address', 'city', 'state', 'zipCode', 'telephone', 'email', 'creditCardNumber']
     requiredUserKeys = ['username', 'password']
@@ -274,7 +274,7 @@ def sellHistory(request):
 
         query = ("SELECT * FROM Auctions WHERE id = %s")
 
-        cursor.execute(query, tuple(str(sellerID)))
+        cursor.execute(query, tuple([str(sellerID)]))
 
         for row in cursor:
             historyRow = {}
@@ -327,7 +327,7 @@ def auctionHistory(request):
         cursor = cnx.cursor(dictionary=True)
         temp = []
         query = "SELECT * from Auctions where sellerID = %s ORDER BY closingTime DESC"
-        cursor.execute(query, tuple(str(customerID)))
+        cursor.execute(query, tuple([str(customerID)]))
         for row in cursor:
             historyRow = {}
             for key in row:
@@ -341,7 +341,7 @@ def auctionHistory(request):
         history['created'] = temp
         temp = []
         query = "SELECT * from Auctions JOIN (select auctionID from Bids where customerID = %s) as BidInfo ON Auctions.id = BidInfo.auctionID ORDER BY closingTime DESC"
-        cursor.execute(query, tuple(str(customerID)))
+        cursor.execute(query, tuple([str(customerID)]))
         for row in cursor:
             historyRow = {}
             for key in row:
@@ -356,7 +356,7 @@ def auctionHistory(request):
 
         temp = []
         query = "SELECT * from Auctions JOIN (select auctionID from Wins where customerID = %s) as BidInfo ON Auctions.id = BidInfo.auctionID ORDER BY closingTime DESC"
-        cursor.execute(query, tuple(str(customerID)))
+        cursor.execute(query, tuple([str(customerID)]))
         for row in cursor:
             historyRow = {}
             for key in row:

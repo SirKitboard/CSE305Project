@@ -37,7 +37,7 @@ def allItems(request):
 
         for item in items:
             query = ("SELECT url FROM ItemsImages WHERE itemID = %s")
-            cursor.execute(query, tuple(str(item['id'])))
+            cursor.execute(query, tuple([str(item['id'])]))
             urls = []
             for row in cursor:
                 urls.append(row['url'])
@@ -109,7 +109,7 @@ def getItem(request):
         cursor = cnx.cursor(dictionary=True)
 
         query = ("SELECT url FROM ItemsImages WHERE itemID = %s")
-        cursor.execute(query, tuple(str(item['id'])))
+        cursor.execute(query, tuple([str(item['id'])]))
         urls = []
         for row in cursor:
             urls.append(row['url'])
@@ -183,7 +183,7 @@ def getItemThumbnails(request):
         cursor = cnx.cursor(dictionary=True)
 
         query = ("SELECT url FROM ItemsImages WHERE itemID = %s")
-        cursor.execute(query, tuple(str(item['id'])))
+        cursor.execute(query, tuple([str(item['id'])]))
         urls = []
         for row in cursor:
             urls.append(row['url'])
@@ -348,7 +348,7 @@ def itemSuggestions(request):
 
         for item in suggestedItems:
             query = ("SELECT url FROM ItemsImages WHERE itemID = %s")
-            cursor.execute(query, tuple(str(item['id'])))
+            cursor.execute(query, tuple([str(item['id'])]))
             urls = []
             for row in cursor:
                 urls.append(row['url'])
@@ -406,7 +406,7 @@ def search(request):
 
         for item in items:
             query = ("SELECT url FROM ItemsImages WHERE itemID = %s")
-            cursor.execute(query, tuple(str(item['id'])))
+            cursor.execute(query, tuple([str(item['id'])]))
             urls = []
             for row in cursor:
                 urls.append(row['url'])
@@ -448,7 +448,7 @@ def sold(request):
         WHERE ID= %s
         """
 
-        cursor.execute(query, tuple(str(postVars['itemID'])))
+        cursor.execute(query, tuple([str(postVars['itemID'])]))
 
         query = """
         UPDATE Customers
@@ -457,7 +457,7 @@ def sold(request):
             FROM Auctions
             WHERE ID = %s);
         """
-        cursor.execute(query, tuple(str(postVars['auctionID'])))
+        cursor.execute(query, tuple([str(postVars['auctionID'])]))
 
         query = """
         UPDATE Customers
@@ -465,7 +465,7 @@ def sold(request):
         WHERE ID = %s
 
             """
-        cursor.execute(query, tuple(str(postVars['customerID'])))
+        cursor.execute(query, tuple([str(postVars['customerID'])]))
 
         cursor.close()
         cnx.commit()
@@ -502,7 +502,7 @@ def apiHotItems(request):
 
         for item in hotItems:
             query = ("SELECT url FROM ItemsImages WHERE itemID = %s")
-            cursor.execute(query, tuple(str(item['id'])))
+            cursor.execute(query, tuple([str(item['id'])]))
             urls = []
             for row in cursor:
                 urls.append(row['url'])
@@ -541,7 +541,7 @@ def apiBestSellers(request):
 
         for item in hotItems:
             query = ("SELECT url FROM ItemsImages WHERE itemID = %s")
-            cursor.execute(query, tuple(str(item['id'])))
+            cursor.execute(query, tuple([str(item['id'])]))
             urls = []
             for row in cursor:
                 urls.append(row['url'])

@@ -62,7 +62,7 @@ def getEmployee(request):
 
         query = ("SELECT * FROM Employees WHERE id = %s")
 
-        cursor.execute(query, tuple(str(employeeID)))
+        cursor.execute(query, tuple([str(employeeID)]))
 
         employee = {}
         for employee in cursor:

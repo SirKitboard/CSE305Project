@@ -42,7 +42,7 @@ def login(request):
 
         if(row['type'] == 0):
             query = ("SELECT * FROM Customers WHERE id = %s")
-            cursor1.execute(query, tuple(str(row['id'])))
+            cursor1.execute(query, tuple([str(row['id'])]))
 
             for row in cursor1:
                 print(row)
@@ -66,7 +66,7 @@ def login(request):
                 session['currentUser'] = user
         else:
             query = ("SELECT * FROM Employees WHERE id = %s")
-            cursor1.execute(query, tuple(str(row['id'])))
+            cursor1.execute(query, tuple([str(row['id'])]))
 
             for row in cursor1:
                 user = {
