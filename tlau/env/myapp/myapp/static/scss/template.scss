@@ -5,37 +5,37 @@ body, html {
   width: 100%;
 }
 
-@font-face {
-  font-family: "HammersmithOne", "Helvetica", sans-serif;
-  src: url("http://www.totallylegitonlineauctions.com/static/font/hammersmith/Hammersmith.ttf"),
-       url("http://www.totallylegitonlineauctions.com/static/font/hammersmith/Hammersmith.woff");
-}
-
-@font-face {
-  font-family: "Pacifico", "Times New Roman", Serif;
-  src: url("http://www.totallylegitonlineauctions.com/static/font/pacifico/Pacifico.ttf"),
-       url("http://www.totallylegitonlineauctions.com/static/font/pacifico/Pacifico.woff"),
-       url("http://www.totallylegitonlineauctions.com/static/font/pacifico/Pacifico.woff2");
-}
-
-@font-face {
-  font-family: "Roboto", "Arial", sans-serif;
-  src: url("http://www.totallylegitonlineauctions.com/static/font/roboto/Roboto-Regular.ttf"),
-       url("http://www.totallylegitonlineauctions.com/static/font/roboto/Roboto-Regular.woff"),
-       url("http://www.totallylegitonlineauctions.com/static/font/roboto/Roboto-Regular.woff2");
+@font-face{
+  font-family: 'HammersmithOne';
+  src: url('fontname.eot');
+  src: url('../font/hammersmith/Hammersmith.woff') format('woff'), url('../font/hammersmith/Hammersmith.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
-@font-face {
-  font-family: "Roboto", "Arial", sans-serif;
-  src: url("http://www.totallylegitonlineauctions.com/static/font/roboto/Roboto-Bold.ttf"),
-  url("http://www.totallylegitonlineauctions.com/static/font/roboto/Roboto-Bold.woff"),
-  url("http://www.totallylegitonlineauctions.com/static/font/roboto/Roboto-Bold.woff2");
-  font-weight: bold;
+@font-face{
+  font-family: 'Pacifico';
+  src: url('fontname.eot');
+  src: url('../font/pacifico/Pacifico.woff') format('woff'), url('../font/pacifico/Pacifico.ttf') format('truetype');
+  font-weight: normal;
   font-style: normal;
 }
 
+@font-face{
+  font-family: 'Roboto';
+  src: url('fontname.eot');
+  src: url('../font/roboto/Roboto-Regular.ttf') format('woff'), url('../font/roboto/Roboto-Regular.woff') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face{
+  font-family: 'Roboto';
+  src: url('fontname.eot');
+  src: url('../font/roboto/Roboto-Bold.ttf') format('woff'), url('../font/roboto/Roboto-Bold.woff') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
 
 h1 {
   font-family: "HammersmithOne", "Helvetica", sans-serif;
