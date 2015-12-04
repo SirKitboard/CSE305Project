@@ -1,6 +1,46 @@
-#profileContainer {
+@import "variables.scss";
+
+.signup {
     margin-top: 30px;
-    .profileIcon {
-        font-size:150px;
+    padding: 50px;
+
+    .header {
+        font-family: "Roboto", "Helvetica", sans-serif;
+        font-weight: bold;
+        font-size: 20px;
+
+        .material-icons {
+            vertical-align: text-bottom;
+        }
+    }
+
+    .contact {
+        color: $tloa-blue;
+    }
+
+    .address {
+        color: $tloa-yellow;
+    }
+
+    .payment, .employment {
+        color: $tloa-green;
+    }
+
+    .account {
+        color: $tloa-red;
+    }
+
+    .row {
+
+        margin-bottom: 0;
+
+        .input-field {
+
+            padding-left: 0;
+
+            label {
+                left: 0;
+            }
+        }
     }
 }
