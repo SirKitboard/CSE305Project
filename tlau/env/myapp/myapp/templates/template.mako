@@ -86,16 +86,6 @@
                     <input id="password" type="password" class="validate" data-error="Invalid username or password"/>
                     <label for="password">Password</label>
                 </div>
-                <div class="col s12">
-                    <p class="col s12 m6">
-                        <input name="group1" type="radio" id="isCustomer"/>
-                        <label for="isCustomer">Customer</label>
-                    </p>
-                    <p class="col s12 m6">
-                        <input name="group1" type="radio" id="isEmployee"/>
-                        <label for="isEmployee">Employees</label>
-                    </p>
-                </div>
                 <div class="col s12 buttons">
                     <button class="btn waves-effect waves-light" id='login' type="submit" name="action">Submit
                       <i class="material-icons right">send</i>
