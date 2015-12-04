@@ -2,15 +2,13 @@ $('#login').on('click', function(e) {
     // debugger;
     var username = $('#username').val();
     var password = $('#password').val();
-    var type = $('#isCustomer').is(':checked') ? 0 : 1
 
     $.ajax({
         url: '/api/login',
         method: 'POST',
         data: {
             username: username.toLowerCase(),
-            password: password,
-            type: type
+            password: password
         },
         success: function() {
             console.log('login_success');

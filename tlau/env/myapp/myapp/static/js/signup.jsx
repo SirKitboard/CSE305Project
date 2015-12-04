@@ -80,7 +80,11 @@ var Signup = React.createClass({
                 passwordClasses = 'valid'
             }
             return (
-                <div style={{textAlign:'center'}}>
+                <div className="signup z-depth-1">
+                    <div className="row contact header">
+                        <span>Contact Info </span>
+                        <i className="material-icons">info_outline</i>
+                    </div>
                     <div className="row">
                         <div className="input-field col s12 m6">
                             <input ref="first_name" id="first_name" type="text" className="validate"/>
@@ -91,16 +95,29 @@ var Signup = React.createClass({
                             <label htmlFor="last_name">Last Name</label>
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="input-field col s12">
-                            <input ref="username" id="username" type="text" className="validate"/>
-                            <label htmlFor="username">Username</label>
-                        </div>
-                    </div>
+
                     <div className="row">
                         <div className="input-field col s12">
                             <input ref="email" id="email" type="email" className="validate"/>
                             <label htmlFor="email">Email</label>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="input-field col s12">
+                            <input ref="phone" id="phone" type="tel" className="validate"/>
+                            <label htmlFor="phone">Phone</label>
+                        </div>
+                    </div>
+
+                    <div className="row account header">
+                        <span>Account Info&nbsp;</span>
+                        <i className="material-icons">vpn_key</i>
+                    </div>
+
+                    <div className="row">
+                        <div className="input-field col s12">
+                            <input ref="username" id="username" type="text" className="validate"/>
+                            <label htmlFor="username">Username</label>
                         </div>
                     </div>
                     <div className="row">
@@ -113,11 +130,10 @@ var Signup = React.createClass({
                             <label htmlFor="password_r">Repeat Password</label>
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="input-field col s12">
-                            <input ref="phone" id="phone" type="tel" className="validate"/>
-                            <label htmlFor="phone">Phone</label>
-                        </div>
+
+                    <div className="row address header">
+                        <span>Address Info </span>
+                        <i className="material-icons">home</i>
                     </div>
                     <div className="row">
                         <div className="input-field col s12">
@@ -142,14 +158,19 @@ var Signup = React.createClass({
                         </div>
                     </div>
                     <div className="row">
+                        <span className="payment header">Payment <i className="material-icons">payment</i> </span>
+                    </div>
+                    <div className="row">
                         <div className="input-field col s12">
                             <input ref="creditCardNumber" id="ccn" type="text" className="validate"/>
                             <label htmlFor="creditCardNumber">Credit Card Number</label>
                         </div>
                     </div>
-                    <button onClick={this.handleSignup} className="btn waves-effect waves-light" id='login' type="submit" name="action">Submit
-                      <i className="material-icons right">send</i>
-                    </button>
+                    <div className="row">
+                        <button onClick={this.handleSignup} className="btn waves-effect waves-light" id='login' type="submit" name="action">Signup
+                          <i className="material-icons right">send</i>
+                        </button>
+                    </div>
                 </div>
             )
         }

@@ -9,7 +9,7 @@ import mysql.connector
 
 @view_config(route_name='apilogin', renderer='json')
 def login(request):
-    requiredKeys = ['username', 'password', 'type']
+    requiredKeys = ['username', 'password']
     postVars = request.POST
     acceptedKeys = []
     session = request.session
@@ -34,11 +34,6 @@ def login(request):
 
         cursor1.execute(query, (acceptedKeys[0], cryptedPassword))
         row = cursor1.fetchone()
-        print(row)
-        if(row['type'] != int(acceptedKeys[2])):
-            cursor1.close()
-            cnx.close()
-            raise exc.HTTPUnauthorized()
 
         if(row['type'] == 0):
             query = ("SELECT * FROM Customers WHERE id = %s")

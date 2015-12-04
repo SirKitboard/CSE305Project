@@ -2,6 +2,7 @@
 <%def name="title()">Sign Up</%def>
 <%def name="head()">
 <link href="${request.static_url('myapp:static/css/signup.css')}" rel="stylesheet">
+
 </%def>
 <%def name="body()">
     <div id="signupContainer" class="container">
