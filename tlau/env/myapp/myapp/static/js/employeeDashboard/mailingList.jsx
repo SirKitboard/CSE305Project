@@ -347,7 +347,7 @@ var MailingList = React.createClass({
                                                 <div className="card small">
                                                     <div className="card-image">
                                                         <img src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/>
-                                                        <span className="card-title black-text">{customer.name}</span>
+                                                        <span className="card-title white-text">{customer.name}</span>
                                                     </div>
                                                     <div className="card-content">
                                                         {customer.email}

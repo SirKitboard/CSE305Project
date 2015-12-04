@@ -90,7 +90,7 @@ var Customers = React.createClass({
                                         <img src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/>
                                         <div className="card-title">
                                         <span className="black-text">{customer.name}</span>
-                                        <span className="card-subtitle black-text">ID: {customer.id}</span>
+                                        <span className="card-subtitle white-text">ID: {customer.id}</span>
                                         </div>
                                     </div>
                                     <div className="card-content">

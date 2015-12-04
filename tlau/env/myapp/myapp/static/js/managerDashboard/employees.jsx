@@ -404,7 +404,7 @@ var Employees = React.createClass({
                                 <div className="card">
                                     <div className="card-image">
                                         <img src="http://dismagazine.com/uploads/2011/08/notw_silhouette-1.jpg"/>
-                                        <span className="card-title black-text">{employee.name}</span>
+                                        <span className="card-title white-text">{employee.name}</span>
                                     </div>
                                     <div className="card-content">
                                         <span className="bold">Hourly Rate: </span> {employee.hourlyRate}<br/>
