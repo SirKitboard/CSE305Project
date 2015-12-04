@@ -113,12 +113,12 @@ var CreateAuction = React.createClass({
     render: function() {
         var selectedItem = (
             <div onClick={this.openItemPicker}className="card-panel grey lighten-5 z-depth-1">
-              <div className="row valign-wrapper">
-                <div className="col s2">
+              <div className="valign-wrapper">
+                <div className="col s1">
                   <img src="http://placehold.it/100x100" alt="" className="circle responsive-img"/>
                 </div>
                 <div className="col s10">
-                  <span className="black-text">
+                  <span className=" click-here black-text">
                     Click here to choose item
                   </span>
                 </div>
@@ -145,7 +145,7 @@ var CreateAuction = React.createClass({
             )
         }
         return (
-            <div>
+            <div className="auction-create">
                 <div className="row">
                     {selectedItem}
                 </div>

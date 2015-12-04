@@ -27,6 +27,10 @@
   .card-content {
     font-family: "Roboto", "Helvetica", sans-serif;
     padding: 10px;
+
+    p {
+      padding: 0;
+    }
   }
 
   .card-action {

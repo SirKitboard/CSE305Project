@@ -1,11 +1,19 @@
-td, tr, th {
-    text-align: center;
-}
+.auction-create {
 
-.selected {
-    background-color: #26a69a !important;
-}
 
-tr:hover {
-    background-color: #e3e3e9 !important;
+    .click-here {
+        font-size: 20px;
+    }
+
+    td, tr, th {
+        text-align: center;
+    }
+
+    .selected {
+        background-color: #26a69a !important;
+    }
+
+    tr:hover {
+        background-color: #e3e3e9 !important;
+    }
 }
