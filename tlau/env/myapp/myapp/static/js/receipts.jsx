@@ -139,7 +139,7 @@ var Profile = React.createClass({
                                                 </div>
                                                 <div className="col s10 black-text">
                                                     <span className="bold">{receipt.itemName}</span><br/>
-                                                    <span>$ {receipt.amount} paid to <a href={"/profile?id=" + receipt.sellerID}>{receipt.sellerName}</a></span><br/>
+                                                    <span>Received $ {receipt.amount} from <a href={"/profile?id=" + receipt.customerID}>{receipt.boughtBy}</a></span><br/>
                                                     <span>Auction <a href={"/auction/" + receipt.auctionID}>{receipt.auctionID}</a> at {receipt.time}</span><br/>
                                                     <span><a onClick={self.rateModal} data-id={receipt.sellerID}>Leave a review</a></span>
                                                 </div>
@@ -170,7 +170,7 @@ var Profile = React.createClass({
                                                 </div>
                                                 <div className="col s10 black-text">
                                                     <span className="bold">{receipt.itemName}</span><br/>
-                                                    <span>Received $ {receipt.amount} from <a href={"/profile?id=" + receipt.customerID}>{receipt.boughtBy}</a></span><br/>
+                                                    <span>$ {receipt.amount} paid to <a href={"/profile?id=" + receipt.sellerID}>{receipt.sellerName}</a></span><br/>
                                                     <span>Auction <a href={"/auction/" + receipt.auctionID}>{receipt.auctionID}</a> at {receipt.time}</span><br/>
                                                     <span><a href="">Leave a review</a></span>
                                                 </div>
