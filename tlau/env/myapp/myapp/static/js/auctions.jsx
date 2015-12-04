@@ -20,6 +20,7 @@ var Auction = React.createClass({
 					auction : response,
 					loading : self.state.loading + 1
 				});
+				window.auctionInfo = response;
 				self.getItemInfo(response.itemID);
 				self.getSellerInfo(response.sellerID);
 			}

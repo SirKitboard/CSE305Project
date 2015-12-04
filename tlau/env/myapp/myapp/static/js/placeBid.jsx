@@ -4,7 +4,7 @@ window.PlaceBid = React.createClass ({
 
 	getInitialState : function() {
 		return{
-			auction : null,
+			error : false
 		}	
 	},
 
@@ -12,6 +12,13 @@ window.PlaceBid = React.createClass ({
 		var params = {
 			maxBid: ReactDOM.findDOMNode(this.refs.max_bid).value,
 			value: ReactDOM.findDOMNode(this.refs.amount).value
+		}
+
+		if(params.value < window.auctionInfo.currentBid) {
+			this.setState({
+				error : true
+			})
+			return;
 		}
 
 		$.ajax({
@@ -25,7 +32,22 @@ window.PlaceBid = React.createClass ({
 		})
 	},
 
+	resetError : function(){
+
+		this.setState({
+				error : false
+			})
+	},
+
 	render : function(){
+		if(this.state.error) {
+			return (
+				<div style={{textAlign:'center'}}>
+                	<h5>Bid cannot be lower than current bid</h5>
+                  <button onClick= {this.resetError} className  = "btn waves-effect waves-light  light-blue darken-2" type="submit">OK</button>	   
+                </div>    			
+			)
+		}
         	return(
         		<div style={{textAlign:'center'}}>
                 <div className="row">
