@@ -7,6 +7,7 @@ var AddItem = React.createClass({
     getInitialState: function() {
         return {
             complete : false,
+            loading : false,
             itemID : null
         }
     },
@@ -36,6 +37,9 @@ var AddItem = React.createClass({
         });
         console.log(formD);
         var self = this;
+        this.setState({
+            loading : true
+        });
         $.ajax({
             url : "/api/items/"+this.state.itemID+"/image",
             method : 'POST',
@@ -55,7 +59,7 @@ var AddItem = React.createClass({
     handleSubmit : function() {
         var files = ReactDOM.findDOMNode(this.refs.files);
         if(files.files.length < 1) return;
-
+        console.log(files);
         var params = {
             name : ReactDOM.findDOMNode(this.refs.name).value,
             manufactureYear : ReactDOM.findDOMNode(this.refs.manufactureYear).value,
@@ -87,6 +91,16 @@ var AddItem = React.createClass({
                     <h3>Item Added!</h3>
                     <h4><a href="/#modalLogin">Click here to go home and login</a></h4>
                 </div>
+            )
+        }
+        if(this.state.loading) {
+            return (
+                <div>
+                    <h5>Uploading...</h5>
+                <div className="progress">
+                     <div className="indeterminate"></div>
+                 </div>
+                 </div>
             )
         }
         return (
