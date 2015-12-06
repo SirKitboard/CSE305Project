@@ -13,6 +13,7 @@
 % else:
     <script>
         window.currentUser = "${currentUser}".replace(/&#39;/g,"\"");
+        window.currentUser = window.currentUser.replace(/u\"/, "\"");
         window.currentUser = JSON.parse(window.currentUser);
         console.log(window.currentUser)
     </script>
