@@ -10,7 +10,7 @@ Sample Credentials:
 To update database:
 --------------------
 1. Go to myapp directory in the vagrant server app/env/myapp
-2. Run `mysql --user=root --password=SmolkaSucks69 < bak.sql`
+2. Run `mysql < bak.sql`
 
 To run:
 ----------
