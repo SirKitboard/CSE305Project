@@ -1,6 +1,10 @@
 Totally Legit Online Auctions
 ===============================
 
+Most of the root directories contain various stages of the project including planning and design phase.
+
+The actual source code is located in ./tlau/env/myapp/myapp
+
 Sample Credentials:
 --------------------
 1. Customer : john_smith, password
