@@ -1,4 +1,4 @@
-# CSE 305 Group Assignment 1
+Group Assignment 1
 
 ## Team Avatar'); DROP TABLE students;--
 
